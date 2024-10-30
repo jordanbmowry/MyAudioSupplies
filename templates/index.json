@@ -1,0 +1,331 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "slideshow": {
+      "type": "slideshow",
+      "blocks": {
+        "slide-1": {
+          "type": "hero",
+          "settings": {
+            "top_subheading": "",
+            "title": "<p>Shop Audio Supplies</p>",
+            "title_size": 70,
+            "subheading": "Audio Equipment from Top Brands at the Best Prices  at Your Fingertips.",
+            "link": "",
+            "link_text": "",
+            "link_2": "",
+            "link_text_2": "",
+            "color_accent": "#ffffff",
+            "text_align": "vertical-center horizontal-center",
+            "image": "shopify://shop_images/my_audio_supplies_collage_0d085551-bcfa-4b33-8142-8103ac94d8d8.png",
+            "image_mobile": "shopify://shop_images/my_audio_supplies_collage_mobile_60bd5342-f713-46c6-8982-a30d23aef561.png",
+            "overlay_opacity": 40
+          }
+        }
+      },
+      "block_order": [
+        "slide-1"
+      ],
+      "settings": {
+        "full_width": true,
+        "desktop_size": 0,
+        "mobile_size": 80,
+        "style": "arrows",
+        "autoplay": true,
+        "autoplay_speed": 5
+      }
+    },
+    "text_with_icons_wLCWnR": {
+      "type": "text-with-icons",
+      "blocks": {
+        "text_block_Hwd7QE": {
+          "type": "text_block",
+          "settings": {
+            "icon": "truck",
+            "title": "Free Shipping & No Sales Tax*",
+            "text": "<p>All Orders Come w/ Free Shipping and No Sales Tax (excluding IN residents)</p>"
+          }
+        },
+        "text_block_KYcP3q": {
+          "type": "text_block",
+          "settings": {
+            "icon": "phone",
+            "title": "Expert Customer Service",
+            "text": "<p>24/7 Chat, Email, and Customer Success Team.</p>"
+          }
+        },
+        "text_block_nTdfB7": {
+          "type": "text_block",
+          "settings": {
+            "icon": "sales-tag",
+            "title": "Best Prices Online",
+            "text": "<p>Found a Product List Cheaper Online? We Will Price Match.</p>"
+          }
+        },
+        "text_block_PBwKcV": {
+          "type": "text_block",
+          "settings": {
+            "icon": "cart",
+            "title": "100% Secure Checkout",
+            "text": "<p>Encrypted Checkout. Your Information is 100% Secure and Protected.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "text_block_Hwd7QE",
+        "text_block_KYcP3q",
+        "text_block_nTdfB7",
+        "text_block_PBwKcV"
+      ],
+      "settings": {
+        "title": "",
+        "align_text": "center",
+        "desktop_columns_per_row": 4,
+        "icon_color": "#000000",
+        "button_label": "",
+        "button_link": "",
+        "divider": false
+      }
+    },
+    "testimonials": {
+      "type": "testimonials",
+      "blocks": {
+        "block-1": {
+          "type": "testimonial",
+          "settings": {
+            "icon": "5-stars",
+            "testimonial": "<p>Add customer reviews and testimonials to showcase your store’s happy customers.</p>",
+            "author": "Author's name",
+            "author_info": "Los Angeles, CA"
+          }
+        },
+        "block-2": {
+          "type": "testimonial",
+          "settings": {
+            "icon": "5-stars",
+            "testimonial": "<p>Add customer reviews and testimonials to showcase your store’s happy customers.</p>",
+            "author": "Author's name",
+            "author_info": "Los Angeles, CA"
+          }
+        },
+        "block-3": {
+          "type": "testimonial",
+          "settings": {
+            "icon": "5-stars",
+            "testimonial": "<p>Add customer reviews and testimonials to showcase your store’s happy customers.</p>",
+            "author": "Author's name",
+            "author_info": "Los Angeles, CA"
+          }
+        },
+        "block-4": {
+          "type": "testimonial",
+          "settings": {
+            "icon": "5-stars",
+            "testimonial": "<p>Add customer reviews and testimonials to showcase your store’s happy customers.</p>",
+            "author": "Author's name",
+            "author_info": "Los Angeles, CA"
+          }
+        },
+        "block-5": {
+          "type": "testimonial",
+          "settings": {
+            "icon": "5-stars",
+            "testimonial": "<p>Add customer reviews and testimonials to showcase your store’s happy customers.</p>",
+            "author": "Author's name",
+            "author_info": "Los Angeles, CA"
+          }
+        }
+      },
+      "block_order": [
+        "block-1",
+        "block-2",
+        "block-3",
+        "block-4",
+        "block-5"
+      ],
+      "disabled": true,
+      "settings": {
+        "title": "Don't take our word for it",
+        "align_text": "center",
+        "round_images": true,
+        "color_scheme": "3"
+      }
+    },
+    "text_columns_pkCGFf": {
+      "type": "text-columns",
+      "blocks": {
+        "text_block_BKDHPb": {
+          "type": "text_block",
+          "settings": {
+            "enable_image": true,
+            "image": "shopify://shop_images/pexels-cottonbro-5658533.jpg",
+            "image_mask": "square",
+            "image_width": 400,
+            "title": "Master the Mix",
+            "text": "<p>Take full control of your sound with dynamic, colorful knobs for every frequency.</p>",
+            "button_label": "Shop Now",
+            "button_link": "shopify://collections/mixers"
+          }
+        },
+        "text_block_k7dhLC": {
+          "type": "text_block",
+          "settings": {
+            "enable_image": true,
+            "image": "shopify://shop_images/pexels-tima-miroshnichenko-5118431.jpg",
+            "image_mask": "square",
+            "image_width": 400,
+            "title": "Spin the Classics",
+            "text": "<p>Relive the rich, authentic sound of vinyl, from your favorite albums to hidden gems.</p>",
+            "button_label": "Shop Now",
+            "button_link": "shopify://collections/dj-turntables"
+          }
+        },
+        "text_block_3WW6iG": {
+          "type": "text_block",
+          "settings": {
+            "enable_image": true,
+            "image": "shopify://shop_images/pexels-pain-svoice-418919207-15082829.jpg",
+            "image_mask": "square",
+            "image_width": 400,
+            "title": "Capture Every Detail",
+            "text": "<p>Record studio-quality audio with precision, whether you're creating music or podcasts.</p>",
+            "button_label": "Shop Now",
+            "button_link": "shopify://collections/dj-media-players"
+          }
+        }
+      },
+      "block_order": [
+        "text_block_BKDHPb",
+        "text_block_k7dhLC",
+        "text_block_3WW6iG"
+      ],
+      "settings": {
+        "title": "",
+        "align_text": "center",
+        "divider": false,
+        "color_scheme": "none"
+      }
+    },
+    "featured_collections_Dtkphw": {
+      "type": "featured-collections",
+      "blocks": {
+        "collection_zbJT9y": {
+          "type": "collection",
+          "settings": {
+            "collection": "dj-controllers",
+            "title": "DJ Controllers"
+          }
+        },
+        "collection_qHQPFt": {
+          "type": "collection",
+          "settings": {
+            "collection": "dj-media-players",
+            "title": "DJ Media Players"
+          }
+        },
+        "collection_UFnmYm": {
+          "type": "collection",
+          "settings": {
+            "collection": "mixers",
+            "title": "DJ Mixers"
+          }
+        },
+        "collection_HY8mma": {
+          "type": "collection",
+          "settings": {
+            "collection": "dj-turntables",
+            "title": "DJ Turntables"
+          }
+        }
+      },
+      "block_order": [
+        "collection_zbJT9y",
+        "collection_qHQPFt",
+        "collection_UFnmYm",
+        "collection_HY8mma"
+      ],
+      "settings": {
+        "title": "Popular categories",
+        "heading_size": "h2",
+        "heading_position": "center",
+        "divider": false
+      }
+    },
+    "featured_product_r3TtQh": {
+      "type": "featured-product",
+      "blocks": {
+        "title_THYEqe": {
+          "type": "title",
+          "settings": {
+            "vendor_enable": true,
+            "sku_enable": false
+          }
+        },
+        "price_XkUkag": {
+          "type": "price",
+          "settings": {
+          }
+        },
+        "description_PqLpBp": {
+          "type": "description",
+          "settings": {
+            "is_tab": false
+          }
+        },
+        "variant_picker_VEgQ6z": {
+          "type": "variant_picker",
+          "settings": {
+            "variant_labels": true,
+            "picker_type": "button",
+            "product_dynamic_variants_enable": true,
+            "color_swatches": false
+          }
+        },
+        "buy_buttons_imTdcQ": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": false,
+            "surface_pickup_enable": true,
+            "show_gift_card_recipient": false
+          }
+        }
+      },
+      "block_order": [
+        "title_THYEqe",
+        "price_XkUkag",
+        "description_PqLpBp",
+        "variant_picker_VEgQ6z",
+        "buy_buttons_imTdcQ"
+      ],
+      "settings": {
+        "product": "dx16-professional-16-channel-digital-mixer-karaoke-usb-interface-professional-audio-mixer",
+        "divider": false,
+        "image_position": "left",
+        "image_container_size": "medium",
+        "product_image_size": "square",
+        "product_zoom_enable": true,
+        "thumbnail_position": "beside",
+        "thumbnail_arrows": false,
+        "mobile_layout": "partial",
+        "enable_video_looping": true,
+        "product_video_style": "muted"
+      }
+    }
+  },
+  "order": [
+    "slideshow",
+    "text_with_icons_wLCWnR",
+    "testimonials",
+    "text_columns_pkCGFf",
+    "featured_collections_Dtkphw",
+    "featured_product_r3TtQh"
+  ]
+}

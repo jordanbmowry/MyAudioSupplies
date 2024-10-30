@@ -1,0 +1,78 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "type": "footer",
+  "name": "t:labels.footer_group",
+  "sections": {
+    "footer-promotions": {
+      "type": "footer-promotions",
+      "settings": {
+        "hide_homepage": false
+      }
+    },
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "follow_shop_cta_9F9BGk": {
+          "type": "follow_shop_cta",
+          "settings": {
+          }
+        },
+        "payment_6x7Bnn": {
+          "type": "payment",
+          "settings": {
+            "show_payment_icons": true,
+            "show_locale_selector": true,
+            "show_currency_selector": true,
+            "show_currency_flags": true
+          }
+        },
+        "menu_RPWT9e": {
+          "type": "menu",
+          "settings": {
+            "title": "Customer Support",
+            "menu": "customer-service",
+            "enable_account_link": false
+          }
+        },
+        "contact_K6me8B": {
+          "type": "contact",
+          "settings": {
+            "email": "support@myaudiosupplies.com",
+            "phone": "(930) 203-1226",
+            "address": "1284 W Rangeview Cir\nBloomington, IN 47403",
+            "business_hours": "Monday - Friday\n9 AM - 5 PM EST",
+            "contact": "",
+            "chat": "",
+            "enable_social": false
+          }
+        }
+      },
+      "block_order": [
+        "follow_shop_cta_9F9BGk",
+        "payment_6x7Bnn",
+        "menu_RPWT9e",
+        "contact_K6me8B"
+      ],
+      "settings": {
+        "show_newsletter": true,
+        "newsletter_richtext": "<p>Join our email list for news updates, and new sales.</p>",
+        "footer_main_menu": false,
+        "show_copyright": true,
+        "copyright_text": "",
+        "policies_menu": ""
+      }
+    }
+  },
+  "order": [
+    "footer-promotions",
+    "footer"
+  ]
+}
