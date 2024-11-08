@@ -22,8 +22,8 @@
       "blocks": {
         "follow_shop_cta_9F9BGk": {
           "type": "follow_shop_cta",
-          "settings": {
-          }
+          "disabled": true,
+          "settings": {}
         },
         "payment_6x7Bnn": {
           "type": "payment",
