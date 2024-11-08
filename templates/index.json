@@ -220,29 +220,29 @@
         "collection_zbJT9y": {
           "type": "collection",
           "settings": {
-            "collection": "dj-controllers",
-            "title": "DJ Controllers"
+            "collection": "eurorack",
+            "title": "Eurorack"
           }
         },
         "collection_qHQPFt": {
           "type": "collection",
           "settings": {
-            "collection": "dj-media-players",
-            "title": "DJ Media Players"
+            "collection": "speakers",
+            "title": "Speakers"
           }
         },
         "collection_UFnmYm": {
           "type": "collection",
           "settings": {
-            "collection": "mixers",
-            "title": "DJ Mixers"
+            "collection": "dj-turntables",
+            "title": "Turntables"
           }
         },
         "collection_HY8mma": {
           "type": "collection",
           "settings": {
-            "collection": "dj-turntables",
-            "title": "DJ Turntables"
+            "collection": "home-audio-theater",
+            "title": "Home Audio & Theater"
           }
         }
       },
@@ -271,8 +271,7 @@
         },
         "price_XkUkag": {
           "type": "price",
-          "settings": {
-          }
+          "settings": {}
         },
         "description_PqLpBp": {
           "type": "description",

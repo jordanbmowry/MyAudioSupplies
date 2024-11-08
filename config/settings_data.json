@@ -149,7 +149,9 @@
             }
           }
         },
-        "block_order": ["1524770014057"],
+        "block_order": [
+          "1524770014057"
+        ],
         "settings": {
           "main_menu_link_list": "main-menu",
           "main_menu_alignment": "below",
@@ -298,7 +300,9 @@
             }
           }
         },
-        "block_order": ["6a2a8ea3-1f40-4a70-a4e1-66e625091344"],
+        "block_order": [
+          "6a2a8ea3-1f40-4a70-a4e1-66e625091344"
+        ],
         "settings": {
           "disable_for_account_holders": true,
           "popup_seconds": 5,
@@ -868,7 +872,10 @@
             }
           }
         },
-        "block_order": ["1623090756d994291c-0", "1623090756d994291c-1"],
+        "block_order": [
+          "1623090756d994291c-0",
+          "1623090756d994291c-1"
+        ],
         "settings": {
           "full_width": true,
           "desktop_size": -10,
@@ -898,7 +905,9 @@
             }
           }
         },
-        "block_order": ["16242877764ba69f0b-0"],
+        "block_order": [
+          "16242877764ba69f0b-0"
+        ],
         "settings": {
           "full_width": true,
           "height": 550,
@@ -1215,7 +1224,9 @@
               }
             }
           },
-          "block_order": ["1524770014057"],
+          "block_order": [
+            "1524770014057"
+          ],
           "settings": {
             "main_menu_link_list": "main-menu",
             "main_menu_alignment": "below",
@@ -1364,7 +1375,9 @@
               }
             }
           },
-          "block_order": ["6a2a8ea3-1f40-4a70-a4e1-66e625091344"],
+          "block_order": [
+            "6a2a8ea3-1f40-4a70-a4e1-66e625091344"
+          ],
           "settings": {
             "disable_for_account_holders": true,
             "popup_seconds": 5,
@@ -1934,7 +1947,10 @@
               }
             }
           },
-          "block_order": ["1623090756d994291c-0", "1623090756d994291c-1"],
+          "block_order": [
+            "1623090756d994291c-0",
+            "1623090756d994291c-1"
+          ],
           "settings": {
             "full_width": true,
             "desktop_size": -10,
@@ -1964,7 +1980,9 @@
               }
             }
           },
-          "block_order": ["16242877764ba69f0b-0"],
+          "block_order": [
+            "16242877764ba69f0b-0"
+          ],
           "settings": {
             "full_width": true,
             "height": 550,
@@ -2137,7 +2155,9 @@
               }
             }
           },
-          "block_order": ["1524770014057"],
+          "block_order": [
+            "1524770014057"
+          ],
           "settings": {
             "main_menu_link_list": "main-menu",
             "main_menu_alignment": "below",
@@ -2238,7 +2258,9 @@
               }
             }
           },
-          "block_order": ["89af8827-ae1b-4a50-9436-ebdfb8553fd5"],
+          "block_order": [
+            "89af8827-ae1b-4a50-9436-ebdfb8553fd5"
+          ],
           "settings": {
             "disable_for_account_holders": true,
             "popup_seconds": 6,
@@ -2356,7 +2378,9 @@
               }
             }
           },
-          "block_order": ["f709e6ea-d5cc-4702-adbf-e66e246fcaf1"],
+          "block_order": [
+            "f709e6ea-d5cc-4702-adbf-e66e246fcaf1"
+          ],
           "settings": {
             "announcement_center": false,
             "toolbar_social": false,
@@ -2645,7 +2669,9 @@
               }
             }
           },
-          "block_order": ["162396200786f8a51c-0"],
+          "block_order": [
+            "162396200786f8a51c-0"
+          ],
           "settings": {
             "full_width": true,
             "height": 650,
@@ -2675,7 +2701,9 @@
               }
             }
           },
-          "block_order": ["162402863370f49f13-0"],
+          "block_order": [
+            "162402863370f49f13-0"
+          ],
           "settings": {
             "full_width": true,
             "desktop_size": -10,
