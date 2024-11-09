@@ -11,7 +11,8 @@
   "sections": {
     "main": {
       "type": "main-404",
-      "settings": {}
+      "settings": {
+      }
     },
     "featured-collection": {
       "type": "featured-collection",

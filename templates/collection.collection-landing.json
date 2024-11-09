@@ -14,15 +14,18 @@
       "blocks": {
         "collection_description": {
           "type": "collection_description",
-          "settings": {}
+          "settings": {
+          }
         },
         "product_grid": {
           "type": "product_grid",
-          "settings": {}
+          "settings": {
+          }
         },
         "subcollections": {
           "type": "subcollections",
-          "settings": {}
+          "settings": {
+          }
         }
       },
       "block_order": [
@@ -31,7 +34,8 @@
         "product_grid"
       ],
       "disabled": true,
-      "settings": {}
+      "settings": {
+      }
     },
     "promo-grid": {
       "type": "promo-grid",
@@ -44,7 +48,8 @@
         },
         "advanced": {
           "type": "advanced",
-          "settings": {}
+          "settings": {
+          }
         }
       },
       "block_order": [
@@ -58,11 +63,13 @@
     },
     "featured-collection": {
       "type": "featured-collection",
-      "settings": {}
+      "settings": {
+      }
     },
     "featured-collection2": {
       "type": "featured-collection",
-      "settings": {}
+      "settings": {
+      }
     },
     "promo-grid2": {
       "type": "promo-grid",
@@ -91,34 +98,41 @@
     },
     "featured-collection3": {
       "type": "featured-collection",
-      "settings": {}
+      "settings": {
+      }
     },
     "featured-collections": {
       "type": "featured-collections",
       "blocks": {
         "collection1": {
           "type": "collection",
-          "settings": {}
+          "settings": {
+          }
         },
         "collection2": {
           "type": "collection",
-          "settings": {}
+          "settings": {
+          }
         },
         "collection3": {
           "type": "collection",
-          "settings": {}
+          "settings": {
+          }
         },
         "collection4": {
           "type": "collection",
-          "settings": {}
+          "settings": {
+          }
         },
         "collection5": {
           "type": "collection",
-          "settings": {}
+          "settings": {
+          }
         },
         "collection6": {
           "type": "collection",
-          "settings": {}
+          "settings": {
+          }
         }
       },
       "block_order": [

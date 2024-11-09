@@ -13,7 +13,12 @@
   "sections": {
     "footer-promotions": {
       "type": "footer-promotions",
-      "settings": {},
+      "settings": {
+        "hide_homepage": false
+      }
+    },
+    "footer": {
+      "type": "footer",
       "blocks": {
         "follow_shop_cta_9F9BGk": {
           "type": "follow_shop_cta",
@@ -32,11 +37,12 @@
         "menu_RPWT9e": {
           "type": "menu",
           "settings": {
-            "menu": "footer",
+            "title": "Customer Support",
+            "menu": "customer-service",
             "enable_account_link": false
           }
         },
-        "footer-1": {
+        "contact_K6me8B": {
           "type": "contact",
           "settings": {
             "email": "support@myaudiosupplies.com",
@@ -65,5 +71,8 @@
       }
     }
   },
-  "order": ["footer-promotions", "footer"]
+  "order": [
+    "footer-promotions",
+    "footer"
+  ]
 }

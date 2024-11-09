@@ -9,71 +9,87 @@
  */
 {
   "current": {
-    "color_body_bg": "#ffffff",
-    "color_body_text": "#000000",
-    "color_price": "#1c1d1d",
-    "color_savings_text": "#ba4444",
-    "color_borders": "#e8e8e1",
-    "color_button": "#111111",
+    "color_body_bg": "#f1f1f1",
+    "color_body_text": "#42434d",
+    "color_price": "#272831",
+    "color_savings_text": "#0072bb",
+    "color_borders": "#dddbd7",
+    "color_button": "#8006be",
     "color_button_text": "#ffffff",
-    "color_sale_tag": "#ba4444",
-    "color_cart_dot": "#d75d43",
+    "color_sale_tag": "#0072bb",
+    "color_cart_dot": "#272831",
+    "color_cart_dot_text": "#ffffff",
     "color_small_image_bg": "#ffffff",
-    "color_large_image_bg": "#0f0f0f",
-    "color_header": "#111212",
-    "color_header_text": "#ffffff",
-    "color_announcement": "#cc8f82",
+    "color_large_image_bg": "#e7e7e7",
+    "color_header": "#ffffff",
+    "color_header_text": "#0f0f0f",
+    "color_announcement": "#272831",
     "color_announcement_text": "#ffffff",
-    "color_header_search": "#ffffff",
+    "color_header_search": "#4b4d5e",
     "color_footer": "#ffffff",
     "color_footer_border": "#e8e8e1",
-    "color_footer_text": "#000000",
-    "color_scheme_1_bg": "#d75d43",
-    "color_scheme_1_text": "#ffffff",
-    "color_scheme_1_texture": "wave",
-    "color_scheme_2_bg": "#f4e3da",
-    "color_scheme_2_text": "#000000",
-    "color_scheme_2_texture": "wave",
-    "color_scheme_3_bg": "#fcf4f1",
-    "color_scheme_3_text": "#000000",
-    "color_scheme_3_texture": "wave",
-    "type_header_font_family": "dm_sans_n7",
-    "type_header_spacing": "25",
-    "type_header_base_size": 35,
-    "type_header_line_height": 1.1,
+    "color_footer_text": "#272831",
+    "color_scheme_1_bg": "#dddbd7",
+    "color_scheme_1_text": "#0f0f0f",
+    "color_scheme_1_texture": "none",
+    "color_scheme_2_bg": "#343643",
+    "color_scheme_2_text": "#ffffff",
+    "color_scheme_2_texture": "none",
+    "color_scheme_3_bg": "#efebeb",
+    "color_scheme_3_text": "#272831",
+    "color_scheme_3_texture": "none",
+    "type_header_font_family": "poppins_n4",
+    "type_header_spacing": "0",
+    "type_header_base_size": 42,
+    "type_header_line_height": 1.2,
     "type_header_capitalize": false,
-    "type_base_font_family": "dm_sans_n4",
+    "type_base_font_family": "poppins_n4",
     "type_base_spacing": "25",
     "type_base_size": 16,
-    "type_base_line_height": 1.6,
+    "type_base_line_height": 1.5,
     "type_navigation_style": "body",
-    "type_navigation_size": 13,
-    "type_navigation_capitalize": true,
-    "button_style": "square",
-    "cart_icon": "bag-minimal",
+    "type_navigation_size": 18,
+    "type_navigation_capitalize": false,
+    "edges": "round",
+    "button_style": "round-slight",
+    "cart_icon": "cart",
     "icon_weight": "3px",
-    "icon_linecaps": "miter",
+    "icon_linecaps": "round",
     "superscript_decimals": true,
+    "product_save_amount": true,
+    "product_save_type": "percent",
     "vendor_enable": true,
     "quick_shop_enable": true,
     "quick_add_enable": true,
     "product_grid_image_size": "square",
-    "product_grid_image_fill": false,
+    "product_grid_image_fill": true,
     "product_hover_image": true,
-    "product_grid_style": "simple",
+    "enable_swatches": true,
+    "swatch_style": "round",
+    "product_grid_style": "grey-round",
     "product_grid_image_margin": 10,
-    "recently_viewed_products_per_row": 5,
-    "collection_grid_shape": "circle",
+    "recently_viewed_products_per_row": 4,
+    "recently_viewed_max_products": 4,
+    "collection_grid_shape": "square",
+    "collection_grid_image_fill": true,
     "collection_grid_image": "product",
-    "collection_grid_image_margin": 15,
+    "collection_grid_image_margin": 17,
     "cart_type": "dropdown",
     "cart_additional_buttons": false,
+    "cart_collection": "business-card-cases",
     "cart_notes_enable": false,
     "cart_terms_conditions_enable": false,
+    "cart_terms_conditions_page": "terms-of-service",
     "social_facebook_link": "https://www.facebook.com/shopify",
+    "social_pinterest_link": "https://www.pinterest.com/shopify",
     "social_instagram_link": "https://instagram.com/shopify",
+    "social_tiktok_link": "https://www.tiktok.com/@shopify",
+    "share_facebook": true,
+    "share_twitter": true,
+    "share_pinterest": true,
+    "favicon": "shopify://shop_images/android-chrome-512x512.png",
     "show_breadcrumbs": false,
-    "show_breadcrumbs_collection_link": true,
+    "show_breadcrumbs_collection_link": false,
     "checkout_logo_position": "left",
     "checkout_logo_size": "small",
     "checkout_body_background_color": "#ffffff",
@@ -82,13 +98,29 @@
     "checkout_accent_color": "#111111",
     "checkout_button_color": "#111111",
     "checkout_error_color": "#ff6d6d",
+    "search_top_collection": "cocktail-style",
+    "sku_enable": true,
+    "product_zoom_enable": true,
+    "collection_color_swatches": true,
+    "variant_type": "button",
+    "enable_payment_button": true,
+    "quantity_enable": false,
+    "inventory_enable": true,
+    "inventory_transfers_enable": true,
+    "surface_pickup_enable": true,
+    "sales_point_3": "Carbon neutral",
+    "product_color_swatches": true,
+    "product_content_1": "shipping-info",
+    "product_contact": true,
+    "predictive_search_show_vendor": true,
+    "predictive_search_show_price": true,
     "type_product_style": "body",
     "type_product_capitalize": true,
     "color_image_overlay": "#000000",
     "color_image_overlay_opacity": 0,
     "color_image_overlay_text_shadow": 28,
     "type_headers_align_text": false,
-    "type_body_align_text": false,
+    "type_body_align_text": true,
     "color_drawer_background": "#ffffff",
     "color_drawer_text": "#000000",
     "color_drawer_border": "#e8e8e1",
@@ -117,7 +149,9 @@
             }
           }
         },
-        "block_order": ["1524770014057"],
+        "block_order": [
+          "1524770014057"
+        ],
         "settings": {
           "main_menu_link_list": "main-menu",
           "main_menu_alignment": "below",
@@ -266,7 +300,9 @@
             }
           }
         },
-        "block_order": ["6a2a8ea3-1f40-4a70-a4e1-66e625091344"],
+        "block_order": [
+          "6a2a8ea3-1f40-4a70-a4e1-66e625091344"
+        ],
         "settings": {
           "disable_for_account_holders": true,
           "popup_seconds": 5,
@@ -290,6 +326,79 @@
           "parallax": false
         }
       },
+      "1525115199973": {
+        "type": "blog-posts",
+        "settings": {
+          "title": "From the journal",
+          "blog": "news",
+          "blog_show_tags": true,
+          "blog_show_date": false,
+          "blog_show_comments": false,
+          "blog_show_author": false,
+          "blog_image_size": "wide",
+          "divider": false
+        }
+      },
+      "1525295772132": {
+        "type": "featured-collection",
+        "settings": {
+          "title": "Tables and seating",
+          "home_featured_products": "furniture",
+          "count": 5,
+          "mobile_scrollable": true,
+          "view_all": true,
+          "divider": false
+        }
+      },
+      "footer-promotions": {
+        "type": "footer-promotions",
+        "blocks": {
+          "footer-promotions-0": {
+            "type": "promotion",
+            "settings": {
+              "enable_image": true,
+              "image": "shopify://shop_images/person-sits-on-there-balcony-and-tends-to-a-large-plant.jpg",
+              "title": "Spring Savings",
+              "text": "<p>We're clearing out last years inventory, shop now and save up to 40% off!</p>",
+              "button_label": "Shop Sale",
+              "button_link": "shopify://collections/sale",
+              "color_scheme": "1"
+            }
+          },
+          "footer-promotions-1": {
+            "type": "promotion",
+            "settings": {
+              "enable_image": true,
+              "image": "shopify://shop_images/home-decor-and-kitchen-accessories.jpg",
+              "title": "New from Umbra",
+              "text": "<p>Our latest addition makes unique watches and contemporary jewellery.</p>",
+              "button_label": "Shop Umbra",
+              "button_link": "shopify://collections/whats-new",
+              "color_scheme": "3"
+            }
+          },
+          "footer-promotions-2": {
+            "type": "promotion",
+            "settings": {
+              "enable_image": true,
+              "image": "shopify://shop_images/brief-exchange-during-curbside-pickup.jpg",
+              "title": "Next-day pickup",
+              "text": "<p>Mon - Fri: 10am - 7pm<br/>Sat - Sun: 11am - 6pm</p>",
+              "button_label": "View locations",
+              "button_link": "shopify://pages/our-story",
+              "color_scheme": "2"
+            }
+          }
+        },
+        "block_order": [
+          "footer-promotions-0",
+          "footer-promotions-1",
+          "footer-promotions-2"
+        ],
+        "settings": {
+          "hide_homepage": false
+        }
+      },
       "product-recommendations": {
         "type": "product-recommendations",
         "settings": {
@@ -299,6 +408,298 @@
       "recently-viewed": {
         "type": "recently-viewed",
         "settings": {}
+      },
+      "toolbar": {
+        "type": "toolbar",
+        "blocks": {
+          "1d60d2aa-1704-4343-98b9-02b9533c2c85": {
+            "type": "announcement",
+            "settings": {
+              "richtext": "<p>Hassle-free returns. 30-day postage paid returns</p>",
+              "richtext_mobile": ""
+            }
+          },
+          "a3c703d0-3d75-4c68-be7c-5e25e58e383d": {
+            "type": "announcement",
+            "settings": {
+              "richtext": "<p>Up to 40% Off All Coffee Sets</p>",
+              "richtext_mobile": ""
+            }
+          },
+          "b5fedb0e-6170-46b8-9235-d5e69834337b": {
+            "type": "announcement",
+            "settings": {
+              "richtext": "<p>Free Worldwide Shipping on All Purchases 100$ +</p>",
+              "richtext_mobile": ""
+            }
+          }
+        },
+        "block_order": [
+          "1d60d2aa-1704-4343-98b9-02b9533c2c85",
+          "a3c703d0-3d75-4c68-be7c-5e25e58e383d",
+          "b5fedb0e-6170-46b8-9235-d5e69834337b"
+        ],
+        "settings": {
+          "announcement_center": false,
+          "toolbar_social": false,
+          "show_locale_selector": false,
+          "show_currency_selector": false,
+          "show_currency_flags": true
+        }
+      },
+      "16154004051a1fa86e": {
+        "type": "featured-collection",
+        "settings": {
+          "title": "Spring arrivals",
+          "home_featured_products": "coffee-accessories",
+          "count": 5,
+          "mobile_scrollable": false,
+          "view_all": true,
+          "divider": false
+        }
+      },
+      "blog-sidebar": {
+        "type": "blog-sidebar",
+        "blocks": {
+          "ff7a549d-af1e-4e72-93c7-326f5ace6fbb": {
+            "type": "article",
+            "settings": {
+              "article": "news/featured-property-tuscan-villa-with-modern-outdoor-dining"
+            }
+          },
+          "a9c19dcb-3172-4927-b454-954715dfdfbc": {
+            "type": "article",
+            "settings": {
+              "article": "news/d"
+            }
+          },
+          "a0382939-ffb8-4144-83cc-9565ad819150": {
+            "type": "article",
+            "settings": {
+              "article": "news/decorating-101-interior-design-basics"
+            }
+          }
+        },
+        "block_order": [
+          "ff7a549d-af1e-4e72-93c7-326f5ace6fbb",
+          "a9c19dcb-3172-4927-b454-954715dfdfbc",
+          "a0382939-ffb8-4144-83cc-9565ad819150"
+        ],
+        "settings": {}
+      },
+      "footer": {
+        "type": "footer",
+        "blocks": {
+          "footer-0": {
+            "type": "menu",
+            "settings": {
+              "title": "",
+              "menu": "about-us",
+              "enable_account_link": false
+            }
+          },
+          "adab04a6-e947-4f4d-986b-3ce2ecd41e03": {
+            "type": "menu",
+            "settings": {
+              "title": "",
+              "menu": "customer-support",
+              "enable_account_link": true
+            }
+          },
+          "fe6a67a0-686e-435b-a946-f28802053c97": {
+            "type": "contact",
+            "settings": {
+              "phone": "+1 800 123 1234",
+              "contact": "contact-us",
+              "chat": "contact-us",
+              "enable_social": true
+            }
+          },
+          "c296bc3e-1d7f-4750-b993-050176521596": {
+            "type": "payment",
+            "settings": {
+              "show_payment_icons": true,
+              "show_locale_selector": true,
+              "show_currency_selector": true,
+              "show_currency_flags": true
+            }
+          }
+        },
+        "block_order": [
+          "footer-0",
+          "adab04a6-e947-4f4d-986b-3ce2ecd41e03",
+          "fe6a67a0-686e-435b-a946-f28802053c97",
+          "c296bc3e-1d7f-4750-b993-050176521596"
+        ],
+        "settings": {
+          "show_newsletter": true,
+          "newsletter_richtext": "<p>Subscribe today and get 10% off your first purchase</p>",
+          "footer_main_menu": true,
+          "show_copyright": true,
+          "copyright_text": "",
+          "policies_menu": "policies"
+        }
+      },
+      "16166970499d200586": {
+        "type": "promo-grid",
+        "blocks": {
+          "8fcbacfa-2b4f-4197-a9c7-d2c9cce20ef5": {
+            "type": "banner",
+            "settings": {
+              "heading": "Free shipping over $50",
+              "text": "Within the contiguous United States",
+              "link": "shopify://pages/shipping-info",
+              "label": "Learn more",
+              "color_scheme": "2"
+            }
+          },
+          "39d950a6-389b-415c-b815-62cfd8e07480": {
+            "type": "product",
+            "settings": {
+              "product": "cigar-glass",
+              "subheading": "Restocked",
+              "heading": "A Whiskey essential",
+              "textarea": "Combine the things you love with a single glass.",
+              "link_label": "Shop now",
+              "label": "New",
+              "enable_price": true,
+              "width": "50",
+              "color_scheme": "1"
+            }
+          },
+          "a6ec910f-4f19-440b-8963-596f8c2e1ca8": {
+            "type": "product",
+            "settings": {
+              "product": "1pt-craft-cocktail-infusions",
+              "subheading": "New in",
+              "heading": "Mull it over",
+              "textarea": "With this great mulled wine infusion kit, just in time for winter nights.",
+              "link_label": "Shop now",
+              "label": "",
+              "enable_price": true,
+              "width": "50",
+              "color_scheme": "1"
+            }
+          }
+        },
+        "block_order": [
+          "8fcbacfa-2b4f-4197-a9c7-d2c9cce20ef5",
+          "39d950a6-389b-415c-b815-62cfd8e07480",
+          "a6ec910f-4f19-440b-8963-596f8c2e1ca8"
+        ],
+        "settings": {
+          "full_width": false,
+          "gutter_size": 20,
+          "space_above": false,
+          "space_below": false
+        }
+      },
+      "16167068142513abfa": {
+        "type": "logo-list",
+        "blocks": {
+          "16167068142513abfa-0": {
+            "type": "logo_image",
+            "settings": {
+              "image": "shopify://shop_images/alessi.png",
+              "link": "/collections/vendors?q=Alessi"
+            }
+          },
+          "16167068142513abfa-1": {
+            "type": "logo_image",
+            "settings": {
+              "image": "shopify://shop_images/bella-tunno_30ceeb35-194d-4c26-a3ed-d29f8480800a.png",
+              "link": "/collections/vendors?q=Bella Tunno"
+            }
+          },
+          "16167068142513abfa-2": {
+            "type": "logo_image",
+            "settings": {
+              "image": "shopify://shop_images/corkcicle.png",
+              "link": "/collections/vendors?q=Corkcicle"
+            }
+          },
+          "16167068142513abfa-3": {
+            "type": "logo_image",
+            "settings": {
+              "image": "shopify://shop_images/eva-solo.png",
+              "link": "/collections/vendors?q=Eva Solo"
+            }
+          },
+          "052533e5-a371-4932-a016-34def42383db": {
+            "type": "logo_image",
+            "settings": {
+              "image": "shopify://shop_images/georg-jensen.png",
+              "link": "/collections/vendors?q=Georg Jensen"
+            }
+          },
+          "ba0ef081-a41c-4913-a3db-412ecb522875": {
+            "type": "logo_image",
+            "settings": {
+              "image": "shopify://shop_images/iittala.png",
+              "link": "/collections/vendors?q=iittala"
+            }
+          },
+          "28f0d3a8-34e2-4ab3-aed2-005079fb606c": {
+            "type": "logo_image",
+            "settings": {
+              "image": "shopify://shop_images/jonathan-adler.jpg",
+              "link": "/collections/vendors?q=Jonathan Adler"
+            }
+          },
+          "9a3e96b5-aa08-4445-9220-c9d3f38ebb1f": {
+            "type": "logo_image",
+            "settings": {
+              "image": "shopify://shop_images/kikkerland.png",
+              "link": "/collections/vendors?q=Kikkerland"
+            }
+          },
+          "a8344f31-4814-45bb-bcbe-344add4a8906": {
+            "type": "logo_image",
+            "settings": {
+              "image": "shopify://shop_images/moleskine.jpg",
+              "link": "/collections/vendors?q=Moleskine"
+            }
+          },
+          "68c87a86-7a8c-4bfe-ae97-6e35be8bd1e1": {
+            "type": "logo_image",
+            "settings": {
+              "image": "shopify://shop_images/moma_f69c6feb-0ca4-4296-8177-e485c100b3ea.png",
+              "link": "/collections/vendors?q=MoMA"
+            }
+          },
+          "3220078b-da32-490e-aad7-343808280226": {
+            "type": "logo_image",
+            "settings": {
+              "image": "shopify://shop_images/tom-dixon.png",
+              "link": "/collections/vendors?q=Tom Dixon"
+            }
+          },
+          "11926c01-2a95-4f6f-b2fc-42255d8237e5": {
+            "type": "logo_image",
+            "settings": {
+              "image": "shopify://shop_images/umbra_cc0f54b2-3c63-448c-a203-872e882c06c6.png",
+              "link": "/collections/vendors?q=Umbra"
+            }
+          }
+        },
+        "block_order": [
+          "16167068142513abfa-0",
+          "16167068142513abfa-1",
+          "16167068142513abfa-2",
+          "16167068142513abfa-3",
+          "052533e5-a371-4932-a016-34def42383db",
+          "ba0ef081-a41c-4913-a3db-412ecb522875",
+          "28f0d3a8-34e2-4ab3-aed2-005079fb606c",
+          "9a3e96b5-aa08-4445-9220-c9d3f38ebb1f",
+          "a8344f31-4814-45bb-bcbe-344add4a8906",
+          "68c87a86-7a8c-4bfe-ae97-6e35be8bd1e1",
+          "3220078b-da32-490e-aad7-343808280226",
+          "11926c01-2a95-4f6f-b2fc-42255d8237e5"
+        ],
+        "settings": {
+          "title": "Popular brands",
+          "divider": false
+        }
       },
       "password-header": {
         "type": "password-header",
@@ -471,7 +872,10 @@
             }
           }
         },
-        "block_order": ["1623090756d994291c-0", "1623090756d994291c-1"],
+        "block_order": [
+          "1623090756d994291c-0",
+          "1623090756d994291c-1"
+        ],
         "settings": {
           "full_width": true,
           "desktop_size": -10,
@@ -501,7 +905,9 @@
             }
           }
         },
-        "block_order": ["16242877764ba69f0b-0"],
+        "block_order": [
+          "16242877764ba69f0b-0"
+        ],
         "settings": {
           "full_width": true,
           "height": 550,
@@ -828,7 +1234,9 @@
               }
             }
           },
-          "block_order": ["1524770014057"],
+          "block_order": [
+            "1524770014057"
+          ],
           "settings": {
             "main_menu_link_list": "main-menu",
             "main_menu_alignment": "below",
@@ -977,7 +1385,9 @@
               }
             }
           },
-          "block_order": ["6a2a8ea3-1f40-4a70-a4e1-66e625091344"],
+          "block_order": [
+            "6a2a8ea3-1f40-4a70-a4e1-66e625091344"
+          ],
           "settings": {
             "disable_for_account_holders": true,
             "popup_seconds": 5,
@@ -1547,7 +1957,10 @@
               }
             }
           },
-          "block_order": ["1623090756d994291c-0", "1623090756d994291c-1"],
+          "block_order": [
+            "1623090756d994291c-0",
+            "1623090756d994291c-1"
+          ],
           "settings": {
             "full_width": true,
             "desktop_size": -10,
@@ -1577,7 +1990,9 @@
               }
             }
           },
-          "block_order": ["16242877764ba69f0b-0"],
+          "block_order": [
+            "16242877764ba69f0b-0"
+          ],
           "settings": {
             "full_width": true,
             "height": 550,
@@ -1750,7 +2165,9 @@
               }
             }
           },
-          "block_order": ["1524770014057"],
+          "block_order": [
+            "1524770014057"
+          ],
           "settings": {
             "main_menu_link_list": "main-menu",
             "main_menu_alignment": "below",
@@ -1851,7 +2268,9 @@
               }
             }
           },
-          "block_order": ["89af8827-ae1b-4a50-9436-ebdfb8553fd5"],
+          "block_order": [
+            "89af8827-ae1b-4a50-9436-ebdfb8553fd5"
+          ],
           "settings": {
             "disable_for_account_holders": true,
             "popup_seconds": 6,
@@ -1969,7 +2388,9 @@
               }
             }
           },
-          "block_order": ["f709e6ea-d5cc-4702-adbf-e66e246fcaf1"],
+          "block_order": [
+            "f709e6ea-d5cc-4702-adbf-e66e246fcaf1"
+          ],
           "settings": {
             "announcement_center": false,
             "toolbar_social": false,
@@ -2258,7 +2679,9 @@
               }
             }
           },
-          "block_order": ["162396200786f8a51c-0"],
+          "block_order": [
+            "162396200786f8a51c-0"
+          ],
           "settings": {
             "full_width": true,
             "height": 650,
@@ -2288,7 +2711,9 @@
               }
             }
           },
-          "block_order": ["162402863370f49f13-0"],
+          "block_order": [
+            "162402863370f49f13-0"
+          ],
           "settings": {
             "full_width": true,
             "desktop_size": -10,
@@ -2483,5 +2908,11 @@
         "1525115199973"
       ]
     }
+  },
+  "platform_customizations": {
+    "custom_css": [
+      ".add-to-cart {background-color: #8006be !important; color: #fff !important; transition: transform 0.2s ease, background-color 0.3s ease;}",
+      ".add-to-cart:hover {opacity: 0.9;}"
+    ]
   }
 }

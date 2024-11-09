@@ -20,51 +20,63 @@
         },
         "price": {
           "type": "price",
-          "settings": {}
+          "settings": {
+          }
         },
         "quantity_selector": {
           "type": "quantity_selector",
-          "settings": {}
+          "settings": {
+          }
         },
         "buy_buttons": {
           "type": "buy_buttons",
-          "settings": {}
+          "settings": {
+          }
         },
         "description": {
           "type": "description",
-          "settings": {}
+          "settings": {
+          }
         },
         "variant_picker": {
           "type": "variant_picker",
-          "settings": {}
+          "settings": {
+          }
         },
         "inventory_status": {
           "type": "inventory_status",
-          "settings": {}
+          "settings": {
+          }
         },
         "share": {
           "type": "share",
-          "settings": {}
+          "settings": {
+          }
         },
         "sales_point": {
           "type": "sales_point",
-          "settings": {}
+          "settings": {
+          }
         },
         "tab": {
           "type": "tab",
-          "settings": {}
+          "settings": {
+          }
         },
         "text": {
           "type": "text",
-          "settings": {}
+          "settings": {
+          }
         },
         "separator": {
           "type": "separator",
-          "settings": {}
+          "settings": {
+          }
         },
         "contact": {
           "type": "contact",
-          "settings": {}
+          "settings": {
+          }
         }
       },
       "block_order": [
@@ -80,24 +92,29 @@
         "contact",
         "share"
       ],
-      "settings": {}
+      "settings": {
+      }
     },
     "sub": {
       "type": "product-full-width",
       "disabled": true,
-      "settings": {}
+      "settings": {
+      }
     },
     "product-recommendations": {
       "type": "product-recommendations",
-      "settings": {}
+      "settings": {
+      }
     },
     "recently-viewed": {
       "type": "recently-viewed",
-      "settings": {}
+      "settings": {
+      }
     },
     "collection-return": {
       "type": "collection-return",
-      "settings": {}
+      "settings": {
+      }
     },
     "slideshow": {
       "type": "slideshow",
@@ -119,7 +136,8 @@
         "slideshow-0",
         "slideshow-1"
       ],
-      "settings": {}
+      "settings": {
+      }
     },
     "text-and-image": {
       "type": "text-and-image",
@@ -139,15 +157,18 @@
       "blocks": {
         "testimonials-0": {
           "type": "testimonial",
-          "settings": {}
+          "settings": {
+          }
         },
         "testimonials-1": {
           "type": "testimonial",
-          "settings": {}
+          "settings": {
+          }
         },
         "testimonials-2": {
           "type": "testimonial",
-          "settings": {}
+          "settings": {
+          }
         }
       },
       "block_order": [
@@ -155,22 +176,26 @@
         "testimonials-1",
         "testimonials-2"
       ],
-      "settings": {}
+      "settings": {
+      }
     },
     "faq": {
       "type": "faq",
       "blocks": {
         "faq-0": {
           "type": "question",
-          "settings": {}
+          "settings": {
+          }
         },
         "faq-1": {
           "type": "question",
-          "settings": {}
+          "settings": {
+          }
         },
         "faq-2": {
           "type": "question",
-          "settings": {}
+          "settings": {
+          }
         }
       },
       "block_order": [
@@ -178,11 +203,13 @@
         "faq-1",
         "faq-2"
       ],
-      "settings": {}
+      "settings": {
+      }
     },
     "hero-video": {
       "type": "hero-video",
-      "settings": {}
+      "settings": {
+      }
     }
   },
   "order": [

@@ -11,22 +11,26 @@
   "sections": {
     "collection-header": {
       "type": "collection-header",
-      "settings": {}
+      "settings": {
+      }
     },
     "main-collection": {
       "type": "main-collection",
       "blocks": {
         "collection_description": {
           "type": "collection_description",
-          "settings": {}
+          "settings": {
+          }
         },
         "product_grid": {
           "type": "product_grid",
-          "settings": {}
+          "settings": {
+          }
         },
         "subcollections": {
           "type": "subcollections",
-          "settings": {}
+          "settings": {
+          }
         }
       },
       "block_order": [
@@ -34,11 +38,13 @@
         "subcollections",
         "product_grid"
       ],
-      "settings": {}
+      "settings": {
+      }
     },
     "recently-viewed": {
       "type": "recently-viewed",
-      "settings": {}
+      "settings": {
+      }
     }
   },
   "order": [

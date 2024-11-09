@@ -1,10 +1,13 @@
-{% # components v3.0.1 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
+{% # components v2.10.69 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License %}
 {%- comment -%}
   Renders the footer contact block.
 
   Accepts:
   - block {block} - The block object
   - phone {string} - The phone number
+  - email {string} - Email address
+  - address {string} - Business address
+  - business_hours {string} - Business hours of operation
   - contact_page {page} - The contact page object
   - chat_page {page} - The chat page object
   - blocks_heading_size - The heading size for the block
@@ -19,51 +22,97 @@
   assign chat_page = chat_page | default: block.settings.chat
   assign enable_social = enable_social | default: block.settings.enable_social, allow_false: true | default: true, allow_false: true
   assign blocks_heading_size = blocks_heading_size | default: block.settings.heading_size | default: 'h4'
+  assign email = email | default: block.settings.email
+  assign address = address | default: block.settings.address
+  assign business_hours = business_hours | default: block.settings.business_hours
 -%}
+
+<style>
+  .footer-contact__info-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+</style>
 
 <div class="footer__mobile-section">
   <div class="footer__blocks--mobile">
     <div class="footer__block--mobile">
       <h2 class="footer__title {{ blocks_heading_size }}">
-        {% assign actions_get_in_touch = 'actions.get_in_touch' | t %}
-        {% render 't_with_fallback', t: actions_get_in_touch, fallback: 'Get in touch' %}
+        {{ 'actions.get_in_touch' | t }}
       </h2>
 
-      <ul class="footer__menu footer__menu--underline">
-        {%- if phone != blank -%}
-          <li>
-            <a href="tel:{{ phone }}">
+      <ul class="footer__menu footer__menu--underline footer-contact__info-container">
+        {%- if email != blank -%}
+          <li aria-label="Our email">
+            <a
+              href="mailto:{{ email }}"
+              aria-label="Email support at {{ email }}"
+              class="footer__link">
               <span class="icon-and-text">
-                {% render 'icon', name: 'phone' %}
+                {% render 'icon'
+                  , name: 'email' %}
+                <span>{{ email }}</span>
+              </span>
+            </a>
+          </li>
+        {%- endif -%}
+
+        {%- if phone != blank -%}
+          <li aria-label="Our phone">
+            <a
+              href="tel:{{ phone }}"
+              aria-label="Call us at {{ phone }}"
+              class="footer__link">
+              <span class="icon-and-text">
+                {% render 'icon'
+                  , name: 'phone' %}
                 <span>{{ phone }}</span>
               </span>
             </a>
           </li>
         {%- endif -%}
 
-        {%- if contact_page != blank -%}
-          <li>
-            <a href="{{ contact_page.url }}">
+        {%- if address != blank -%}
+          <li aria-label="Our address">
+            <span class="icon-and-text">
+              {% render 'icon'
+                , name: 'location' %}
+              <span>{{ address | newline_to_br }}</span>
+            </span>
+          </li>
+        {%- endif -%}
+
+        {%- if business_hours != blank -%}
+          <li aria-label="Our business hours">
+            <span aria-label="We are open from {{ business_hours }}" class="icon-and-text">
+              {% render 'icon'
+                , name: 'calendar' %}
+              <span>
+                {{ business_hours | newline_to_br }}</span>
+            </span>
+          </li>
+        {%- endif -%}
+
+        {%- if chat_page != blank -%}
+          <li aria-label="Our live chat">
+            <a href="{{ chat_page.url }}">
               <span class="icon-and-text">
-                {% render 'icon', name: 'email' %}
-                <span>
-                  {% assign actions_email_us = 'actions.email_us' | t %}
-                  {% render 't_with_fallback', t: actions_email_us, fallback: 'Email us' -%}
-                </span>
+                {% render 'icon'
+                  , name: 'chat' %}
+                <span>{{ 'actions.live_chat' | t }}</span>
               </span>
             </a>
           </li>
         {%- endif -%}
 
-        {%- if chat_page != blank -%}
-          <li>
-            <a href="{{ chat_page.url }}">
+        {%- if contact_page != blank -%}
+          <li aria-label="Our contact page">
+            <a href="{{ contact_page.url }}">
               <span class="icon-and-text">
-                {% render 'icon', name: 'chat' %}
-                <span>
-                  {% assign actions_live_chat = 'actions.live_chat' | t %}
-                  {% render 't_with_fallback', t: actions_live_chat, fallback: 'Live chat' -%}
-                </span>
+                {% render 'icon'
+                  , name: 'contact' %}
+                <span>{{ 'actions.contact_us' | t }}</span>
               </span>
             </a>
           </li>
@@ -73,12 +122,11 @@
 
     {%- if enable_social -%}
       <div class="footer__block--mobile">
-        {% assign actions_follow_us = 'actions.follow_us' | t %}
         <div class="footer__title">
-          {% render 't_with_fallback', t: actions_follow_us, fallback: 'Follow us' %}
+          {{ 'actions.follow_us' | t }}
         </div>
-
-        {% render 'social-icons', wrapper_class: 'footer__social' %}
+        {% render 'social-icons'
+          , wrapper_class: 'footer__social' %}
       </div>
     {%- endif -%}
   </div>

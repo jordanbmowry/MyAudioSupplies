@@ -11,34 +11,82 @@
   "sections": {
     "main": {
       "type": "list-collections-template",
-      "settings": {}
+      "blocks": {
+        "collection_dh6bEm": {
+          "type": "collection",
+          "settings": {
+            "collection": "dj-controllers"
+          }
+        },
+        "collection_dEyqd8": {
+          "type": "collection",
+          "settings": {
+            "collection": "dj-media-players"
+          }
+        },
+        "collection_zMDCBX": {
+          "type": "collection",
+          "settings": {
+            "collection": "mixers"
+          }
+        },
+        "collection_8L7dR7": {
+          "type": "collection",
+          "settings": {
+            "collection": "dj-turntables"
+          }
+        }
+      },
+      "block_order": [
+        "collection_dh6bEm",
+        "collection_dEyqd8",
+        "collection_zMDCBX",
+        "collection_8L7dR7"
+      ],
+      "settings": {
+        "title_enable": true,
+        "display_type": "selected",
+        "sort": "alphabetical"
+      }
     },
     "logo-list": {
       "type": "logo-list",
       "blocks": {
         "logo1": {
           "type": "logo_image",
-          "settings": {}
+          "settings": {
+            "link": ""
+          }
         },
         "logo2": {
           "type": "logo_image",
-          "settings": {}
+          "settings": {
+            "link": ""
+          }
         },
         "logo3": {
           "type": "logo_image",
-          "settings": {}
+          "settings": {
+            "link": ""
+          }
         },
         "logo4": {
           "type": "logo_image",
-          "settings": {}
+          "settings": {
+            "link": ""
+          }
         },
         "logo5": {
           "type": "logo_image",
-          "settings": {}
+          "settings": {
+            "link": ""
+          }
         },
         "logo6": {
           "type": "logo_image",
-          "settings": {}
+          "settings": {
+            "link": ""
+          }
         }
       },
       "block_order": [
@@ -49,8 +97,12 @@
         "logo5",
         "logo6"
       ],
+      "disabled": true,
       "settings": {
-        "title": "Our brands"
+        "title": "Our brands",
+        "heading_size": "h2",
+        "heading_position": "left",
+        "divider": false
       }
     }
   },

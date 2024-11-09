@@ -20,27 +20,33 @@
         },
         "price": {
           "type": "price",
-          "settings": {}
+          "settings": {
+          }
         },
         "buy_buttons": {
           "type": "buy_buttons",
-          "settings": {}
+          "settings": {
+          }
         },
         "variant_picker": {
           "type": "variant_picker",
-          "settings": {}
+          "settings": {
+          }
         },
         "inventory_status": {
           "type": "inventory_status",
-          "settings": {}
+          "settings": {
+          }
         },
         "share": {
           "type": "share",
-          "settings": {}
+          "settings": {
+          }
         },
         "sales_point": {
           "type": "sales_point",
-          "settings": {}
+          "settings": {
+          }
         },
         "sales_point2": {
           "type": "sales_point",
@@ -75,7 +81,8 @@
         "inventory_status",
         "buy_buttons"
       ],
-      "settings": {}
+      "settings": {
+      }
     },
     "sub": {
       "type": "product-full-width",
@@ -88,11 +95,13 @@
         },
         "tab": {
           "type": "tab",
-          "settings": {}
+          "settings": {
+          }
         },
         "contact": {
           "type": "contact",
-          "settings": {}
+          "settings": {
+          }
         }
       },
       "block_order": [
@@ -100,27 +109,33 @@
         "tab",
         "contact"
       ],
-      "settings": {}
+      "settings": {
+      }
     },
     "recommendations": {
       "type": "product-recommendations",
-      "settings": {}
+      "settings": {
+      }
     },
     "more-products-vendor": {
       "type": "more-products-vendor",
-      "settings": {}
+      "settings": {
+      }
     },
     "more-products-collection": {
       "type": "more-products-collection",
-      "settings": {}
+      "settings": {
+      }
     },
     "recently-viewed": {
       "type": "recently-viewed",
-      "settings": {}
+      "settings": {
+      }
     },
     "collection-return": {
       "type": "collection-return",
-      "settings": {}
+      "settings": {
+      }
     }
   },
   "order": [

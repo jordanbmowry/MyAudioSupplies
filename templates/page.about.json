@@ -12,7 +12,8 @@
     "main": {
       "type": "main-page",
       "disabled": true,
-      "settings": {}
+      "settings": {
+      }
     },
     "slideshow": {
       "type": "slideshow",
@@ -27,18 +28,21 @@
       "block_order": [
         "slideshow-0"
       ],
-      "settings": {}
+      "settings": {
+      }
     },
     "rich-text": {
       "type": "rich-text",
       "blocks": {
         "heading": {
           "type": "heading",
-          "settings": {}
+          "settings": {
+          }
         },
         "text": {
           "type": "text",
-          "settings": {}
+          "settings": {
+          }
         }
       },
       "block_order": [
@@ -51,22 +55,26 @@
     },
     "map": {
       "type": "map",
-      "settings": {}
+      "settings": {
+      }
     },
     "text-columns": {
       "type": "text-columns",
       "blocks": {
         "column1": {
           "type": "text_block",
-          "settings": {}
+          "settings": {
+          }
         },
         "column2": {
           "type": "text_block",
-          "settings": {}
+          "settings": {
+          }
         },
         "column3": {
           "type": "text_block",
-          "settings": {}
+          "settings": {
+          }
         }
       },
       "block_order": [
@@ -74,11 +82,13 @@
         "column2",
         "column3"
       ],
-      "settings": {}
+      "settings": {
+      }
     },
     "featured-collection": {
       "type": "featured-collection",
-      "settings": {}
+      "settings": {
+      }
     },
     "form": {
       "type": "contact-form",

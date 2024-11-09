@@ -15,21 +15,25 @@
         "slide-1": {
           "type": "hero",
           "settings": {
-            "title": "<p>Overlaid Hero Slide</p>",
-            "subheading": "Perfect for rich lifestyle photography.",
-            "text_align": "vertical-bottom horizontal-left"
-          }
-        },
-        "slide-2": {
-          "type": "hero",
-          "settings": {
-            "title": "<p>Make an Impact</p>",
-            "subheading": "Supports multiple text alignments and mobile-specific images.",
-            "text_align": "vertical-center horizontal-center"
+            "top_subheading": "",
+            "title": "<p>Shop Audio Supplies</p>",
+            "title_size": 70,
+            "subheading": "Audio Equipment from Top Brands at the Best Prices  at Your Fingertips.",
+            "link": "",
+            "link_text": "",
+            "link_2": "",
+            "link_text_2": "",
+            "color_accent": "#ffffff",
+            "text_align": "vertical-center horizontal-center",
+            "image": "shopify://shop_images/my_audio_supplies_collage_0d085551-bcfa-4b33-8142-8103ac94d8d8.png",
+            "image_mobile": "shopify://shop_images/my_audio_supplies_collage_mobile_60bd5342-f713-46c6-8982-a30d23aef561.png",
+            "overlay_opacity": 40
           }
         }
       },
-      "block_order": ["slide-1"],
+      "block_order": [
+        "slide-1"
+      ],
       "settings": {
         "full_width": true,
         "desktop_size": 0,
@@ -39,21 +43,8 @@
         "autoplay_speed": 5
       }
     },
-    "featured-collection": {
-      "type": "featured-collection",
-      "settings": {
-        "title": "Featured collection",
-        "heading_size": "h2",
-        "heading_position": "left",
-        "count": 5,
-        "products_per_row": 5,
-        "mobile_scrollable": true,
-        "view_all": true,
-        "divider": false
-      }
-    },
-    "countdown": {
-      "type": "countdown",
+    "text_with_icons_wLCWnR": {
+      "type": "text-with-icons",
       "blocks": {
         "text_block_Hwd7QE": {
           "type": "text_block",
@@ -104,67 +95,62 @@
         "divider": false
       }
     },
-    "hotspots": {
-      "type": "hotspots",
-      "blocks": {
-        "block-1": {
-          "type": "product",
-          "settings": {
-            "vertical": 70,
-            "horizontal": 33
-          }
-        },
-        "block-2": {
-          "type": "product",
-          "settings": {
-            "vertical": 14,
-            "horizontal": 81
-          }
-        },
-        "block-3": {
-          "type": "product",
-          "settings": {
-            "vertical": 46,
-            "horizontal": 79
-          }
-        }
-      },
-      "block_order": ["block-1", "block-2", "block-3"],
-      "settings": {
-        "title": "Shop the look",
-        "heading_size": "h1",
-        "heading_position": "left",
-        "indent_image": true,
-        "image_position": "right",
-        "hotspot_style": "bag",
-        "hotspot_color": "#ffffff"
-      }
-    },
     "testimonials": {
       "type": "testimonials",
       "blocks": {
         "block-1": {
           "type": "testimonial",
-          "settings": {}
+          "settings": {
+            "icon": "5-stars",
+            "testimonial": "<p>Add customer reviews and testimonials to showcase your store’s happy customers.</p>",
+            "author": "Author's name",
+            "author_info": "Los Angeles, CA"
+          }
         },
         "block-2": {
           "type": "testimonial",
-          "settings": {}
+          "settings": {
+            "icon": "5-stars",
+            "testimonial": "<p>Add customer reviews and testimonials to showcase your store’s happy customers.</p>",
+            "author": "Author's name",
+            "author_info": "Los Angeles, CA"
+          }
         },
         "block-3": {
           "type": "testimonial",
-          "settings": {}
+          "settings": {
+            "icon": "5-stars",
+            "testimonial": "<p>Add customer reviews and testimonials to showcase your store’s happy customers.</p>",
+            "author": "Author's name",
+            "author_info": "Los Angeles, CA"
+          }
         },
         "block-4": {
           "type": "testimonial",
-          "settings": {}
+          "settings": {
+            "icon": "5-stars",
+            "testimonial": "<p>Add customer reviews and testimonials to showcase your store’s happy customers.</p>",
+            "author": "Author's name",
+            "author_info": "Los Angeles, CA"
+          }
         },
         "block-5": {
           "type": "testimonial",
-          "settings": {}
+          "settings": {
+            "icon": "5-stars",
+            "testimonial": "<p>Add customer reviews and testimonials to showcase your store’s happy customers.</p>",
+            "author": "Author's name",
+            "author_info": "Los Angeles, CA"
+          }
         }
       },
-      "block_order": ["block-1", "block-2", "block-3", "block-4", "block-5"],
+      "block_order": [
+        "block-1",
+        "block-2",
+        "block-3",
+        "block-4",
+        "block-5"
+      ],
       "disabled": true,
       "settings": {
         "title": "Don't take our word for it",
@@ -173,24 +159,11 @@
         "color_scheme": "3"
       }
     },
-    "featured-collection2": {
-      "type": "featured-collection",
-      "settings": {
-        "title": "Featured Collection",
-        "heading_size": "h2",
-        "heading_position": "left",
-        "count": 5,
-        "products_per_row": 5,
-        "mobile_scrollable": false,
-        "view_all": true,
-        "divider": false
-      }
-    },
-    "slideshow-split": {
-      "type": "slideshow-split",
+    "text_columns_pkCGFf": {
+      "type": "text-columns",
       "blocks": {
-        "slide-1": {
-          "type": "slide",
+        "text_block_BKDHPb": {
+          "type": "text_block",
           "settings": {
             "enable_image": true,
             "image": "shopify://shop_images/pexels-cottonbro-5658533.jpg",
@@ -218,11 +191,14 @@
         "text_block_3WW6iG": {
           "type": "text_block",
           "settings": {
-            "heading": "Free U.S. shipping",
-            "text": "On all orders over $100",
-            "link": "shopify://collections/all",
-            "label": "Shop now",
-            "color_scheme": "1"
+            "enable_image": true,
+            "image": "shopify://shop_images/pexels-pain-svoice-418919207-15082829.jpg",
+            "image_mask": "square",
+            "image_width": 400,
+            "title": "Capture Every Detail",
+            "text": "<p>Record studio-quality audio with precision, whether you're creating music or podcasts.</p>",
+            "button_label": "Shop Now",
+            "button_link": "shopify://collections/dj-media-players"
           }
         }
       },
@@ -234,20 +210,16 @@
       "disabled": true,
       "settings": {
         "title": "",
-        "heading_size": "h2",
-        "heading_position": "left",
-        "count": 5,
-        "products_per_row": 5,
-        "mobile_scrollable": true,
-        "view_all": true,
-        "divider": false
+        "align_text": "center",
+        "divider": false,
+        "color_scheme": "none"
       }
     },
-    "slideshow-split3": {
-      "type": "slideshow-split",
+    "featured_collections_Dtkphw": {
+      "type": "featured-collections",
       "blocks": {
-        "slideshow-split3-0": {
-          "type": "slide",
+        "collection_zbJT9y": {
+          "type": "collection",
           "settings": {
             "collection": "eurorack",
             "title": "Eurorack"
@@ -284,24 +256,18 @@
       "settings": {
         "title": "Popular categories",
         "heading_size": "h2",
-        "heading_position": "left",
-        "blog": "news",
-        "blog_show_tags": true,
-        "blog_show_date": false,
-        "blog_show_comments": false,
-        "blog_show_author": false,
-        "blog_image_size": "square",
+        "heading_position": "center",
         "divider": false
       }
     },
-    "newsletter": {
-      "type": "newsletter",
+    "featured_product_r3TtQh": {
+      "type": "featured-product",
       "blocks": {
-        "title": {
+        "title_THYEqe": {
           "type": "title",
           "settings": {
-            "title": "Save 10% on your first purchase",
-            "heading_size": "h2"
+            "vendor_enable": true,
+            "sku_enable": false
           }
         },
         "price_XkUkag": {
@@ -323,9 +289,13 @@
             "color_swatches": false
           }
         },
-        "form": {
-          "type": "form",
-          "settings": {}
+        "buy_buttons_imTdcQ": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": false,
+            "surface_pickup_enable": true,
+            "show_gift_card_recipient": false
+          }
         }
       },
       "block_order": [
@@ -338,29 +308,24 @@
       "settings": {
         "product": "marantz-av7706-11-2-channel-8k-ultra-hd-av-surround-pre-amplifier",
         "divider": false,
-        "top_padding": true,
-        "bottom_padding": true
+        "image_position": "left",
+        "image_container_size": "medium",
+        "product_image_size": "square",
+        "product_zoom_enable": true,
+        "thumbnail_position": "beside",
+        "thumbnail_arrows": false,
+        "mobile_layout": "partial",
+        "enable_video_looping": true,
+        "product_video_style": "muted"
       }
     }
   },
   "order": [
     "slideshow",
-    "featured-collection",
-    "countdown",
-    "featured-collections",
-    "hotspots",
+    "text_with_icons_wLCWnR",
     "testimonials",
-    "featured-collection2",
-    "slideshow-split",
-    "logo-list",
-    "image-compare",
-    "slideshow-split2",
-    "promo-grid",
-    "featured-collection3",
-    "slideshow-split3",
-    "text-columns",
-    "rich-text",
-    "blog-posts",
-    "newsletter"
+    "text_columns_pkCGFf",
+    "featured_collections_Dtkphw",
+    "featured_product_r3TtQh"
   ]
 }

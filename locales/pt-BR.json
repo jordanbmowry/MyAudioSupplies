@@ -166,7 +166,6 @@
     "search_results_for_html": "Sua busca por \"{{ terms }}\" encontrou os itens a seguir:",
     "signup_success": "Nós lhe enviaremos um e-mail logo antes de abrirmos!",
     "unavailable": "Indisponível",
-    "variant_sold_out_or_unavailable": "Variante esgotada ou indisponível",
     "will_be_powered_by_html": "Esta loja será patrocinada por {{ shopify }}",
     "you_must_agree": "Você deve concordar com os termos e condições de vendas para verificar",
     "admin_link_html": "Você é o dono da loja? <a href=\"/admin\" class=\"text-link\">Faça login aqui</a>"

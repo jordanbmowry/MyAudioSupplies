@@ -11,7 +11,8 @@
   "sections": {
     "main": {
       "type": "main-register",
-      "settings": {}
+      "settings": {
+      }
     }
   },
   "order": [

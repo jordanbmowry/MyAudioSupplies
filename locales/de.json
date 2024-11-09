@@ -166,7 +166,6 @@
     "search_results_for_html": "Ihre Suche nach \"{{ terms }}\" hat folgende Ergebnisse hervorgebracht:",
     "signup_success": "Wir senden Ihnen eine E-Mail, kurz bevor wir eröffnen!",
     "unavailable": "Nicht verfügbar",
-    "variant_sold_out_or_unavailable": "Variante ausverkauft oder nicht verfügbar",
     "will_be_powered_by_html": "Dieser Shop wird mit Hilfe von {{ shopify }} betrieben werden",
     "you_must_agree": "Sie müssen den Verkaufsbedingungen zustimmen, um auszuchecken",
     "admin_link_html": "Sind Sie der Geschäftsinhaber? <a href=\"/admin\" class=\"text-link\">Melden Sie sich hier an</a>"
