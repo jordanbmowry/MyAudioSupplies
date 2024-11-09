@@ -20,63 +20,51 @@
         },
         "price": {
           "type": "price",
-          "settings": {
-          }
+          "settings": {}
         },
         "quantity_selector": {
           "type": "quantity_selector",
-          "settings": {
-          }
+          "settings": {}
         },
         "buy_buttons": {
           "type": "buy_buttons",
-          "settings": {
-          }
+          "settings": {}
         },
         "description": {
           "type": "description",
-          "settings": {
-          }
+          "settings": {}
         },
         "variant_picker": {
           "type": "variant_picker",
-          "settings": {
-          }
+          "settings": {}
         },
         "inventory_status": {
           "type": "inventory_status",
-          "settings": {
-          }
+          "settings": {}
         },
         "share": {
           "type": "share",
-          "settings": {
-          }
+          "settings": {}
         },
         "sales_point": {
           "type": "sales_point",
-          "settings": {
-          }
+          "settings": {}
         },
         "tab": {
           "type": "tab",
-          "settings": {
-          }
+          "settings": {}
         },
         "text": {
           "type": "text",
-          "settings": {
-          }
+          "settings": {}
         },
         "separator": {
           "type": "separator",
-          "settings": {
-          }
+          "settings": {}
         },
         "contact": {
           "type": "contact",
-          "settings": {
-          }
+          "settings": {}
         }
       },
       "block_order": [
@@ -87,20 +75,17 @@
         "buy_buttons",
         "share"
       ],
-      "settings": {
-      }
+      "settings": {}
     },
     "sub": {
       "type": "product-full-width",
       "disabled": true,
-      "settings": {
-      }
+      "settings": {}
     },
     "recently-viewed": {
       "type": "recently-viewed",
       "disabled": true,
-      "settings": {
-      }
+      "settings": {}
     }
   },
   "order": [

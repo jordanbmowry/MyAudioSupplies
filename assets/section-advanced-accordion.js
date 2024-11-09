@@ -1,6 +1,6 @@
-import { HTMLSectionElement } from '@archetype-themes/scripts/helpers/section'
+import { HTMLThemeElement } from '@archetype-themes/custom-elements/theme-element'
 
-class AdvancedAccordion extends HTMLSectionElement {
+class AdvancedAccordion extends HTMLThemeElement {
   constructor() {
     super()
     this.accordion = this.querySelector('.advanced-accordion')

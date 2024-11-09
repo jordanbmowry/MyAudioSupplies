@@ -12,8 +12,7 @@
     "main": {
       "type": "main-page",
       "disabled": true,
-      "settings": {
-      }
+      "settings": {}
     },
     "rich-text": {
       "type": "rich-text",
@@ -21,16 +20,12 @@
         "heading": {
           "type": "heading",
           "settings": {
-            "title": "How can we help?",
-            "heading_size": "h2"
+            "title": "Get in touch"
           }
         },
         "text": {
           "type": "text",
-          "settings": {
-            "enlarge_text": true,
-            "text": "<p>Legal Business Name:<strong> </strong>Mowry Digital  Enterprise LLC</p><p>Phone: (930) 203-1226</p><p>Email: support@myaudiosupplies.com</p><p>Business Address: 1284 W Cir Rangeview Bloomington, IN 47403</p><p>Business Hours: Monday - Friday 9 AM - 5 PM Eastern Standard Time (EST)</p>"
-          }
+          "settings": {}
         }
       },
       "block_order": [
@@ -38,23 +33,12 @@
         "text"
       ],
       "settings": {
-        "align_text": "center",
-        "narrow_column": true,
-        "color_scheme": "none",
-        "divider": false
+        "color_scheme": "none"
       }
     },
     "form": {
       "type": "contact-form",
-      "settings": {
-        "title": "Contact us",
-        "heading_size": "h2",
-        "heading_position": "left",
-        "text": "",
-        "show_phone": false,
-        "narrow_column": true,
-        "color_scheme": "1"
-      }
+      "settings": {}
     }
   },
   "order": [

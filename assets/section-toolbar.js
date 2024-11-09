@@ -1,6 +1,6 @@
-import { HTMLSectionElement } from '@archetype-themes/scripts/helpers/section'
+import { HTMLThemeElement } from '@archetype-themes/custom-elements/theme-element'
 
-class Toolbar extends HTMLSectionElement {
+class Toolbar extends HTMLThemeElement {
   constructor() {
     super()
     /**

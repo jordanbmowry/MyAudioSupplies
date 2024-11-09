@@ -1,32 +1,14 @@
-import { unlockMobileScrolling, lockMobileScrolling } from '@archetype-themes/scripts/helpers/a11y'
-import { prepareTransition } from '@archetype-themes/scripts/helpers/utils'
+import { EVENTS } from '@archetype-themes/utils/events'
+import { unlockMobileScrolling } from '@archetype-themes/utils/a11y'
 
 let selectors = {
   sidebarId: 'CollectionSidebar',
-  trigger: '.collection-filter__btn',
-  mobileWrapper: '#CollectionInlineFilterWrap',
-  filters: '.filter-wrapper',
-  filterBar: '.collection-filter'
+  trigger: '.collection-filter__btn'
 }
 
 let config = {
   isOpen: false,
   namespace: '.collection-filters'
-}
-
-function getScrollFilterTop() {
-  let scrollTop = window.pageYOffset || document.documentElement.scrollTop
-  let elTop = document.querySelector(selectors.filterBar).getBoundingClientRect().top
-  return elTop + scrollTop
-}
-
-// Set a max-height on drawers when they're opened via CSS variable
-// to account for changing mobile window heights
-function sizeDrawer() {
-  let header = document.getElementById('HeaderWrapper').offsetHeight
-  let filters = document.querySelector(selectors.filterBar).offsetHeight
-  let max = window.innerHeight - header - filters
-  document.documentElement.style.setProperty('--maxFiltersHeight', `${max}px`)
 }
 
 export default class CollectionSidebar {
@@ -36,7 +18,6 @@ export default class CollectionSidebar {
       return
     }
 
-    document.addEventListener('filter:selected', this.close.bind(this))
     this.init()
   }
 
@@ -46,77 +27,16 @@ export default class CollectionSidebar {
 
     // This function runs on page load, and when the collection section loads
     // so we need to be mindful of not duplicating event listeners
-    this.container = document.getElementById(selectors.sidebarId)
     this.trigger = document.querySelector(selectors.trigger)
-    this.wrapper = document.querySelector(selectors.mobileWrapper)
-    this.filters = this.wrapper.querySelector(selectors.filters)
 
-    this.trigger.removeEventListener('click', this._toggleHandler)
-    this._toggleHandler = this.toggle.bind(this)
-    this.trigger.addEventListener('click', this._toggleHandler)
+    this.trigger.removeEventListener('click', this._handleClick)
+    this._handleClick = this.handleClick.bind(this)
+    this.trigger.addEventListener('click', this._handleClick)
   }
 
-  /*============================================================================
-    Open and close filter drawer
-  ==============================================================================*/
-  toggle() {
-    if (config.isOpen) {
-      this.close()
-    } else {
-      this.open()
-    }
-  }
-
-  open() {
-    sizeDrawer()
-
-    // Scroll to top of filter bar when opened
-    let scrollTo = getScrollFilterTop()
-    window.scrollTo({ top: scrollTo, behavior: 'smooth' })
-
-    this.trigger.classList.add('is-active')
-
-    prepareTransition(
-      this.filters,
-      function () {
-        this.filters.classList.add('is-active')
-      }.bind(this)
-    )
-    config.isOpen = true
-
-    lockMobileScrolling()
-
-    // Bind the keyup event handler
-    this._keyupHandler = (evt) => {
-      if (evt.keyCode === 27) {
-        this.close()
-      }
-    }
-    window.addEventListener('keyup', this._keyupHandler)
-  }
-
-  close() {
-    this.trigger.classList.remove('is-active')
-
-    prepareTransition(
-      this.filters,
-      function () {
-        this.filters.classList.remove('is-active')
-      }.bind(this)
-    )
-    config.isOpen = false
-
-    unlockMobileScrolling()
-
-    // Remove the keyup event handler
-    window.removeEventListener('keyup', this._keyupHandler)
-  }
-
-  onSelect() {
-    this.open()
-  }
-
-  onDeselect() {
-    this.close()
+  handleClick() {
+    this.isOpen = !this.isOpen
+    this.trigger.classList.toggle('is-active', this.isOpen)
+    document.dispatchEvent(new CustomEvent(EVENTS.toggleMobileFilters, { detail: { isOpen: this.isOpen } }))
   }
 }

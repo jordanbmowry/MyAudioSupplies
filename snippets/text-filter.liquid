@@ -1,4 +1,4 @@
-{% # components v2.10.69 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
+{% # components v3.0.1 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
 {%- liquid
   assign enable_swatch_labels = enable_swatch_labels | default: section.settings.enable_swatch_labels, allow_false: true | default: true, allow_false: true
   assign enable_color_swatches = enable_color_swatches | default: section.settings.enable_color_swatches, allow_false: true | default: true, allow_false: true
@@ -6,9 +6,13 @@
   assign is_color = false
   assign swatch_file_extension = 'png'
   if enable_color_swatches
-    assign swatch_trigger = 'trigger.color_swatch' | t | downcase
+    capture swatch_trigger
+      assign trigger_color_swatch = 'trigger.color_swatch' | t | downcase
+      render 't_with_fallback', t: trigger_color_swatch, fallback: 'color'
+    endcapture
+
     assign downcased_label = filter.label | downcase
-    if downcased_label contains swatch_trigger
+    if swatch_trigger contains downcased_label
       assign is_color = true
     elsif swatch_trigger == 'color' and downcased_label contains 'colour'
       assign is_color = true
@@ -42,42 +46,51 @@
     {% endif %}
 
     <li class="tag{% if filter_value.active %} tag--active{% endif %}{% if is_color %} tag--swatch {% if enable_swatch_labels %}tag--show-label{% endif %}{% endif %}{% if filter_value.count == 0 %} hide{% endif %}">
-      <label id="tag-{{ filter_value.value | handle }}" class="tag__checkbox-wrapper text-label" for="tagInput-{{ filter_value.param_name }}-{{ filter_value_index }}">
-          <input
+      <label
+        id="tag-{{ filter_value.value | handle }}"
+        class="tag__checkbox-wrapper text-label"
+        for="tagInput-{{ filter_value.param_name }}-{{ filter_value_index }}"
+      >
+        <input
           id="tagInput-{{ filter_value.param_name }}-{{ filter_value_index }}"
           type="checkbox"
           class="tag__input"
           name="{{ filter_value.param_name }}"
           value="{{ filter_value.value }}"
-          {% if filter_value.active %}checked{% endif %}>
-          {%- if is_color -%}
+          {% if filter_value.active %}
+            checked
+          {% endif %}
+        >
+        {%- if is_color -%}
           <span
-              class="color-swatch color-swatch--{{ filter_value.label | handle }}"
-              title="{{ filter_value.label }}"
-              style="background-color: {{ color_swatch_fallback }};{% if images[color_file_name] != blank %}  background-image: url({{ color_image }});{% endif %}"
+            class="color-swatch color-swatch--{{ filter_value.label | handle }}"
+            title="{{ filter_value.label }}"
+            style="background-color: {{ color_swatch_fallback }};{% if images[color_file_name] != blank %}  background-image: url({{ color_image }});{% endif %}"
           >
             {% if is_product_tag and tag_text %}
               {{ tag_text }}
             {% else %}
               {{ filter_value.label }}
             {% endif %}
-
           </span>
-          <span class="tag__text {% unless is_color and enable_swatch_labels %}hide{% endunless %}">{{ filter_value.label | escape }}</span>
-          {%- else -%}
+          <span class="tag__text {% unless is_color and enable_swatch_labels %}hide{% endunless %}">
+            {{- filter_value.label | escape -}}
+          </span>
+        {%- else -%}
           <span class="tag__checkbox"></span>
           <span>
-              <span class="tag__text">
-                {% if is_product_tag %}
-                  {% if tag_text %}
-                    <span class="product-tag__text">{{ tag_text | capitalize }}</span>
-                  {% endif %}
-                {% else %}
-                  {{ filter_value.label }}
+            <span class="tag__text">
+              {% if is_product_tag %}
+                {% if tag_text %}
+                  <span class="product-tag__text">{{ tag_text | capitalize }}</span>
                 {% endif %}
-              </span> ({{ filter_value.count }})
+              {% else %}
+                {{ filter_value.label }}
+              {% endif %}
+            </span>
+            ({{ filter_value.count }})
           </span>
-          {%- endif -%}
+        {%- endif -%}
       </label>
     </li>
   {%- endfor -%}

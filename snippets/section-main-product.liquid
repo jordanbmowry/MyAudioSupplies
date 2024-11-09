@@ -1,4 +1,4 @@
-{% # components v2.10.69 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
+{% # components v3.0.1 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
 {%- comment -%}
   Main product section
 
@@ -49,7 +49,7 @@
   data-product-id="{{ product.id }}"
 >
   <div class="page-width">
-    <div class="product-grid__container product--images grid{% unless image_position == 'left' %} grid--product-images-right{% endunless %}{% if mobile_layout == 'partial' %} grid--product-images--partial{% endif %} clearfix">
+    <div class="product-grid__container product--images float-grid{% unless image_position == 'left' %} grid--product-images-right{% endunless %}{% if mobile_layout == 'partial' %} grid--product-images--partial{% endif %} clearfix">
       {%- if image_position == 'left' -%}
         <div class="grid__item {{ product_image_width }} product-single__sticky">
           {{- product_media_gallery | default: product_media_gallery_default -}}

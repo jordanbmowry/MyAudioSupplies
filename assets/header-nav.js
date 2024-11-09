@@ -1,6 +1,5 @@
-import { config as themeConfig } from '@archetype-themes/scripts/config'
-import { prepareTransition, debounce } from '@archetype-themes/scripts/helpers/utils'
-import { EVENTS, subscribe } from '@archetype-themes/utils/pubsub'
+import { prepareTransition, debounce } from '@archetype-themes/utils/utils'
+import { EVENTS } from '@archetype-themes/utils/events'
 
 let selectors = {
   wrapper: '#HeaderWrapper',
@@ -34,20 +33,20 @@ let bottomSearch
 
 class HeaderNav extends HTMLElement {
   connectedCallback() {
-    this.init()
-  }
+    this.abortController = new AbortController()
 
-  init() {
     wrapper = document.querySelector(selectors.wrapper)
     siteHeader = document.querySelector(selectors.siteHeader)
     bottomNav = wrapper.querySelector(selectors.collapsedMenu)
     bottomSearch = wrapper.querySelector(selectors.bottomSearch)
+    this.isStickyHeader = false
 
     // Trigger collapsed state at top of header
     config.threshold = wrapper.getBoundingClientRect().bottom
 
     config.subarPositionInit = false
     config.stickyEnabled = siteHeader.dataset.sticky === 'true'
+
     if (config.stickyEnabled) {
       config.wrapperOverlayed = wrapper.classList.contains(classes.overlayStyle)
       this.stickyHeaderCheck()
@@ -55,50 +54,81 @@ class HeaderNav extends HTMLElement {
       this.disableSticky()
     }
 
-    themeConfig.overlayHeader = siteHeader.dataset.overlay === 'true'
+    this.overlayHeader = siteHeader.dataset.overlay === 'true'
+
     // Disable overlay header if on collection template with no collection image
-    if (themeConfig.overlayHeader && Shopify && Shopify.designMode) {
+    if (this.overlayHeader && Shopify && Shopify.designMode) {
       if (document.body.classList.contains('template-collection') && !document.querySelector('.collection-hero')) {
         this.disableOverlayHeader()
       }
     }
 
+    this.initOverlayHeaderAdmin()
+
     // Position menu and search bars absolutely, offsetting their height
     // with an invisible div to prevent reflows
     this.setAbsoluteBottom()
-    window.addEventListener('resize', debounce(250, this.setAbsoluteBottom))
+    window.addEventListener('resize', debounce(250, this.setAbsoluteBottom), { signal: this.abortController.signal })
 
     let collapsedNavTrigger = wrapper.querySelector(selectors.triggerCollapsedMenu)
     if (collapsedNavTrigger && !collapsedNavTrigger.classList.contains('nav-trigger--initialized')) {
       collapsedNavTrigger.classList.add('nav-trigger--initialized')
-      collapsedNavTrigger.addEventListener('click', function (e) {
-        collapsedNavTrigger.classList.toggle('is-active')
-        prepareTransition(bottomNav, function () {
-          bottomNav.classList.toggle('is-active')
-        })
-      })
+      collapsedNavTrigger.addEventListener(
+        'click',
+        function (e) {
+          collapsedNavTrigger.classList.toggle('is-active')
+          prepareTransition(bottomNav, function () {
+            bottomNav.classList.toggle('is-active')
+          })
+        },
+        { signal: this.abortController.signal }
+      )
     }
 
-    this.menuDetailsHandler()
-
     // Subscribe to sticky header check
-    subscribe(EVENTS.headerStickyCheck, this.stickyHeaderCheck.bind(this))
+    document.addEventListener(EVENTS.headerStickyCheck, this.stickyHeaderCheck.bind(this), {
+      signal: this.abortController.signal
+    })
 
     // Subscribe to overlay header disable
-    subscribe(EVENTS.headerOverlayDisable, this.disableOverlayHeader)
+    document.addEventListener(EVENTS.headerOverlayDisable, this.disableOverlayHeader, {
+      signal: this.abortController.signal
+    })
 
     // Subscribe to overlay header remove class
-    subscribe(EVENTS.headerOverlayRemoveClass, this.removeOverlayClass)
+    document.addEventListener(EVENTS.headerOverlayRemoveClass, this.removeOverlayClass, {
+      signal: this.abortController.signal
+    })
+
+    // Subscribe to drawer size
+    document.addEventListener(EVENTS.sizeDrawer, this.sizeDrawer.bind(this), { signal: this.abortController.signal })
+  }
+
+  disconnectedCallback() {
+    this.abortController.abort()
+  }
+
+  initOverlayHeaderAdmin() {
+    if (!Shopify.designMode) {
+      return
+    }
+    const section = this.closest('.shopify-section-group-header-group')
+    const index = Array.from(section.parentElement.children).indexOf(section) + 1
+    if (index === 2 && this.overlayHeader) {
+      siteHeader.setAttribute('data-section-index', index)
+      config.wrapperOverlayed = true
+      this.classList.add(classes.overlay, classes.overlayStyle)
+    }
   }
 
   // Measure sub menu bar, set site header's bottom padding to it.
   // Set sub bars as absolute to avoid page jumping on collapsed state change.
   setAbsoluteBottom() {
-    if (themeConfig.overlayHeader) {
+    if (this.overlayHeader) {
       document.querySelector('.header-section').classList.add('header-section--overlay')
     }
 
-    let activeSubBar = themeConfig.bpSmall
+    let activeSubBar = matchMedia('(max-width: 768px)').matches
       ? document.querySelector('.site-header__element--sub[data-type="search"]')
       : document.querySelector('.site-header__element--sub[data-type="nav"]')
 
@@ -125,19 +155,28 @@ class HeaderNav extends HTMLElement {
   disableOverlayHeader() {
     wrapper.classList.remove(config.overlayEnabledClass, classes.overlayStyle)
     config.wrapperOverlayed = false
-    themeConfig.overlayHeader = false
+
+    document.dispatchEvent(
+      new CustomEvent(EVENTS.overlayHeaderChange, {
+        detail: {
+          overlayHeader: false
+        }
+      })
+    )
   }
 
   stickyHeaderCheck() {
     // Disable sticky header if any mega menu is taller than window
-    themeConfig.stickyHeader = this.doesMegaMenuFit()
+    this.isStickyHeader = this.doesMegaMenuFit()
 
-    if (themeConfig.stickyHeader) {
+    if (this.isStickyHeader) {
       config.forceStopSticky = false
       this.stickyHeader()
+      document.dispatchEvent(new CustomEvent(EVENTS.stickyHeaderChange, { detail: { isSticky: true } }))
     } else {
       config.forceStopSticky = true
       this.disableSticky()
+      document.dispatchEvent(new CustomEvent(EVENTS.stickyHeaderChange, { detail: { isSticky: false } }))
     }
   }
 
@@ -174,7 +213,7 @@ class HeaderNav extends HTMLElement {
       this.stickyHeaderScroll()
     }
 
-    window.addEventListener('scroll', this.stickyHeaderScroll.bind(this))
+    window.addEventListener('scroll', this.stickyHeaderScroll.bind(this), { signal: this.abortController.signal })
   }
 
   stickyHeaderScroll() {
@@ -238,26 +277,14 @@ class HeaderNav extends HTMLElement {
     }
   }
 
-  menuDetailsHandler() {
-    const navDetails = document.querySelectorAll(selectors.navDetails)
-
-    navDetails.forEach((navDetail) => {
-      const summary = navDetail.querySelector('summary')
-
-      // if the navDetail is open, then close it when the user clicks outside of it
-      document.addEventListener('click', (evt) => {
-        if (navDetail.hasAttribute('open') && !navDetail.contains(evt.target)) {
-          navDetail.removeAttribute('open')
-          summary.setAttribute('aria-expanded', 'false')
-        } else {
-          if (navDetail.hasAttribute('open')) {
-            summary.setAttribute('aria-expanded', 'false')
-          } else {
-            summary.setAttribute('aria-expanded', 'true')
-          }
-        }
-      })
-    })
+  // Set a max-height on drawers when they're opened via CSS variable
+  // to account for changing mobile window heights
+  sizeDrawer(evt) {
+    let header = wrapper.offsetHeight
+    let heights = evt.detail?.heights?.reduce((a, b) => a + b, 0) ?? 0
+    let max = window.innerHeight - header - heights
+    this.style.setProperty('--max-drawer-height', `${max}px`)
+    this.style.setProperty('--header-nav-height', `${header - heights}px`)
   }
 }
 

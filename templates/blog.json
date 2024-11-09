@@ -11,56 +11,47 @@
   "sections": {
     "main": {
       "type": "blog-template",
-      "settings": {
-      }
+      "settings": {}
     },
     "sidebar": {
       "type": "blog-sidebar",
       "blocks": {
         "tags": {
           "type": "tags",
-          "settings": {
-          }
+          "settings": {}
         }
       },
       "block_order": [
         "tags"
       ],
-      "settings": {
-      }
+      "settings": {}
     },
     "featured-collections": {
       "type": "featured-collections",
       "blocks": {
         "collection1": {
           "type": "collection",
-          "settings": {
-          }
+          "settings": {}
         },
         "collection2": {
           "type": "collection",
-          "settings": {
-          }
+          "settings": {}
         },
         "collection3": {
           "type": "collection",
-          "settings": {
-          }
+          "settings": {}
         },
         "collection4": {
           "type": "collection",
-          "settings": {
-          }
+          "settings": {}
         },
         "collection5": {
           "type": "collection",
-          "settings": {
-          }
+          "settings": {}
         },
         "collection6": {
           "type": "collection",
-          "settings": {
-          }
+          "settings": {}
         }
       },
       "block_order": [

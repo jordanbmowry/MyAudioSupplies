@@ -1,7 +1,7 @@
-import { Slideshow } from '@archetype-themes/scripts/modules/slideshow'
-import { HTMLSectionElement } from '@archetype-themes/scripts/helpers/section'
+import { Slideshow } from '@archetype-themes/modules/slideshow'
+import { HTMLThemeElement } from '@archetype-themes/custom-elements/theme-element'
 
-class Testimonials extends HTMLSectionElement {
+class Testimonials extends HTMLThemeElement {
   connectedCallback() {
     super.connectedCallback()
 
@@ -19,19 +19,6 @@ class Testimonials extends HTMLSectionElement {
     if (!this.slideshow) {
       return
     }
-
-    /**
-     * @event testimonials:loaded
-     * @description Fired when the testimonials section has been loaded.
-     * @param {string} detail.sectionId - The section's ID.
-     */
-    document.dispatchEvent(
-      new CustomEvent('testimonials:loaded', {
-        detail: {
-          sectionId: this.sectionId
-        }
-      })
-    )
 
     this.init()
   }

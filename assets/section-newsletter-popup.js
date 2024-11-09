@@ -1,15 +1,11 @@
-// This is the javascript entrypoint for the newsletter-popup section.
-// This file and all its inclusions will be processed through esbuild
+import Modals from '@archetype-themes/modules/modal'
+import { HTMLThemeElement } from '@archetype-themes/custom-elements/theme-element'
+import { setLocalStorage, getLocalStorage } from '@archetype-themes/utils/storage'
 
-import Cookies from 'js-cookie'
-import Modals from '@archetype-themes/scripts/modules/modal'
-import { HTMLSectionElement } from '@archetype-themes/scripts/helpers/section'
-
-class NewsletterPopup extends HTMLSectionElement {
+class NewsletterPopup extends HTMLThemeElement {
   constructor() {
     super()
-    this.cookieName = 'newsletter-' + this.sectionId
-    this.cookie = Cookies.get(this.cookieName)
+    this.storageKey = 'newsletter-' + this.sectionId
   }
 
   connectedCallback() {
@@ -32,15 +28,10 @@ class NewsletterPopup extends HTMLSectionElement {
       trapFocus: !Shopify.designMode
     })
 
-    // Set cookie if optional button is clicked
+    // Set storage if optional button is clicked
     const btn = this.querySelector('.popup-cta a')
     if (btn) {
-      btn.addEventListener(
-        'click',
-        function () {
-          this.closePopup(true)
-        }.bind(this)
-      )
+      btn.addEventListener('click', () => this.closePopup(true))
     }
 
     // Open modal if errors or success message exist
@@ -48,36 +39,26 @@ class NewsletterPopup extends HTMLSectionElement {
       this.modal.open()
     }
 
-    // Set cookie as opened if success message
+    // Set storage as opened if success message
     if (this.querySelector('.note--success')) {
       this.closePopup(true)
       return
     }
 
-    document.addEventListener('modalClose.' + this.id, this.closePopup.bind(this))
+    document.addEventListener('modalClose.' + this.id, () => this.closePopup())
 
-    if (!this.cookie) {
-      this.initPopupDelay()
-    }
+    this.checkAndInitPopup()
 
     document.addEventListener('reminder:openNewsletter', () => {
       this.modal.open()
     })
+  }
 
-    /**
-     * @event newsletter-popup:loaded
-     * @description Fired when the newsletter popup section has been loaded.
-     * @param {string} detail.sectionId - The section's ID.
-     * @param {boolean} bubbles - Whether the event bubbles up through the DOM or not.
-     */
-    document.dispatchEvent(
-      new CustomEvent('newsletter-popup:loaded', {
-        detail: {
-          sectionID: this.sectionId
-        },
-        bubbles: true
-      })
-    )
+  checkAndInitPopup() {
+    const storageValue = getLocalStorage(this.storageKey)
+    if (!storageValue && !sessionStorage.getItem('popupShownThisSession')) {
+      this.initPopupDelay()
+    }
   }
 
   onSectionSelect() {
@@ -97,38 +78,21 @@ class NewsletterPopup extends HTMLSectionElement {
       return
     }
     setTimeout(() => {
-      const newsletterAppeared = sessionStorage.getItem('newsletterAppeared') === 'true'
-      if (newsletterAppeared) {
-        /**
-         * @event newsletter:openReminder
-         * @description Triggered when the newsletter reminder is opened.
-         * @param {boolean} bubbles - Whether the event bubbles up through the DOM or not.
-         */
-        const openReminder = new CustomEvent('newsletter:openReminder', { bubbles: true })
-        this.dispatchEvent(openReminder)
-      } else {
-        this.modal.open()
-        sessionStorage.setItem('newsletterAppeared', true)
-      }
+      this.modal.open()
+      sessionStorage.setItem('popupShownThisSession', 'true')
     }, this.data.secondsBeforeShow * 1000)
   }
 
   closePopup(success) {
-    // Remove a cookie in case it was set in test mode
+    // Remove storage in case it was set in test mode
     if (this.data.testMode === 'true') {
-      Cookies.remove(this.cookieName, { path: '/' })
+      localStorage.removeItem(this.storageKey)
+      sessionStorage.removeItem('popupShownThisSession')
       return
     }
 
     const expires = success ? 200 : this.data.daysBeforeReappear
-    const hasReminder = this.data.hasReminder === 'true'
-    const reminderAppeared = sessionStorage.getItem('reminderAppeared') === 'true'
-
-    if (hasReminder && reminderAppeared) {
-      Cookies.set(this.cookieName, 'opened', { path: '/', expires: expires })
-    } else if (!hasReminder) {
-      Cookies.set(this.cookieName, 'opened', { path: '/', expires: expires })
-    }
+    setLocalStorage(this.storageKey, 'opened', expires)
   }
 }
 

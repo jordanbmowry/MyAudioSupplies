@@ -1,4 +1,4 @@
-{% # components v2.10.69 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
+{% # components v3.0.1 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
 {%- comment -%}
   Renders the toolbar section.
 
@@ -24,11 +24,11 @@
   assign currency_selector = false
   assign locale_selector = false
 
-  if show_currency_selector and shop.enabled_currencies.size > 1
+  if show_currency_selector and localization.available_countries.size > 1
     assign currency_selector = true
   endif
 
-  if show_locale_selector and shop.enabled_locales.size > 1
+  if show_locale_selector and localization.available_languages.size > 1
     assign locale_selector = true
   endif
 
@@ -37,32 +37,24 @@
   endif
 -%}
 
-<is-land {{ hydration }}>
-  <toolbar-section section-id="{{ section.id }}">
-    <div class="toolbar">
-      <div class="page-width">
-        <div class="toolbar__content">
-          {%- render 'announcement-bar' -%}
+<section>
+  <div class="toolbar">
+    <div class="page-width">
+      <div class="toolbar__content">
+        {%- render 'announcement-bar' -%}
 
-          {%- if toolbar_social -%}
-            <div class="toolbar__item small--hide">
-              {% render 'social-icons', wrapper_class: 'inline-list toolbar__social' %}
-            </div>
-          {%- endif -%}
+        {%- if toolbar_social -%}
+          <div class="toolbar__item small--hide">
+            {% render 'social-icons', wrapper_class: 'inline-list toolbar__social' %}
+          </div>
+        {%- endif -%}
 
-          {%- if show_selectors -%}
-            <div class="toolbar__item small--hide">
-              {%- render 'multi-selectors', context: 'toolbar' -%}
-            </div>
-          {%- endif -%}
-        </div>
+        {%- if show_selectors -%}
+          <div class="toolbar__item small--hide">
+            {%- render 'multi-selectors', context: 'toolbar' -%}
+          </div>
+        {%- endif -%}
       </div>
     </div>
-  </toolbar-section>
-
-  <template data-island>
-    <script type="module">
-      import 'components/section-toolbar'
-    </script>
-  </template>
-</is-land>
+  </div>
+</section>

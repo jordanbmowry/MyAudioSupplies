@@ -1,4 +1,4 @@
-{% # components v2.10.69 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
+{% # components v3.0.1 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
 {%- comment -%}
   Renders the hero video section.
 
@@ -12,7 +12,8 @@
   - link {string} - The link URL
   - color_accent {color} - The accent color
   - text_align {string} - The text alignment
-  - video_url {string} - The video URL
+  - video {video} - The video object (native)
+  - video_url {string} - The external video URL (YouTube/Vimeo)
   - overlay_opacity {number} - The overlay opacity
   - height {number} - The height
   - height_mobile {number} - The mobile height
@@ -32,6 +33,7 @@
   assign link = link | default: section.settings.link
   assign color_accent = color_accent | default: section.settings.color_accent | default: '#fff'
   assign text_align = text_align | default: section.settings.text_align | default: 'vertical-center horizontal-center'
+  assign video = video | default: section.settings.video
   assign video_url = video_url | default: section.settings.video_url
   assign overlay_opacity = overlay_opacity | default: section.settings.overlay_opacity | default: 0
   assign height = height | default: section.settings.height | default: 650
@@ -90,57 +92,13 @@
   {%- endstyle -%}
 
   <is-land {{ hydration }}>
-    <video-section
-      data-section-id="{{ section.id }}"
-      data-section-type="video-section"
-      class="video-parent-section hero hero--{{ section.id }}"
-    >
+    <div class="video-parent-section hero hero--{{ section.id }}">
       <div class="hero__media hero__media--{{ section.id }}">
         <div class="hero__media-container">
-          {%- if video_url contains 'youtube.com/watch' -%}
-            {%- assign video_id = video_url | split: 'v=' -%}
-            {%- assign video_id = video_id[1] | split: '&' | first -%}
-            <div
-              id="YouTubeVideo-{{ section.id }}"
-              class="video-div"
-              data-type="youtube"
-              data-video-id="{{ video_id }}"
-            ></div>
-          {%- endif -%}
-
-          {%- if video_url contains 'youtu.be/' -%}
-            {%- assign video_id = video_url | split: '.be/' -%}
-            {%- assign video_id = video_id[1] | split: '&' | first -%}
-            <div
-              id="YouTubeVideo-{{ section.id }}"
-              class="video-div"
-              data-type="youtube"
-              data-video-id="{{ video_id }}"
-            ></div>
-          {%- endif -%}
-
-          {%- if video_url contains 'vimeo.com' -%}
-            {%- assign video_id = video_url | split: '.com/' -%}
-            {%- assign video_id = video_id[1] | split: '/' | first -%}
-            <div
-              id="Vimeo-{{ section.id }}"
-              class="video-div"
-              data-type="vimeo"
-              data-video-id="{{ video_id }}"
-            ></div>
-          {%- endif -%}
-
-          {%- if video_url contains '.mp4' or video_url contains '.MP4' -%}
-            <video
-              id="Mp4Video-{{ section.id }}"
-              class="video-div"
-              data-type="mp4"
-              src="{{ video_url }}"
-              loop
-              muted
-              playsinline
-              autoplay
-            ></video>
+          {%- if video != blank -%}
+            {% render 'video-media', video: video, autoplay: true, background: true %}
+          {%- else -%}
+            {% render 'video-media', external_video: video_url, autoplay: true, background: true %}
           {%- endif -%}
         </div>
       </div>
@@ -150,12 +108,6 @@
           <div class="hero__text-content {{ text_align }}">
             {% unless title == blank and subheading == blank and link_text == blank %}
               <div class="hero__text-shadow overlay">
-                {%- if video_url contains 'vimeo.com' -%}
-                  <button type="button" id="VimeoTrigger-{{ section.id }}" class="vimeo-mobile-trigger medium-up--hide">
-                    {% render 'icon', name: 'play' %}
-                  </button>
-                {%- endif -%}
-
                 {%- unless title == blank -%}
                   <h2
                     class="
@@ -166,7 +118,7 @@
                       {% endif %}
                     "
                   >
-                    <div class="animation-contents">
+                    <div data-animate="rise-up">
                       {{ title | newline_to_br }}
                     </div>
                   </h2>
@@ -174,27 +126,19 @@
                 {%- if subheading or link -%}
                   {%- unless subheading == blank -%}
                     <div class="hero__subtitle">
-                      <div class="animation-contents">
+                      <div data-animate="rise-up">
                         {{ subheading | escape }}
                       </div>
                     </div>
                   {%- endunless -%}
+
                   {%- if link_text != blank -%}
-                    {%- assign link_href = link -%}
-                    {%- if link == blank -%}
-                      {%- assign link_href = video_url -%}
-                    {%- endif -%}
+                    {%- assign link_href = link | default: video_url -%}
                     <div class="hero__link">
                       <a
                         href="{{ link_href }}"
                         class="btn{% if color_accent and color_accent == 'rgba(0,0,0,0)' %} btn--inverse{% endif %}"
-                        {%- if video_url contains 'vimeo.com' -%}
-                          data-video-id="{{ video_id }}"
-                        {%- endif -%}
                       >
-                        {%- if link_href contains 'youtube.com/watch' or link_href contains 'youtu.be/' -%}
-                          {% render 'icon', name: 'play' %}
-                        {%- endif -%}
                         {{ link_text }}
                       </a>
                     </div>
@@ -205,16 +149,7 @@
           </div>
         </div>
       </div>
-    </video-section>
-
-    <template data-island>
-      <script type="module">
-        import '@archetype-themes/scripts/modules/video-section'
-        import videoModal from '@archetype-themes/scripts/modules/video-modal'
-
-        videoModal()
-      </script>
-    </template>
+    </div>
   </is-land>
 
   {%- unless full_width -%}

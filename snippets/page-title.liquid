@@ -1,4 +1,4 @@
-{% # components v2.10.69 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
+{% # components v3.0.1 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
 {%- comment -%}
   Renders the title tag for the current page.
 
@@ -12,11 +12,19 @@
 
     if current_tags
       assign meta_tags = current_tags | join: ', ' | append: ' &ndash; '
-      echo 'labels.tagged_with' | t: tags: meta_tags
+      assign labels_tagged_with = 'labels.tagged_with' | t: tags: meta_tags
+      capture fallback_labels_tagged_with
+        echo 'Tagged with: "' | append: meta_tags | append: '"'
+      endcapture
+      render 't_with_fallback', t: labels_tagged_with, fallback: fallback_labels_tagged_with
     endif
 
     if current_page != 1
-      echo 'labels.page_title' | t: page: current_page | prepend: ' &ndash; '
+      assign labels_page_title = 'labels.page_title' | t: page: current_page | prepend: ' &ndash; '
+      capture fallback_labels_page_title
+        echo 'Page ' | append: current_page | prepend: ' &ndash; '
+      endcapture
+      render 't_with_fallback', t: labels_page_title, fallback: fallback_labels_page_title
     endif
 
     if template == 'password'

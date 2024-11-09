@@ -1,4 +1,4 @@
-{% # components v2.10.69 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
+{% # components v3.0.1 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
 {%- comment -%}
   Renders a video media element
 
@@ -8,26 +8,26 @@
   - autoplay {boolean} - Autoplay the video
   - loop {boolean} - Loop the video
   - hide_controls {boolean} - Hide the video controls
-  - mute_video {boolean} - Mute the video
+  - muted {boolean} - Mute the video
+  - background {boolean} - Set the video as a background (scales to fit, cropping may occur)
   - media_crop {'16-9'|'portrait'|'landscape'|'square'} - Crop type of the media
   - hydration {'on:visible'|'on:idle'|'on:interaction'|'on:media'} - Hydration strategy
 
   Usage:
-  {% render 'block-video', autoplay: true %}
+  {% render 'video-media', autoplay: true %}
 {%- endcomment -%}
 
 {% liquid
-  # TODO:come back to this, maybe we enforce
-  # assign video = video | default: block.settings.video
-  # assign external_video = external_video | default: block.settings.external_video
-  assign autoplay = autoplay | default: block.settings.autoplay, allow_false: true
-  assign loop = loop | default: block.settings.loop, allow_false: true
-  assign show_controls = show_controls | default: block.settings.show_controls, allow_false: true
-  assign mute_video = mute_video | default: block.settings.mute_video, allow_false: true
-  assign media_crop = media_crop | default: block.settings.media_crop | default: '16-9'
+  assign video = video | default: section.settings.video
+  assign external_video = external_video | default: section.settings.external_video
+  assign autoplay = autoplay | default: section.settings.autoplay, allow_false: true | default: false, allow_false: true
+  assign loop = loop | default: section.settings.loop, allow_false: true | default: false, allow_false: true
+  assign show_controls = show_controls | default: section.settings.show_controls, allow_false: true | default: false, allow_false: true
+  assign muted = muted | default: section.settings.muted, allow_false: true | default: false, allow_false: true
+  assign background = background | default: section.settings.background, allow_false: true | default: false, allow_false: true
+  assign media_crop = media_crop | default: section.settings.media_crop | default: '16-9'
   assign hydration = hydration | default: 'on:visible'
 
-  # TODO:same as above
   if external_video != blank
     assign external_video_host = external_video.host | default: external_video.type
     assign external_video_id = external_video.external_id | default: external_video.id
@@ -36,24 +36,31 @@
 
 <is-land {{ hydration }}>
   <div
-    class="block-video aspect-ratio--{{ media_crop }}"
-    {{ block.shopify_attributes }}
+    class="video-media aspect-ratio--{{ media_crop }}"
+    data-background="{{ background }}"
   >
     {%- if video != blank -%}
+      {%- if autoplay -%}
+        {%- assign show_controls = false -%}
+      {%- else -%}
+        {%- assign show_controls = true -%}
+      {%- endif -%}
+
       <video-media
         {% if autoplay %}
           autoplay
         {% endif %}
+        defer-hydration
       >
         {{
           video
           | video_tag:
-            controls: show_controls,
             playsinline: true,
-            muted: autoplay,
+            controls: show_controls,
             loop: autoplay,
-            preload: 'metadata',
-            image_size: '500x'
+            muted: autoplay,
+            image_size: '500x',
+            preload: 'metadata'
         }}
       </video-media>
     {%- elsif external_video != blank -%}
@@ -62,17 +69,18 @@
         {% if autoplay %}
           autoplay
         {% endif %}
+        defer-hydration
       >
         <template>
           {%- if external_video_host == 'youtube' -%}
             <iframe
-              src="https://www.youtube.com/embed/{{ external_video_id }}?playsinline=1&{% if autoplay %}autoplay=1&{% endif %}{% unless show_controls %}controls=0&{% endunless %}{% if mute_video %}mute=1&{% endif %}{% if loop %}loop=1&{% endif %}playlist={{ external_video_id }}&enablejsapi=1&rel=0&modestbranding=1&origin={{ 'https://' | append: request.host | url_encode }}"
+              src="https://www.youtube.com/embed/{{ external_video_id }}?playsinline=1&{% if autoplay %}autoplay=1&controls=0&mute=1&loop=1&{% endif %}playlist={{ external_video_id }}&enablejsapi=1&rel=0&modestbranding=1&origin={{ 'https://' | append: request.host | url_encode }}"
               allow="autoplay; encrypted-media"
               allowfullscreen="allowfullscreen"
             ></iframe>
           {%- elsif external_video_host == 'vimeo' -%}
             <iframe
-              src="https://player.vimeo.com/video/{{ external_video_id }}?autopause=1&{% if autoplay %}autoplay=1&{% endif %}{% unless show_controls %}controls=0&{% endunless %}{% if loop %}loop=1&{% endif %}{% if mute_video %}muted=1&{% endif %}transparent=0&responsive=1&portrait=0&title=0&byline=0"
+              src="https://player.vimeo.com/video/{{ external_video_id }}?autopause=1&{% if autoplay %}background=1&autoplay=1&loop=1&muted=1&{% endif %}transparent=0&responsive=1&portrait=0&title=0&byline=0"
               allow="autoplay; encrypted-media;"
               allowfullscreen="allowfullscreen"
             ></iframe>

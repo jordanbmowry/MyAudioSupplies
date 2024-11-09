@@ -1,4 +1,4 @@
-{% # components v2.10.69 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
+{% # components v3.0.1 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
 {%- comment -%}
   Renders a section with a list of products from a vendor.
 
@@ -33,7 +33,13 @@
       <div class="index-section index-section--sub-product">
         <div class="page-width">
           <header class="section-header">
-            <div class="h3 section-header__title">{{ 'labels.more_from_html' | t: link: vendor_link }}</div>
+            <div class="h3 section-header__title">
+              {% assign labels_more_from_html = 'labels.more_from_html' | t: link: vendor_link %}
+              {%- capture fallback_labels_more_from_html -%}
+                More from: {{ vendor_link }}
+              {%- endcapture -%}
+              {% render 't_with_fallback', t: labels_more_from_html, fallback: fallback_labels_more_from_html %}
+            </div>
           </header>
         </div>
 

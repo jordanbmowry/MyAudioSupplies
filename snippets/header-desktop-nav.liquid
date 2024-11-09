@@ -1,4 +1,4 @@
-{% # components v2.10.69 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
+{% # components v3.0.1 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
 {%- comment -%}
   Renders the desktop navigation.
 
@@ -7,6 +7,7 @@
   - hover_menu {boolean} - Whether to show the menu on hover
   - nav_position {string} - The navigation position
   - show_mega_products {boolean} - Whether to show mega products
+  - show_mega_collections {boolean} - Whether to show mega collections
 
   Usage:
   {% render 'header-desktop-nav', hover_menu: true %}
@@ -17,6 +18,13 @@
   assign hover_menu = hover_menu | default: section.settings.hover_menu, allow_false: true | default: false, allow_false: true
   assign nav_position = nav_position | default: 'below'
   assign show_mega_products = show_mega_products | default: section.settings.mega_products, allow_false: true | default: true, allow_false: true
+  assign show_mega_collections = show_mega_collections | default: section.settings.mega_collections, allow_false: true
+  assign megamenu_type = 'products'
+
+  if show_mega_collections
+    assign show_mega_products = false
+    assign megamenu_type = 'collections'
+  endif
 
   unless limit
     assign limit = main_menu.links.size
@@ -41,7 +49,7 @@
       endif
 
       assign is_collection = false
-      if show_mega_products
+      if show_mega_products or show_mega_collections
         if is_megamenu and link.url contains routes.collections_url
           assign collection_handle = link.url | remove: routes.collections_url | remove: '/'
           assign collection_drop = collections[collection_handle]
@@ -52,11 +60,12 @@
 
     <li class="site-nav__item site-nav__expanded-item{% if has_dropdown %} site-nav--has-dropdown{% endif %}{% if is_megamenu %} site-nav--is-megamenu{% endif %}">
       {% if is_megamenu or has_dropdown %}
-        <details
-          id="site-nav-item--{{ forloop.index }}"
-          class="site-nav__details"
-          data-hover="{{ hover_menu }}"
-        >
+        <nav-dropdown>
+          <details
+            id="site-nav-item--{{ forloop.index }}"
+            class="site-nav__details"
+            data-hover="{{ hover_menu }}"
+          >
       {% endif %}
       {% if is_megamenu or has_dropdown %}
         <summary
@@ -80,7 +89,7 @@
 
       {%- if is_megamenu -%}
         {%- assign previous_column_type = '' -%}
-        <div class="site-nav__dropdown megamenu text-left">
+        <div class="site-nav__dropdown megamenu megamenu--{{ megamenu_type }} text-left">
           <div class="page-width">
             <div class="site-nav__dropdown-animate megamenu__wrapper">
               <div class="megamenu__cols">
@@ -105,29 +114,49 @@
                       <div class="megamenu__col">
                     {%- endif -%}
 
-                    <div class="megamenu__col-title">
-                      <a href="{{ childlink.url }}" class="site-nav__dropdown-link site-nav__dropdown-link--top-level">
-                        {{- childlink.title -}}
-                      </a>
-                    </div>
-
-                    {%- liquid
-                      if childlink.levels > 0
-                        assign previous_column_type = 'full'
-                      else
-                        assign previous_column_type = 'single'
-                      endif
+                    {%- if childlink.levels > 0
+                      and childlink.type == 'collection_link'
+                      and childlink.object.featured_image != blank
+                      and show_mega_collections
                     -%}
-
-                    {%- for grandchildlink in childlink.links -%}
-                      <a href="{{ grandchildlink.url }}" class="site-nav__dropdown-link">
-                        {{ grandchildlink.title }}
+                      <a href="{{ childlink.url }}">
+                        {%- render 'image-element',
+                          img: childlink.object.featured_image,
+                          sizeVariable: '20vw',
+                          alt: childlink.object.title,
+                          classes: 'megamenu__collection-image'
+                        -%}
                       </a>
-                    {%- endfor -%}
+                    {%- endif -%}
+
+                    <div>
+                      <div class="megamenu__col-title">
+                        <a
+                          href="{{ childlink.url }}"
+                          class="site-nav__dropdown-link site-nav__dropdown-link--top-level"
+                        >
+                          {{- childlink.title -}}
+                        </a>
+                      </div>
+
+                      {%- liquid
+                        if childlink.levels > 0
+                          assign previous_column_type = 'full'
+                        else
+                          assign previous_column_type = 'single'
+                        endif
+                      -%}
+
+                      {%- for grandchildlink in childlink.links -%}
+                        <a href="{{ grandchildlink.url }}" class="site-nav__dropdown-link">
+                          {{ grandchildlink.title }}
+                        </a>
+                      {%- endfor -%}
+                    </div>
                   {%- endfor -%}
                 </div>
               </div>
-              {%- if is_collection -%}
+              {%- if is_collection and show_mega_products -%}
                 <div class="megamenu__featured">
                   <div class="product-grid">
                     {%- liquid
@@ -179,6 +208,10 @@
       {%- endif -%}
       {% if is_megamenu or has_dropdown %}
         </details>
+        </nav-dropdown>
+        <script type="module">
+          import '@archetype-themes/modules/nav-dropdown'
+        </script>
       {% endif %}
     </li>
   {%- endfor -%}

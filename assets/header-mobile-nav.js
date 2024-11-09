@@ -1,8 +1,6 @@
-import { prepareTransition, sizeDrawer } from '@archetype-themes/scripts/helpers/utils'
-import { EVENTS, subscribe, publish } from '@archetype-themes/utils/pubsub'
+import { EVENTS } from '@archetype-themes/utils/events'
 
 let selectors = {
-  wrapper: '.slide-nav__wrapper',
   nav: '.slide-nav',
   childList: '.slide-nav__dropdown',
   allLinks: 'a.slide-nav__link',
@@ -14,7 +12,6 @@ let classes = {
 }
 
 let defaults = {
-  isOpen: false,
   menuLevel: 1,
   inHeader: false
 }
@@ -27,21 +24,14 @@ let defaults = {
 class MobileNav extends HTMLElement {
   constructor() {
     super()
+
     this.config = Object.assign({}, defaults)
     this.config.inHeader = this.getAttribute('inHeader') === 'true'
   }
 
   connectedCallback() {
-    this.container = document.getElementById(this.getAttribute('container'))
-    if (!this.container) {
-      return
-    }
-
-    this.wrapper = this.container.querySelector(selectors.wrapper)
-    if (!this.wrapper) {
-      return
-    }
-    this.nav = this.wrapper.querySelector(selectors.nav)
+    this.abortController = new AbortController()
+    this.nav = this.querySelector(selectors.nav)
 
     this.init()
   }
@@ -49,108 +39,13 @@ class MobileNav extends HTMLElement {
   init() {
     // Toggle between menu levels
     this.nav.querySelectorAll(selectors.subNavToggleBtn).forEach((btn) => {
-      btn.addEventListener('click', this.toggleSubNav.bind(this))
+      btn.addEventListener('click', this.toggleSubNav.bind(this), { signal: this.abortController.signal })
     })
 
     // Close nav when a normal link is clicked
     this.nav.querySelectorAll(selectors.allLinks).forEach((link) => {
-      link.addEventListener('click', this.close.bind(this))
+      this.dispatchEvent(new CustomEvent(EVENTS.mobileNavClose, { bubbles: true }))
     })
-
-    if (this.config.inHeader) {
-      document.addEventListener(
-        'unmatchSmall',
-        function () {
-          this.close(null, true)
-        }.bind(this)
-      )
-
-      // Dev-friendly way to open/close mobile nav
-      subscribe(EVENTS.mobileNavOpen, this.open.bind(this))
-      subscribe(EVENTS.mobileNavClose, this.close.bind(this))
-    }
-  }
-
-  /*============================================================================
-    Open/close mobile nav drawer in header
-  ==============================================================================*/
-  open(evt) {
-    if (evt) {
-      evt.preventDefault()
-    }
-
-    sizeDrawer()
-
-    prepareTransition(
-      this.container,
-      function () {
-        this.container.classList.add('is-active')
-      }.bind(this)
-    )
-
-    // Esc closes cart popup
-    window.addEventListener('keyup', this.handleWindowKeyup)
-
-    publish(EVENTS.headerOverlayRemoveClass)
-
-    document.documentElement.classList.add('mobile-nav-open')
-    document.dispatchEvent(new CustomEvent('MobileNav:open'))
-
-    this.config.isOpen = true
-
-    // Clicking out of menu closes it. Timeout to prevent immediate bubbling
-    setTimeout(() => {
-      window.addEventListener('click', this.handleWindowClick)
-    }, 0)
-  }
-
-  handleWindowKeyup = (evt) => {
-    if (evt.keyCode === 27) {
-      this.close()
-    }
-  }
-
-  handleWindowClick = (evt) => {
-    this.close(evt)
-  }
-
-  close(evt, noAnimate) {
-    let forceClose = false
-    // Do not close if click event came from inside drawer,
-    // unless it is a normal link with no children
-    if (evt && evt.target.closest && evt.target.closest('.site-header__drawer')) {
-      // If normal link, continue to close drawer
-      if (evt.currentTarget && evt.currentTarget.classList) {
-        if (evt.currentTarget.classList.contains('slide-nav__link')) {
-          forceClose = true
-        }
-      }
-
-      if (!forceClose) {
-        return
-      }
-    }
-
-    publish(EVENTS.mobileNavClosed)
-
-    if (noAnimate) {
-      this.container.classList.remove('is-active')
-    } else {
-      prepareTransition(
-        this.container,
-        function () {
-          this.container.classList.remove('is-active')
-        }.bind(this)
-      )
-    }
-
-    document.documentElement.classList.remove('mobile-nav-open')
-    document.dispatchEvent(new CustomEvent('MobileNav:close'))
-
-    window.removeEventListener('keyup', this.handleWindowKeyup)
-    window.removeEventListener('click', this.handleWindowClick)
-
-    this.config.isOpen = false
   }
 
   /*============================================================================
@@ -180,17 +75,17 @@ class MobileNav extends HTMLElement {
     } else {
       // Going to top level, reset
       this.config.menuLevel = 1
-      this.wrapper.removeAttribute('style')
+      this.removeAttribute('style')
       this.nav.querySelectorAll(selectors.childList).forEach((list) => {
         list.classList.remove(classes.isActive)
       })
     }
 
-    this.wrapper.dataset.level = this.config.menuLevel
+    this.dataset.level = this.config.menuLevel
   }
 
   setWrapperHeight(h) {
-    this.wrapper.style.height = h + 'px'
+    this.style.height = h + 'px'
   }
 }
 

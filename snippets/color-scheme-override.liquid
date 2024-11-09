@@ -1,4 +1,4 @@
-{% # components v2.10.69 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
+{% # components v3.0.1 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
 {%- comment -%}
   Handles color scheme overrides.
 
@@ -22,13 +22,13 @@
     {% if text_color %}
       --{{ id }}-text-color: {{ text_color }};
     {% else %}
-      --{{ id }}-text-color: var(--colorTextBody);
+      --{{ id }}-text-color: var(--color-text-body);
     {% endif %}
 
     {% if background_color %}
       --{{ id }}-background-color: {{ background_color }};
     {% else %}
-      --{{ id }}-background-color: var(--colorBody);
+      --{{ id }}-background-color: var(--color-body);
     {% endif %}
   }
 

@@ -1,4 +1,4 @@
-{% # components v2.10.69 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
+{% # components v3.0.1 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
 {% comment %}
   Renders the store availability of a product
 
@@ -47,9 +47,9 @@
 
         <p class="store-availability__small">
           {%- if availability.available -%}
-            {{ 'info.pick_up_available' | t }}, {{ availability.pick_up_time | downcase }}
+            {% render 't_with_fallback', key: 'info.pick_up_available', fallback: 'Pickup available' %}
           {%- else -%}
-            {{ 'info.pick_up_currently_unavailable' | t }}
+            {% render 't_with_fallback', key: 'info.pick_up_currently_unavailable', fallback: 'Pick up currently unavailable' -%}
           {%- endif -%}
         </p>
 
@@ -84,7 +84,16 @@
       <div class="store-availability__info">
         {%- if closest_location.available -%}
           <div>
-            {{ 'info.pick_up_available_at_html' | t: location_name: closest_location.location.name }}
+            {% assign info_pick_up_available_at_html = 'info.pick_up_available_at_html'
+              | t: location_name: closest_location.location.name
+            %}
+            {%- capture fallback_info_pick_up_available_at_html -%}
+              Pickup available at <strong>{{ closest_location.location.name }}</strong>
+            {%- endcapture -%}
+            {% render 't_with_fallback',
+              t: info_pick_up_available_at_html,
+              fallback: fallback_info_pick_up_available_at_html
+            %}
           </div>
           <p class="store-availability__small">
             {{ closest_location.pick_up_time }}
@@ -94,7 +103,16 @@
           </div>
         {%- else -%}
           <p>
-            {{ 'info.pick_up_unavailable_at_html' | t: location_name: closest_location.location.name }}
+            {% assign info_pick_up_unavailable_at_html = 'info.pick_up_unavailable_at_html'
+              | t: location_name: closest_location.location.name
+            %}
+            {%- capture fallback_info_pick_up_unavailable_at_html -%}
+              Pickup currently unavailable at <strong>{{ closest_location.location.name }}</strong>
+            {%- endcapture -%}
+            {% render 't_with_fallback',
+              t: info_pick_up_unavailable_at_html,
+              fallback: fallback_info_pick_up_unavailable_at_html
+            %}
           </p>
 
           {%- if pick_up_availabilities.size > 1 -%}

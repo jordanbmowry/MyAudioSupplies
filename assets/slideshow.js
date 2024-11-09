@@ -1,8 +1,7 @@
-import '@archetype-themes/scripts/vendors/flickity'
-import '@archetype-themes/scripts/vendors/flickity-fade'
-import { config } from '@archetype-themes/scripts/config'
-import { debounce } from '@archetype-themes/scripts/helpers/utils'
-import { HTMLSectionElement } from '@archetype-themes/scripts/helpers/section'
+import '@archetype-themes/vendors/flickity'
+import '@archetype-themes/vendors/flickity-fade'
+import { debounce } from '@archetype-themes/utils/utils'
+import { HTMLThemeElement } from '@archetype-themes/custom-elements/theme-element'
 
 // Slideshow Class handles all flickity based sliders
 // Child navigation is only setup to work on product images
@@ -25,15 +24,13 @@ class Slideshow {
       pageDots: false,
       pauseAutoPlayOnHover: false,
       prevNextButtons: false,
-      rightToLeft: config.rtl,
+      rightToLeft: document.documentElement.dir === 'rtl',
       selectedAttraction: 0.14,
       setGallerySize: true,
       wrapAround: true
     }
 
     this.args = Object.assign({}, defaults, args)
-
-    document.dispatchEvent(new CustomEvent('slideshow-component:loaded'))
 
     this.classes = {
       animateOut: 'animate-out',
@@ -321,7 +318,7 @@ class Slideshow {
   }
 }
 
-class SlideshowSection extends HTMLSectionElement {
+class SlideshowSection extends HTMLThemeElement {
   connectedCallback() {
     super.connectedCallback()
 
@@ -329,14 +326,6 @@ class SlideshowSection extends HTMLSectionElement {
     this.slideshow = this.container.querySelector('#Slideshow-' + this.sectionId)
 
     this.initialIndex = 0
-
-    document.dispatchEvent(
-      new CustomEvent('slideshow-section:loaded', {
-        detail: {
-          sectionId: this.sectionId
-        }
-      })
-    )
 
     if (!this.slideshow) {
       return

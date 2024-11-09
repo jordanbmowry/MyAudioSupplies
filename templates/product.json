@@ -15,81 +15,52 @@
         "title": {
           "type": "title",
           "settings": {
-            "vendor_enable": true,
-            "sku_enable": false
-          }
-        },
-        "variant_picker": {
-          "type": "variant_picker",
-          "settings": {
-            "variant_labels": true,
-            "picker_type": "button",
-            "product_dynamic_variants_enable": true,
-            "color_swatches": false
+            "vendor_enable": true
           }
         },
         "price": {
           "type": "price",
-          "settings": {
-          }
+          "settings": {}
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {}
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {}
+        },
+        "inventory_status": {
+          "type": "inventory_status",
+          "settings": {}
+        },
+        "share": {
+          "type": "share",
+          "settings": {}
         },
         "sales_point": {
           "type": "sales_point",
-          "settings": {
-            "icon": "truck",
-            "text": "Free Shipping"
-          }
+          "settings": {}
         },
         "sales_point2": {
           "type": "sales_point",
           "settings": {
-            "icon": "tag",
-            "text": "Price Match Policy"
+            "icon": "truck",
+            "text": "Free returns"
           }
         },
         "sales_point3": {
           "type": "sales_point",
           "settings": {
             "icon": "leaf",
-            "text": ""
+            "text": "Carbon neutral"
           }
         },
         "sales_point4": {
           "type": "sales_point",
           "settings": {
             "icon": "lock",
-            "text": "Secure Payments"
-          }
-        },
-        "inventory_status": {
-          "type": "inventory_status",
-          "settings": {
-            "inventory_threshold": 10,
-            "inventory_transfers_enable": true
-          }
-        },
-        "quantity_selector_kHtJXn": {
-          "type": "quantity_selector",
-          "settings": {
-          }
-        },
-        "buy_buttons": {
-          "type": "buy_buttons",
-          "settings": {
-            "show_dynamic_checkout": false,
-            "surface_pickup_enable": false,
-            "show_gift_card_recipient": false
-          }
-        },
-        "description_GqqkKR": {
-          "type": "description",
-          "settings": {
-            "is_tab": false
-          }
-        },
-        "judge_me_reviews_preview_badge_j7KVXN": {
-          "type": "shopify://apps/judge-me-reviews/blocks/preview_badge/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
-          "settings": {
+            "text": "Secure payments"
           }
         }
       },
@@ -102,119 +73,54 @@
         "sales_point3",
         "sales_point4",
         "inventory_status",
-        "quantity_selector_kHtJXn",
-        "buy_buttons",
-        "description_GqqkKR",
-        "judge_me_reviews_preview_badge_j7KVXN"
+        "buy_buttons"
       ],
-      "settings": {
-        "image_position": "left",
-        "image_container_size": "medium",
-        "product_image_size": "square",
-        "product_zoom_enable": true,
-        "thumbnail_position": "below",
-        "thumbnail_height": "flexible",
-        "thumbnail_arrows": false,
-        "mobile_layout": "partial",
-        "enable_video_looping": true,
-        "product_video_style": "muted"
-      }
+      "settings": {}
     },
     "sub": {
       "type": "product-full-width",
       "blocks": {
         "description": {
           "type": "description",
-          "disabled": true,
           "settings": {
-            "is_tab": false
+            "is_tab": true
           }
         },
         "tab": {
           "type": "tab",
-          "settings": {
-            "title": "Free Shipping",
-            "content": "<p>Enjoy Free Shipping on All Products.</p>",
-            "page": ""
-          }
-        },
-        "tab_GrLm83": {
-          "type": "tab",
-          "settings": {
-            "title": "No Sales Tax on Your Order",
-            "content": "<p>No Sales Tax On Your Order Except IN residents*</p>",
-            "page": ""
-          }
+          "settings": {}
         },
         "contact": {
           "type": "contact",
-          "settings": {
-            "title": "Ask a question",
-            "phone": false
-          }
+          "settings": {}
         }
       },
       "block_order": [
         "description",
         "tab",
-        "tab_GrLm83",
         "contact"
       ],
-      "settings": {
-        "max_width": true
-      }
+      "settings": {}
     },
     "recommendations": {
       "type": "product-recommendations",
-      "settings": {
-        "product_recommendations_heading": "You may also like",
-        "related_count": 6,
-        "products_per_row": 3
-      }
+      "settings": {}
     },
     "more-products-vendor": {
       "type": "more-products-vendor",
-      "disabled": true,
-      "settings": {
-        "products_per_row": 3,
-        "max_products": 5
-      }
+      "settings": {}
     },
     "more-products-collection": {
       "type": "more-products-collection",
-      "settings": {
-        "products_per_row": 3,
-        "max_products": 5
-      }
+      "settings": {}
     },
     "recently-viewed": {
       "type": "recently-viewed",
-      "disabled": true,
-      "settings": {
-      }
+      "settings": {}
     },
     "collection-return": {
       "type": "collection-return",
-      "settings": {
-        "color_scheme": "1"
-      }
-    },
-    "172856278213c789cc": {
-      "type": "apps",
-      "blocks": {
-        "judge_me_reviews_review_widget_ydWnA8": {
-          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
-          "settings": {
-          }
-        }
-      },
-      "block_order": [
-        "judge_me_reviews_review_widget_ydWnA8"
-      ],
-      "settings": {
-        "full_width": false,
-        "space_around": true
-      }
+      "settings": {}
     }
   },
   "order": [
@@ -224,7 +130,6 @@
     "more-products-vendor",
     "more-products-collection",
     "recently-viewed",
-    "collection-return",
-    "172856278213c789cc"
+    "collection-return"
   ]
 }

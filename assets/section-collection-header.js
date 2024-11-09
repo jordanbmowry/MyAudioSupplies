@@ -1,26 +1,47 @@
-import { config } from '@archetype-themes/scripts/config'
-import { EVENTS, publish } from '@archetype-themes/utils/pubsub'
+import { EVENTS } from '@archetype-themes/utils/events'
 
 let hasLoadedBefore = false
 
 class CollectionHeader extends HTMLElement {
   constructor() {
     super()
-    this.namespace = '.collection-header'
 
-    var heroImageContainer = this.querySelector('.collection-hero')
-    if (heroImageContainer) {
+    this.overlayHeader = false
+    this.heroImageContainer = this.querySelector('.collection-hero')
+    this.handleOverlayHeaderChange = this.handleOverlayHeaderChange.bind(this)
+  }
+
+  connectedCallback() {
+    this.abortController = new AbortController()
+
+    document.addEventListener(EVENTS.overlayHeaderChange, this.handleOverlayHeaderChange, {
+      signal: this.abortController.signal
+    })
+
+    if (this.heroImageContainer) {
       if (hasLoadedBefore) {
         this.checkIfNeedReload()
       }
 
-      heroImageContainer.classList.remove('loading', 'loading--delayed')
-      heroImageContainer.classList.add('loaded')
-    } else if (config.overlayHeader) {
-      publish(EVENTS.headerOverlayDisable)
+      this.heroImageContainer.classList.remove('loading', 'loading--delayed')
+      this.heroImageContainer.classList.add('loaded')
+    } else if (this.overlayHeader) {
+      this.dispatchEvent(new CustomEvent(EVENTS.headerOverlayDisable), { bubbles: true })
     }
 
     hasLoadedBefore = true
+  }
+
+  disconnectedCallback() {
+    this.abortController.abort()
+  }
+
+  handleOverlayHeaderChange(event) {
+    this.overlayHeader = event.detail.overlayHeader
+
+    if (!this.overlayHeader && !this.heroImageContainer) {
+      this.dispatchEvent(new CustomEvent(EVENTS.headerOverlayDisable), { bubbles: true })
+    }
   }
 
   checkIfNeedReload() {
@@ -28,8 +49,8 @@ class CollectionHeader extends HTMLElement {
       return
     }
 
-    if (config.overlayHeader) {
-      var header = document.querySelector('.header-wrapper')
+    if (this.overlayHeader) {
+      const header = document.querySelector('.header-wrapper')
       if (!header.classList.contains('header-wrapper--overlay')) {
         location.reload()
       }

@@ -1,27 +1,10 @@
-import { config } from '@archetype-themes/scripts/config'
-
 class FooterSection extends HTMLElement {
-  constructor() {
-    super()
-
+  connectedCallback() {
     this.ids = {
       mobileNav: 'MobileNav',
       footerNavWrap: 'FooterMobileNavWrap',
       footerNav: 'FooterMobileNav'
     }
-
-    /**
-     * @event footer-section:loaded
-     * @description Fired when the footer section has been loaded.
-     * @param {string} detail.sectionId - The section's ID.
-     */
-    document.dispatchEvent(
-      new CustomEvent('footer-section:loaded', {
-        detail: {
-          sectionId: this.sectionId
-        }
-      })
-    )
 
     this.init()
   }
@@ -35,29 +18,42 @@ class FooterSection extends HTMLElement {
       })
     }
 
+    this.mobileMediaQuery = window.matchMedia('(max-width: 768px)')
     // If on mobile, copy the mobile nav to the footer
-    if (config.bpSmall) {
+    if (this.mobileMediaQuery.matches) {
+      this.initDoubleMobileNav()
+    }
+    // Listen for changes to the media query
+    this.mobileMediaQuery.addListener(this.handleMediaQueryChange.bind(this))
+  }
+
+  handleMediaQueryChange(mql) {
+    if (mql.matches) {
       this.initDoubleMobileNav()
     }
   }
 
   initDoubleMobileNav() {
+    if (this.hasDoubleMobileNav) {
+      return
+    }
+
     const menuPlaceholder = document.getElementById(this.ids.footerNavWrap)
     if (!menuPlaceholder) {
       return
     }
 
-    const mobileNav = document.getElementById(this.ids.mobileNav)
+    const mobileNav = document.querySelector(`mobile-nav[container="${this.ids.mobileNav}"]`)
     const footerNav = document.getElementById(this.ids.footerNav)
     const clone = mobileNav.cloneNode(true)
-    const navEl = clone.querySelector('.slide-nav__wrapper')
-    navEl.setAttribute('container', this.ids.footerNav)
-    navEl.setAttribute('inHeader', 'false')
+    clone.setAttribute('container', this.ids.footerNav)
+    clone.setAttribute('inHeader', 'false')
 
     // Append cloned nav to footer, initialize JS, then show it
-    footerNav.appendChild(navEl)
+    footerNav.appendChild(clone)
 
     menuPlaceholder.classList.remove('hide')
+    this.hasDoubleMobileNav = true
   }
 }
 

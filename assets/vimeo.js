@@ -1,15 +1,11 @@
-import { config } from '@archetype-themes/scripts/config'
-import { load } from '@archetype-themes/scripts/helpers/library-loader'
+import { loadScript } from '@archetype-themes/utils/resource-loader'
+import { EVENTS, publish, subscribe } from '@archetype-themes/utils/pubsub'
 
 window.vimeoApiReady = function () {
-  config.vimeoLoading = true
-
   // Because there's no way to check for the Vimeo API being loaded
   // asynchronously, we use this terrible timeout to wait for it being ready
   checkIfVimeoIsReady().then(function () {
-    config.vimeoReady = true
-    config.vimeoLoading = false
-    document.dispatchEvent(new CustomEvent('vimeoReady'))
+    publish(EVENTS.vimeoReady)
   })
 }
 
@@ -63,12 +59,19 @@ export default class VimeoPlayer {
     }
 
     this.setAsLoading()
+    this.checkVimeoReady()
+  }
 
-    if (config.vimeoReady) {
+  async checkVimeoReady() {
+    if (window.Vimeo) {
       this.init()
     } else {
-      load('vimeo', window.vimeoApiReady)
-      document.addEventListener('vimeoReady', this.init.bind(this))
+      await loadScript('https://player.vimeo.com/api/player.js')
+      window.vimeoApiReady()
+      this.vimeoReadyUnsubscriber = subscribe(EVENTS.vimeoReady, () => {
+        this.init()
+        this.vimeoReadyUnsubscriber()
+      })
     }
   }
 
@@ -151,5 +154,7 @@ export default class VimeoPlayer {
     if (this.videoPlayer && typeof this.videoPlayer.destroy === 'function') {
       this.videoPlayer.destroy()
     }
+
+    this.vimeoReadyUnsubscriber?.()
   }
 }

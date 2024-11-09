@@ -1,18 +1,31 @@
-import { EVENTS, publish, subscribe } from '@archetype-themes/utils/pubsub'
+import { EVENTS } from '@archetype-themes/utils/events'
 
 class BlockBuyButtons extends HTMLElement {
-  connectedCallback() {
-    this.addEventListener('submit', this.handleSubmit.bind(this))
+  constructor() {
+    super()
 
-    this.variantChangeUnsubscriber = subscribe(
+    this.handleVariantChange = this.handleVariantChange.bind(this)
+  }
+  connectedCallback() {
+    this.abortController = new AbortController()
+
+    this.addEventListener('submit', this.handleSubmit.bind(this), {
+      signal: this.abortController.signal
+    })
+
+    document.addEventListener(
       `${EVENTS.variantChange}:${this.dataset.sectionId}:${this.dataset.productId}`,
-      this.handleVariantChange.bind(this)
+      this.handleVariantChange,
+      {
+        signal: this.abortController.signal
+      }
     )
+
     this.cartType = this.dataset.cartType
   }
 
   disconnectedCallback() {
-    this.variantChangeUnsubscriber()
+    this.abortController.abort()
   }
 
   handleVariantChange({ detail }) {
@@ -82,12 +95,15 @@ class BlockBuyButtons extends HTMLElement {
     try {
       const responseJson = await this.addVariantToCart()
 
-      publish(EVENTS.ajaxProductAdded, {
-        detail: {
-          product: responseJson,
-          addToCartBtn: this.querySelector(`#ProductSubmitButton-${this.dataset.sectionId}`)
-        }
-      })
+      this.dispatchEvent(
+        new CustomEvent(EVENTS.ajaxProductAdded, {
+          bubbles: true,
+          detail: {
+            product: responseJson,
+            addToCartBtn: this.querySelector(`#ProductSubmitButton-${this.dataset.sectionId}`)
+          }
+        })
+      )
     } catch (error) {
       this.handleError(error)
     } finally {
@@ -117,11 +133,14 @@ class BlockBuyButtons extends HTMLElement {
 
     form.append(errorDiv)
 
-    publish(EVENTS.ajaxProductError, {
-      detail: {
-        errorMessage: error.description
-      }
-    })
+    this.dispatchEvent(
+      new CustomEvent(EVENTS.ajaxProductError, {
+        bubbles: true,
+        detail: {
+          errorMessage: error.description
+        }
+      })
+    )
   }
 
   async addVariantToCart() {
@@ -149,6 +168,8 @@ class BlockBuyButtons extends HTMLElement {
     const formData = new FormData(productForm)
 
     formData.set('sections_url', `${window.Shopify.routes.root}variants/${productForm.id.value}`)
+    // Bundled section rendering
+    formData.set('sections', 'cart-ajax')
 
     return formData
   }

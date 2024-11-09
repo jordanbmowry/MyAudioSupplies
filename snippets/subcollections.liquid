@@ -1,4 +1,4 @@
-{% # components v2.10.69 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
+{% # components v3.0.1 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
 {%- comment -%}
   Renders a list of collection tiles for a menu's subcollections.
 
@@ -11,6 +11,7 @@
 
 {%- liquid
   assign menu = menu | default: blank
+  assign products_per_row = null
 
   unless current_tags
     assign current_items = ''
@@ -19,7 +20,11 @@
     for link in menu.links
       if link.active and link.levels > 0 and link.child_active == false
         unless current_items contains link.title
-          render 'sub-collections', sub_collection_links: link.links
+          unless products_per_row
+            # Set the number of products per row to the number of subcollections
+            assign products_per_row = link.links.size
+          endunless
+          render 'sub-collections', sub_collection_links: link.links, products_per_row: products_per_row
 
           assign current_items = current_items | append: link.title
         endunless
@@ -28,7 +33,11 @@
       for sub_link in link.links
         if sub_link.active and sub_link.levels > 0 and sub_link.child_active == false
           unless current_items contains sub_link.title
-            render 'sub-collections', sub_collection_links: sub_link.links
+            unless products_per_row
+              # Set the number of products per row to the number of subcollections
+              assign products_per_row = sub_link.links.size
+            endunless
+            render 'sub-collections', sub_collection_links: sub_link.links, products_per_row: products_per_row
 
             assign current_items = current_items | append: sub_link.title
           endunless
@@ -37,14 +46,22 @@
         for sub_sub_link in sub_link.links
           if sub_sub_link.active and sub_sub_link.url == sub_link.url
             unless current_items contains sub_sub_link.title
-              render 'sub-collections', parent_url: sub_link.url, sub_collection_links: sub_link.links
+              unless products_per_row
+                # Set the number of products per row to the number of subcollections
+                assign products_per_row = sub_link.links.size
+              endunless
+              render 'sub-collections', parent_url: sub_link.url, sub_collection_links: sub_link.links, products_per_row: products_per_row
 
               assign current_items = current_items | append: sub_sub_link.title
             endunless
 
           elsif sub_sub_link.active and sub_sub_link.levels > 0
             unless current_items contains sub_sub_link.title
-              render 'sub-collections', sub_collection_links: sub_sub_link.links
+              unless products_per_row
+                # Set the number of products per row to the number of subcollections
+                assign products_per_row = sub_sub_link.links.size
+              endunless
+              render 'sub-collections', sub_collection_links: sub_sub_link.links, products_per_row: products_per_row
 
               assign current_items = current_items | append: sub_sub_link.title
             endunless

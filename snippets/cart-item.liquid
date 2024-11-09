@@ -1,4 +1,4 @@
-{% # components v2.10.69 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
+{% # components v3.0.1 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
 {%- comment -%}
   Renders a cart item.
 
@@ -70,23 +70,35 @@
 
   <div class="cart__item-quantity">
     {%- assign quantity_selector_id = 'cart_updates_' | append: item.key -%}
-    <label for="{{ quantity_selector_id }}" class="visually-hidden">{{ 'labels.quantity' | t }}</label>
-    {%- render 'quantity-selector', id: quantity_selector_id, name: 'updates[]', value: item.quantity, min: 0, cart_item_key: item.key -%}
+    <label for="{{ quantity_selector_id }}" class="visually-hidden">
+      {% render 't_with_fallback', key: 'labels.quantity', fallback: 'Quantity' %}
+    </label>
+    {%- render 'quantity-selector',
+      id: quantity_selector_id,
+      name: 'updates[]',
+      value: item.quantity,
+      min: 0,
+      cart_item_key: item.key
+    -%}
   </div>
 
   <div class="cart__item-remove">
     <a href="{{ routes.cart_change_url }}?id={{ item.key }}&amp;quantity=0" class="text-link">
-      {{ 'actions.remove' | t }}
+      {% render 't_with_fallback', key: 'actions.remove', fallback: 'Remove' %}
     </a>
   </div>
 
   <div class="cart__item-price text-right">
     {% if item.original_price != item.final_price %}
-      <span class="visually-hidden">{{ 'labels.regular_price' | t }}</span>
+      <span class="visually-hidden">
+        {% render 't_with_fallback', key: 'labels.regular_price', fallback: 'Regular price' %}
+      </span>
       <small class="cart__price cart__price--strikethrough">
         {%- render 'price', price: item.original_price -%}
       </small>
-      <span class="visually-hidden">{{ 'labels.sale_price' | t }}</span>
+      <span class="visually-hidden">
+        {% render 't_with_fallback', key: 'labels.sale_price', fallback: 'Sale price' %}
+      </span>
       <span class="cart__price cart__discount">
         {%- render 'price', price: item.final_price -%}
       </span>

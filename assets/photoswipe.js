@@ -1,5 +1,5 @@
-import '@archetype-themes/scripts/vendors/photoswipe.min'
-import '@archetype-themes/scripts/vendors/photoswipe-ui-default.min'
+import '@archetype-themes/vendors/photoswipe.min'
+import '@archetype-themes/vendors/photoswipe-ui-default.min'
 
 let selectors = {
   trigger: '.js-photoswipe__zoom',
@@ -105,7 +105,33 @@ export default class Photoswipe {
         let pageYScroll = window.pageYOffset || document.documentElement.scrollTop
         let thumbnail = items[index].el
         let rect = thumbnail.getBoundingClientRect()
-        return { x: rect.left, y: rect.top + pageYScroll, w: rect.width }
+
+        // Calculate aspect ratios
+        let imageAspectRatio = thumbnail.naturalWidth / thumbnail.naturalHeight
+        let containerAspectRatio = rect.width / rect.height
+
+        // Calculate actual displayed dimensions
+        let displayedWidth, displayedHeight, offsetX, offsetY
+
+        if (imageAspectRatio > containerAspectRatio) {
+          // Image is wider than container (relative to aspect ratios)
+          displayedWidth = rect.width
+          displayedHeight = rect.width / imageAspectRatio
+          offsetX = 0
+          offsetY = (rect.height - displayedHeight) / 2
+        } else {
+          // Image is taller than container (relative to aspect ratios)
+          displayedHeight = rect.height
+          displayedWidth = rect.height * imageAspectRatio
+          offsetX = (rect.width - displayedWidth) / 2
+          offsetY = 0
+        }
+
+        return {
+          x: rect.left + offsetX,
+          y: rect.top + offsetY + pageYScroll,
+          w: displayedWidth
+        }
       }
     }
 

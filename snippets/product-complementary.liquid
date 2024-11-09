@@ -1,4 +1,4 @@
-{% # components v2.10.69 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
+{% # components v3.0.1 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
 {% comment %}
   Renders product complementary recommendations
 
@@ -75,14 +75,14 @@
       {% comment %}
         This content is visually hidden and replaced when recommended products show up
       {% endcomment %}
-      <div class="grid grid--uniform visually-invisible clearfix" aria-hidden="true">
+      <div class="float-grid grid--uniform visually-invisible clearfix" aria-hidden="true">
         {%- render 'product-grid-item', product: product -%}
       </div>
     </div>
     {%- if related_collection.products_count > 0 -%}
       <div class="product-recommendations">
         <div
-          class="product-single__related grid grid--uniform clearfix"
+          class="product-single__related float-grid grid--uniform clearfix"
           {% if type == 'block' %}
             data-slideshow data-controls="{{ block.settings.control_type }}"
             data-per-slide="{{ block.settings.per_slide }}" data-count="{{ number_of_products }}"
@@ -113,5 +113,5 @@
 </product-recommendations>
 
 <script type="module">
-  import '@archetype-themes/scripts/modules/product-recommendations'
+  import '@archetype-themes/custom-elements/product-recommendations'
 </script>

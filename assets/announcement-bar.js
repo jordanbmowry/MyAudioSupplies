@@ -1,13 +1,11 @@
-// This is the javascript entrypoint for the announcement-bar snippet.
-// This file and all its inclusions will be processed through postcss
+import { HTMLThemeElement } from '@archetype-themes/custom-elements/theme-element'
+import { Slideshow } from '@archetype-themes/modules/slideshow'
 
-import { config } from '@archetype-themes/scripts/config'
-import { HTMLSectionElement } from '@archetype-themes/scripts/helpers/section'
-import { Slideshow } from '@archetype-themes/scripts/modules/slideshow'
-
-class AnnouncementBar extends HTMLSectionElement {
+class AnnouncementBar extends HTMLThemeElement {
   connectedCallback() {
     super.connectedCallback()
+    this.section = this.closest('.shopify-section')
+    this.sectionHeight = this.section.offsetHeight
 
     if (parseInt(this.dataset.blockCount) === 1) {
       return
@@ -16,11 +14,12 @@ class AnnouncementBar extends HTMLSectionElement {
     const args = {
       autoPlay: 5000,
       avoidReflow: true,
-      cellAlign: config.rtl ? 'right' : 'left',
+      cellAlign: document.documentElement.dir === 'rtl' ? 'right' : 'left',
       fade: true
     }
 
     this.flickity = new Slideshow(this, args)
+    document.documentElement.style.setProperty('--announcement-bar-height', this.sectionHeight + 'px')
   }
 
   disconnectedCallback() {

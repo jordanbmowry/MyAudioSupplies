@@ -1,4 +1,4 @@
-{% # components v2.10.69 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
+{% # components v3.0.1 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
 {%- comment -%}
   Renders the footer payments block.
 
@@ -25,11 +25,11 @@
   assign currency_selector = false
   assign locale_selector = false
 
-  if show_currency_selector and shop.enabled_currencies.size > 1
+  if show_currency_selector and localization.available_countries.size > 1
     assign currency_selector = true
   endif
 
-  if show_locale_selector and shop.enabled_locales.size > 1
+  if show_locale_selector and localization.available_languages.size > 1
     assign locale_selector = true
   endif
 
@@ -44,7 +44,8 @@
       {%- unless shop.enabled_payment_types == empty -%}
         <div class="footer__block--mobile">
           <h2 class="footer__title {{ blocks_heading_size }}">
-            {{ 'labels.we_accept' | t }}
+            {% assign labels_we_accept = 'labels.we_accept' | t %}
+            {% render 't_with_fallback', t: labels_we_accept, fallback: 'We accept' %}
           </h2>
 
           <ul class="inline-list payment-icons">

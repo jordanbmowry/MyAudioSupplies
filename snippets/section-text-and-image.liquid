@@ -1,4 +1,4 @@
-{% # components v2.10.69 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
+{% # components v3.0.1 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
 {%- comment -%}
   Renders a section with an image and text.
 
@@ -44,8 +44,8 @@
   assign image2_mask = image2_mask | default: section.settings.image2_mask | default: 'none'
   assign show_wave = show_wave | default: section.settings.show_wave, allow_false: true | default: false, allow_false: true
   assign divider = divider | default: section.settings.divider, allow_false: true | default: false, allow_false: true
-  assign top_padding = top_padding | default: section.settings.top_padding, allow_false: true | default: true, allow_false: true
-  assign bottom_padding = bottom_padding | default: section.settings.bottom_padding, allow_false: true | default: true, allow_false: true
+  assign top_padding = top_padding | default: section.settings.top_padding, allow_false: true
+  assign bottom_padding = bottom_padding | default: section.settings.bottom_padding, allow_false: true
   assign color_scheme = color_scheme | default: section.settings.color_scheme | default: 'none'
 
   assign lazyload_images = true

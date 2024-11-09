@@ -1,6 +1,5 @@
-import { changeItem, getCartProductMarkup, updateNote } from '@archetype-themes/scripts/helpers/cart'
-import { executeJSmodules } from '@archetype-themes/scripts/helpers/utils'
-import { formatMoney } from '@archetype-themes/scripts/helpers/currency'
+import { executeJSmodules } from '@archetype-themes/utils/utils'
+import { EVENTS } from '@archetype-themes/utils/events'
 
 /*============================================================================
   CartForm
@@ -12,11 +11,8 @@ export default class CartForm {
     this.selectors = {
       products: '[data-products]',
       discounts: '[data-discounts]',
-      savings: '[data-savings]',
       subTotal: '[data-subtotal]',
 
-      cartBubble: '.cart-link__bubble',
-      cartNote: '[name="note"]',
       locales: '[data-locales]',
       termsCheckbox: '.cart__terms-checkbox',
       checkoutBtn: '.cart__checkout'
@@ -36,21 +32,13 @@ export default class CartForm {
 
     this.form = form
     this.wrapper = form.parentNode
-    this.location = form.dataset.location
-    this.moneyFormat = form.dataset.moneyFormat
-    this.superScript = form.dataset.superScript === 'true'
-    this.namespace = '.cart-' + this.location
     this.products = form.querySelector(this.selectors.products)
     this.submitBtn = form.querySelector(this.selectors.checkoutBtn)
 
     this.discounts = form.querySelector(this.selectors.discounts)
-    this.savings = form.querySelector(this.selectors.savings)
     this.subtotal = form.querySelector(this.selectors.subTotal)
     this.termsCheckbox = form.querySelector(this.selectors.termsCheckbox)
-    this.noteInput = form.querySelector(this.selectors.cartNote)
     this.locales = JSON.parse(this.form.querySelector(this.selectors.locales).textContent)
-
-    this.cartItemsUpdated = false
 
     if (this.termsCheckbox) {
       this.config.requiresTerms = true
@@ -63,13 +51,6 @@ export default class CartForm {
     document.addEventListener('cart:quantity', this.quantityChanged.bind(this))
 
     this.form.addEventListener('submit', this.onSubmit.bind(this))
-
-    if (this.noteInput) {
-      this.noteInput.addEventListener('change', function () {
-        const newNote = this.value
-        updateNote(newNote)
-      })
-    }
 
     // Dev-friendly way to build the cart
     document.addEventListener(
@@ -85,16 +66,12 @@ export default class CartForm {
 
     /*
       Checks for drawer or cart open class on body element
-      and then stops the form from being submitted. We are also
-      checking against a custom property, this.cartItemsUpdated = false.
+      and then stops the form from being submitted.
 
       Error is handled in the quantityChanged method
 
       For Expanse/Fetch/Gem/Vino quick add, if an error is present it is alerted
       through the add to cart fetch request in quick-add.js.
-
-      Custom property this.cartItemsUpdated = false is reset in cart-drawer.js for
-      Expanse/Fetch/Gem/Vino when using quick add
     */
 
     if (
@@ -127,31 +104,29 @@ export default class CartForm {
 
     return {
       items: html.querySelector('.cart__items'),
-      discounts: html.querySelector('.cart__discounts')
+      discounts: html.querySelector('.cart__discounts'),
+      subtotal: html.querySelector('.cart__subtotal'),
+      count: html.querySelector('.cart-link__bubble')
     }
   }
 
   buildCart() {
-    return getCartProductMarkup().then(this.cartMarkup.bind(this))
+    return this.getCartProductMarkup().then(this.cartMarkup.bind(this))
   }
 
   cartMarkup(text) {
     const markup = this._parseProductHTML(text)
     const items = markup.items
     const count = parseInt(items.dataset.count)
-    const subtotal = items.dataset.cartSubtotal
-    const savings = items.dataset.cartSavings
+    const subtotal = markup.subtotal.innerHTML
 
     this.updateCartDiscounts(markup.discounts)
-    this.updateSavings(savings)
 
     if (count > 0) {
       this.wrapper.classList.remove('is-empty')
     } else {
       this.wrapper.classList.add('is-empty')
     }
-
-    this.updateCount(count)
 
     // Append item markup
     this.products.innerHTML = ''
@@ -160,7 +135,7 @@ export default class CartForm {
     executeJSmodules(scripts)
 
     // Update subtotal
-    this.subtotal.innerHTML = formatMoney(subtotal, this.moneyFormat, this.superScript)
+    this.subtotal.innerHTML = subtotal
 
     if (Shopify && Shopify.StorefrontExpressButtons) {
       Shopify.StorefrontExpressButtons.initialize()
@@ -189,95 +164,47 @@ export default class CartForm {
       el.classList.add('is-loading')
     }
 
-    changeItem(key, qty)
-      .then(
-        function (cart) {
-          const parsedCart = JSON.parse(cart)
-
-          if (parsedCart.status === 422) {
-            alert(parsedCart.message)
-          } else {
-            const updatedItem = parsedCart.items.find((item) => item.key === key)
-
-            // Update cartItemsUpdated property on object so we can reference later
-            if (updatedItem && evt.type === 'cart:quantity') {
-              this.cartItemsUpdated = true
-            }
-
-            if (updatedItem && evt.type === 'cart:quantity') {
-              if (updatedItem.quantity !== qty) {
-              }
-              // Reset property on object so that checkout button will work as usual
-              this.cartItemsUpdated = false
-            }
-
-            if (parsedCart.item_count > 0) {
-              this.wrapper.classList.remove('is-empty')
-            } else {
-              this.wrapper.classList.add('is-empty')
-            }
-          }
-
-          this.buildCart()
-
-          document.dispatchEvent(
-            new CustomEvent('cart:updated', {
-              detail: {
-                cart: parsedCart
-              }
-            })
-          )
-        }.bind(this)
-      )
-      .catch(function (XMLHttpRequest) {})
-  }
-
-  /*============================================================================
-    Update elements of the cart
-  ==============================================================================*/
-  updateSubtotal(subtotal) {
-    this.form.querySelector(this.selectors.subTotal).innerHTML = formatMoney(
-      subtotal,
-      this.moneyFormat,
-      this.superScript
-    )
-  }
-
-  updateSavings(savings) {
-    if (!this.savings) {
-      return
-    }
-
-    if (savings > 0) {
-      const amount = formatMoney(savings, this.moneyFormat, this.superScript)
-      this.savings.classList.remove('hide')
-      this.savings.innerHTML = this.locales.cartSavings.replace('[savings]', amount)
-    } else {
-      this.savings.classList.add('hide')
-    }
-  }
-
-  updateCount(count) {
-    const countEls = document.querySelectorAll('.cart-link__bubble-num')
-
-    if (countEls.length) {
-      countEls.forEach((el) => {
-        el.innerText = count
+    this.changeItem({
+      id: key,
+      quantity: qty,
+      // Bundled section rendering
+      sections: 'cart-ajax'
+    })
+      .then((state) => {
+        this.cartMarkup(state.sections['cart-ajax'])
+        document.dispatchEvent(new CustomEvent(EVENTS.cartUpdated, { detail: { cart: state } }))
       })
-    }
+      .catch(async (response) => {
+        const data = await response.json()
+        alert(data.description)
+        // Enable qty selector again
+        el.classList.remove('is-loading')
+        // Reset quantity input to initial value
+        el.firstElementChild.value = el.firstElementChild.dataset.initialValue
+      })
+  }
 
-    // show/hide bubble(s)
-    const bubbles = document.querySelectorAll(this.selectors.cartBubble)
-    if (bubbles.length) {
-      if (count > 0) {
-        bubbles.forEach((b) => {
-          b.classList.add('cart-link__bubble--visible')
-        })
-      } else {
-        bubbles.forEach((b) => {
-          b.classList.remove('cart-link__bubble--visible')
-        })
-      }
-    }
+  changeItem(body) {
+    return fetch(`${window.Shopify.routes.root}cart/change.js`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    }).then((response) => {
+      if (!response.ok) throw response
+      return response.json()
+    })
+  }
+
+  getCartProductMarkup() {
+    let url = `${window.Shopify.routes.root}?section_id=cart-ajax`
+
+    return fetch(url, {
+      credentials: 'same-origin',
+      method: 'GET'
+    })
+      .then((response) => response.text())
+      .catch((e) => console.error(e))
   }
 }

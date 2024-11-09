@@ -1,8 +1,5 @@
-import { EVENTS, publish, subscribe } from '@archetype-themes/utils/pubsub'
-
-/*============================================================================
-  PredictiveSearch
-==============================================================================*/
+import { EVENTS } from '@archetype-themes/utils/events'
+import { debounce } from '@archetype-themes/utils/utils'
 
 class PredictiveSearch extends HTMLElement {
   constructor() {
@@ -14,19 +11,6 @@ class PredictiveSearch extends HTMLElement {
     this.closeBtn = this.querySelector('.btn--close-search')
     this.screen = this.querySelector('[data-screen]')
     this.SearchModal = this.closest('#SearchModal') || null
-
-    // Open events
-    subscribe(EVENTS.predictiveSearchOpen, (e) => {
-      if (e.detail.context !== this.context) return
-      this.classList.add('is-active')
-
-      // Wait for opening events to finish then apply focus
-      setTimeout(() => {
-        this.input.focus()
-      }, 100)
-
-      document.body.classList.add('predictive-overflow-hidden')
-    })
 
     // listen for class change of 'modal--is-active on this.SearchModal
     if (this.SearchModal) {
@@ -47,8 +31,29 @@ class PredictiveSearch extends HTMLElement {
         attributes: true
       })
     }
+  }
 
+  connectedCallback() {
     if (this.enabled === 'false') return
+
+    this.abortController = new AbortController()
+
+    // Open events
+    document.addEventListener(
+      EVENTS.predictiveSearchOpen,
+      (e) => {
+        if (e.detail.context !== this.context) return
+        this.classList.add('is-active')
+
+        // Wait for opening events to finish then apply focus
+        setTimeout(() => {
+          this.input.focus()
+        }, 100)
+
+        document.body.classList.add('predictive-overflow-hidden')
+      },
+      { signal: this.abortController.signal }
+    )
 
     // On typing
     this.input.addEventListener('keydown', () => {
@@ -57,30 +62,56 @@ class PredictiveSearch extends HTMLElement {
 
     this.input.addEventListener(
       'input',
-      this.debounce((event) => {
+      debounce(300, (event) => {
         this.onChange(event)
-      }, 300).bind(this)
+      }).bind(this)
     )
 
     // Close events
-    subscribe(EVENTS.predictiveSearchClose, () => {
-      this.close()
-    })
-    document.addEventListener('keydown', (event) => {
-      if (event.keyCode === 27) this.close()
-    })
-    this.closeBtn.addEventListener('click', (e) => {
-      e.preventDefault()
-      this.close()
-    })
-    this.screen.addEventListener('click', () => {
+    document.addEventListener(
+      EVENTS.predictiveSearchClose,
+      () => {
+        this.close()
+      },
+      { signal: this.abortController.signal }
+    )
+
+    document.addEventListener(
+      'keydown',
+      (evt) => {
+        if (evt.keyCode === 27) this.close()
+      },
+      { signal: this.abortController.signal }
+    )
+
+    this.closeBtn.addEventListener(
+      'click',
+      (evt) => {
+        evt.preventDefault()
+        this.close()
+      },
+      { signal: this.abortController.signal }
+    )
+
+    this.screen?.addEventListener(
+      'click',
+      () => {
+        this.close()
+      },
+      { signal: this.abortController.signal }
+    )
+
+    document.addEventListener(EVENTS.headerSearchClose, () => {
       this.close()
     })
   }
 
+  disconnectedCallback() {
+    this.abortController.abort()
+  }
+
   onChange() {
     const searchTerm = this.input.value.trim()
-
     if (!searchTerm.length) return
 
     this.getSearchResults(searchTerm)
@@ -128,20 +159,13 @@ class PredictiveSearch extends HTMLElement {
     this.predictiveSearchResults.innerHTML = ''
     this.classList.remove('is-active')
     document.body.classList.remove('predictive-overflow-hidden')
+    if (this.contains(document.activeElement)) document.activeElement.blur()
 
     /**
      * @event predictive-search:close-all
      * @description Fired when the predictive search is closed.
      */
-    publish(EVENTS.predictiveSearchCloseAll)
-  }
-
-  debounce(fn, wait) {
-    let t
-    return (...args) => {
-      clearTimeout(t)
-      t = setTimeout(() => fn.apply(this, args), wait)
-    }
+    this.dispatchEvent(new CustomEvent(EVENTS.predictiveSearchCloseAll, { bubbles: true }))
   }
 
   paramUrl(obj) {

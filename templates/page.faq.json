@@ -12,8 +12,7 @@
     "main": {
       "type": "main-page",
       "disabled": true,
-      "settings": {
-      }
+      "settings": {}
     },
     "faq": {
       "type": "faq",
@@ -27,13 +26,11 @@
         },
         "faq-1": {
           "type": "question",
-          "settings": {
-          }
+          "settings": {}
         },
         "faq-2": {
           "type": "question",
-          "settings": {
-          }
+          "settings": {}
         },
         "faq-3": {
           "type": "rich-text",
@@ -44,8 +41,7 @@
         },
         "faq-4": {
           "type": "question",
-          "settings": {
-          }
+          "settings": {}
         }
       },
       "block_order": [

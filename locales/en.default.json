@@ -30,7 +30,7 @@
     "close_esc": "Close (esc)",
     "previous": "Previous",
     "next": "Next",
-    "add_to_cart": "ADD TO CART",
+    "add_to_cart": "Add to cart",
     "preorder": "Pre-order",
     "view_in_space": "View in your space",
     "leave_a_comment": "Leave a comment",
@@ -53,7 +53,6 @@
     "pin_it": "Pin it",
     "get_in_touch": "Get in touch",
     "email_us": "Email us",
-    "contact_us": "Contact us",
     "live_chat": "Live chat",
     "follow_us": "Follow us",
     "activate": "Activate account",
@@ -113,7 +112,7 @@
     "save_amount": "Save {{ saved_amount }}",
     "placeholder_product_description": "This area is used to describe your product’s details. Tell customers about the look, feel, and style of your product. Add details on color,  materials used, sizing, and where it was made.",
     "tax_included": "Tax included.",
-    "shipping_policy_html": "<a href='{{ link }}'>Free Shipping</a> on all orders.",
+    "shipping_policy_html": "<a href='{{ link }}'>Shipping</a> calculated at checkout.",
     "sold_out": "Sold Out",
     "view_in_space_explanation": "View in your space, loads item in augmented reality window",
     "low_stock_count": {
@@ -167,6 +166,7 @@
     "search_results_for_html": "Your search for \"{{ terms }}\" revealed the following:",
     "signup_success": "We will send you an email when we open!",
     "unavailable": "Unavailable",
+    "variant_sold_out_or_unavailable": "Variant sold out or unavailable",
     "will_be_powered_by_html": "This shop will be powered by {{ shopify }}",
     "you_must_agree": "You must agree with the terms and conditions of sales to check out",
     "admin_link_html": "Store owner? <a href=\"/admin\" class=\"text-link\">Log in here</a>"
@@ -261,10 +261,5 @@
   },
   "date_formats": {
     "month_day_year": "%b %d, %Y"
-  },
-  "sections": {
-    "countdown": {
-      "section_name": "countdown"
-    }
   }
 }

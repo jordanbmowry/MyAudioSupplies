@@ -11,8 +11,7 @@
   "sections": {
     "main": {
       "type": "main-page-full-width",
-      "settings": {
-      }
+      "settings": {}
     }
   },
   "order": [

@@ -1,4 +1,4 @@
-{% # components v2.10.69 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
+{% # components v3.0.1 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
 {%- comment -%}
   Renders the product price
 
@@ -39,7 +39,7 @@
   {{ block.shopify_attributes }}
 >
   <span class="label variant__label">
-    {{- 'labels.price' | t -}}
+    {% render 't_with_fallback', key: 'labels.price', fallback: 'Price' %}
   </span>
   <div
     class="block-price__container"
@@ -54,7 +54,9 @@
     {% endif %}
   >
     <div class="block-price__regular product__price">
-      <span class="visually-hidden">{{ 'labels.regular_price' | t }}</span>
+      <span class="visually-hidden">
+        {% render 't_with_fallback', key: 'labels.regular_price', fallback: 'Regular price' %}
+      </span>
       <span>
         {%- render 'price', price: price -%}
       </span>
@@ -62,7 +64,9 @@
 
     <div class="block-price__sale product__price">
       {%- unless product.price_varies == false and product.compare_at_price_varies %}
-        <span class="visually-hidden">{{ 'labels.regular_price' | t }}</span>
+        <span class="visually-hidden">
+          {% render 't_with_fallback', key: 'labels.regular_price', fallback: 'Regular price' %}
+        </span>
         <span>
           <s>
             {%- render 'price', price: compare_at_price -%}
@@ -70,7 +74,9 @@
         </span>
       {%- endunless -%}
 
-      <span class="visually-hidden">{{ 'labels.sale_price' | t }}</span>
+      <span class="visually-hidden">
+        {% render 't_with_fallback', key: 'labels.sale_price', fallback: 'Sale price' %}
+      </span>
 
       <span class="product__price">
         {%- render 'price', price: price -%}
@@ -79,7 +85,11 @@
 
     {%- if product_save_amount -%}
       <span class="block-price__save product__price-savings on-sale">
-        {{- 'info.save_amount' | t: saved_amount: saved_amount -}}
+        {% assign info_save_amount = 'info.save_amount' | t: saved_amount: saved_amount %}
+        {%- capture fallback_info_save_amount -%}
+          Save {{ saved_amount }}
+        {%- endcapture -%}
+        {% render 't_with_fallback', t: info_save_amount, fallback: fallback_info_save_amount %}
       </span>
     {%- endif -%}
 

@@ -1,4 +1,4 @@
-{% # components v2.10.69 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
+{% # components v3.0.1 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
 {%- comment -%}
   Renders a featured collection section.
 
@@ -108,7 +108,7 @@
           {% endif %}
           {%- if view_all -%}
             <a href="{{ collection.url }}" class="section-header__link">
-              {{- 'actions.view_all' | t -}}
+              {% render 't_with_fallback', key: 'actions.view_all', fallback: 'View all' %}
             </a>
           {%- endif -%}
         </div>
@@ -179,7 +179,7 @@
                 >
                   <a href="{{ collection.url }}" class="section-header__link">
                     {% if block.settings.label == blank %}
-                      {{ 'actions.view_all' | t }}
+                      {% render 't_with_fallback', key: 'actions.view_all', fallback: 'View all' %}
                     {% else %}
                       {{ block.settings.label }}
                     {% endif %}

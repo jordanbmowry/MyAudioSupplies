@@ -1,13 +1,5 @@
-// This is the javascript entrypoint for the countdown section.
-// This file and all its inclusions will be processed through esbuild
-
-/*============================================================================
-  CountdownTimer
-==============================================================================*/
-
 class CountdownTimer extends HTMLElement {
-  constructor() {
-    super()
+  connectedCallback() {
     this.el = this
     this.display = this.querySelector('[data-time-display]')
     this.block = this.closest('.countdown__block--timer')

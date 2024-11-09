@@ -11,8 +11,7 @@
   "sections": {
     "main": {
       "type": "main-login",
-      "settings": {
-      }
+      "settings": {}
     }
   },
   "order": [

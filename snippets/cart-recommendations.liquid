@@ -1,4 +1,4 @@
-{% # components v2.10.69 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
+{% # components v3.0.1 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
 {%- comment -%}
   Renders the cart recommendations component.
 
@@ -23,7 +23,9 @@
 
 {%- if collection != blank -%}
   <div class="cart__item-row cart-recommendations" data-location="{{ context }}">
-    <div class="h3 h3--mobile cart__recommended-title">{{ 'labels.goes_great_with' | t }}</div>
+    <div class="h3 h3--mobile cart__recommended-title">
+      {% render 't_with_fallback', key: 'labels.goes_great_with', fallback: 'Goes great with' %}
+    </div>
     <div
       class="new-grid product-grid{% if mobile_scroll_only %} scrollable-grid--small{% else %} scrollable-grid{% endif %}"
       data-view="small"

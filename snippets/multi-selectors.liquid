@@ -1,4 +1,4 @@
-{% # components v2.10.69 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
+{% # components v3.0.1 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
 {%- comment -%}
   Renders a form with locale and currency selectors.
 
@@ -30,11 +30,11 @@
     <div class="multi-selectors__item">
       {%- if context == 'footer' -%}
         <div class="footer__title" id="LangHeading-{{ context }}">
-          {{ 'labels.language' | t }}
+          {% render 't_with_fallback', key: 'labels.language', fallback: 'Language' %}
         </div>
       {%- else -%}
         <div class="visually-hidden" id="LangHeading-{{ context }}">
-          {{ 'labels.language' | t }}
+          {% render 't_with_fallback', key: 'labels.language', fallback: 'Language' %}
         </div>
       {%- endif -%}
 
@@ -80,7 +80,7 @@
         <input type="hidden" name="locale_code" value="{{ form.current_locale.iso_code }}" data-disclosure-input>
       </at-disclosure>
       <script type="module">
-        import '@archetype-themes/scripts/modules/disclosure'
+        import '@archetype-themes/custom-elements/disclosure'
       </script>
     </div>
   {%- endif -%}
@@ -89,11 +89,11 @@
     <div class="multi-selectors__item">
       {%- if context == 'footer' -%}
         <div class="footer__title" id="CurrencyHeading-{{ context }}">
-          {{ 'labels.currency' | t }}
+          {% render 't_with_fallback', key: 'labels.currency', fallback: 'Currency' %}
         </div>
       {%- else -%}
         <div class="visually-hidden" id="CurrencyHeading-{{ context }}">
-          {{ 'labels.currency' | t }}
+          {% render 't_with_fallback', key: 'labels.currency', fallback: 'Currency' %}
         </div>
       {%- endif -%}
 
@@ -155,7 +155,7 @@
         <input type="hidden" name="country_code" value="{{ localization.country.iso_code }}" data-disclosure-input>
       </at-disclosure>
       <script type="module">
-        import '@archetype-themes/scripts/modules/disclosure'
+        import '@archetype-themes/custom-elements/disclosure'
       </script>
     </div>
   {%- endif -%}

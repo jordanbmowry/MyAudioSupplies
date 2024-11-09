@@ -12,6 +12,7 @@ class QuantitySelector extends HTMLElement {
     this.minus = this.querySelector(selectors.minus)
     this.input = this.querySelector(selectors.input)
     this.minValue = this.input.getAttribute('min') || 1
+    this.maxValue = this.input.getAttribute('max')
 
     this.plus.addEventListener(
       'click',
@@ -60,12 +61,25 @@ class QuantitySelector extends HTMLElement {
       qty = this.minValue
     }
 
+    if (this.maxValue && qty > this.maxValue) {
+      qty = this.maxValue
+    }
+
     this.input.value = qty
 
     if (this.key !== '') {
-      document.dispatchEvent(
+      this.dispatchEvent(
         new CustomEvent('cart:quantity', {
+          bubbles: true,
           detail: [this.key, qty, this]
+        })
+      )
+    } else {
+      this.dispatchEvent(
+        new CustomEvent('quantity:change', {
+          detail: {
+            qty: qty
+          }
         })
       )
     }

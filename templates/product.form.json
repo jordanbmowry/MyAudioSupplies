@@ -15,18 +15,15 @@
       "blocks": {
         "buy_buttons": {
           "type": "buy_buttons",
-          "settings": {
-          }
+          "settings": {}
         },
         "variant_picker": {
           "type": "variant_picker",
-          "settings": {
-          }
+          "settings": {}
         },
         "price": {
           "type": "price",
-          "settings": {
-          }
+          "settings": {}
         }
       },
       "block_order": [
@@ -34,8 +31,7 @@
         "variant_picker",
         "buy_buttons"
       ],
-      "settings": {
-      }
+      "settings": {}
     }
   },
   "order": [

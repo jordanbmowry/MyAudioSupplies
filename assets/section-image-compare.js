@@ -1,8 +1,7 @@
-import { debounce } from '@archetype-themes/scripts/helpers/utils'
-import { HTMLSectionElement } from '@archetype-themes/scripts/helpers/section'
-import { config } from '@archetype-themes/scripts/config'
+import { debounce } from '@archetype-themes/utils/utils'
+import { HTMLThemeElement } from '@archetype-themes/custom-elements/theme-element'
 
-class ImageCompare extends HTMLSectionElement {
+class ImageCompare extends HTMLThemeElement {
   constructor() {
     super()
     this.active = false
@@ -115,7 +114,8 @@ class ImageCompare extends HTMLSectionElement {
       newXpos = XposMax - boundaryPadding
       containerWidth = this.elWidth - boundaryPadding
     } else {
-      containerWidth = config.rtl ? this.elWidth - (this.elWidth / 2 + xPos) : this.elWidth / 2 + xPos
+      containerWidth =
+        document.documentElement.dir === 'rtl' ? this.elWidth - (this.elWidth / 2 + xPos) : this.elWidth / 2 + xPos
     }
 
     el.style.transform = `translate(${newXpos}px, -50%)`

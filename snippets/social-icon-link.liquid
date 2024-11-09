@@ -1,4 +1,4 @@
-{% # components v2.10.69 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
+{% # components v3.0.1 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
 {%- comment -%}
   Renders a link to a social media profile.
 
@@ -13,9 +13,16 @@
   {% render 'social-icon-link', platform: 'Facebook', link: 'https://facebook.com/shop' %}
 {%- endcomment -%}
 
+{%- capture actions_shop_on_social -%}
+  {% assign actions_shop_on_social = 'actions.shop_on_social' | t: name: shop.name, platform: platform %}
+  {%- capture fallback_actions_shop_on_social -%}
+    {{ shop.name }} on {{ platform }}
+  {%- endcapture -%}
+  {% render 't_with_fallback', t: actions_shop_on_social, fallback: fallback_actions_shop_on_social %}
+{%- endcapture -%}
+
 {%- liquid
-  assign default_link_title = 'actions.shop_on_social' | t: name: shop.name, platform: platform
-  assign link_title = link_title | default: default_link_title
+  assign link_title = link_title | default: actions_shop_on_social
 -%}
 
 <li>

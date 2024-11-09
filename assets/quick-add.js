@@ -1,5 +1,5 @@
-import { executeJSmodules } from '@archetype-themes/scripts/helpers/utils'
-import { EVENTS, publish } from '@archetype-themes/utils/pubsub'
+import { executeJSmodules } from '@archetype-themes/utils/utils'
+import { EVENTS } from '@archetype-themes/utils/events'
 
 /*============================================================================
   QuickAdd
@@ -45,7 +45,7 @@ class QuickAdd extends HTMLElement {
            * @event quickshop:opened
            * @description Triggered when the quick add modal is opened.
            */
-          document.dispatchEvent(new CustomEvent('quickshop:opened'))
+          this.dispatchEvent(new CustomEvent('quickshop:opened'), { bubbles: true })
 
           if (Shopify && Shopify.PaymentButton) {
             Shopify.PaymentButton.init()
@@ -71,7 +71,9 @@ class QuickAdd extends HTMLElement {
           id: id,
           quantity: 1
         }
-      ]
+      ],
+      // Bundled section rendering
+      sections: ['cart-ajax']
     }
 
     const endpoint = 'cart/add.js'
@@ -90,12 +92,13 @@ class QuickAdd extends HTMLElement {
             alert(data.description)
           }
         } else {
-          publish(EVENTS.ajaxProductAdded, {
+          this.dispatchEvent(new CustomEvent(EVENTS.ajaxProductAdded, {
+            bubbles: true,
             detail: {
               product: data,
               addToCartBtn: btn
             }
-          })
+          }))
         }
 
         visibleBtn.classList.remove('btn--loading')
@@ -125,22 +128,6 @@ class QuickAdd extends HTMLElement {
        * @description Triggered when the quick add form is loaded.
        */
       window.dispatchEvent(new CustomEvent(`quickadd:loaded:-${this.prodId}`))
-
-      /**
-       * @event quickadd:loaded
-       * @description Triggered when the quick add form is loaded.
-       * @param {string} detail.productId - The product ID.
-       * @param {string} detail.handle - The product handle.
-       */
-      document.dispatchEvent(
-        new CustomEvent('quickadd:loaded', {
-          detail: {
-            productId: this.prodId,
-            handle: handle
-          }
-        })
-      )
-
       return div
     } catch (error) {
       console.error('Error:', error)

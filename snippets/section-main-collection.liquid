@@ -1,4 +1,4 @@
-{% # components v2.10.69 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
+{% # components v3.0.1 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
 {%- comment -%}
   Renders the main collection section.
 
@@ -19,9 +19,9 @@
   endfor
 -%}
 
-{% capture no_products  %}  
+{% capture no_products %}
   <div class="index-section">
-    {{ 'info.collection_no_products' | t }}
+    {% render 't_with_fallback', key: 'info.collection_no_products', fallback: 'Sorry, there are no products in this collection.' %}
   </div>
 {% endcapture %}
 
@@ -45,7 +45,6 @@
     endif
   endcapture
 -%}
-
 
 {%- assign grid_style = 'medium' -%}
 {%- capture collection_content -%}
@@ -80,11 +79,12 @@
 
 <section-main-content>
   <div class="page-width">
-    {%- render 'item-grid' 
-      context: collection, 
+    {%- render 'item-grid',
+      context: collection,
       grid_style: grid_style,
       slot: collection_content,
-      paginate_by: paginate_by -%}
+      paginate_by: paginate_by
+    -%}
   </div>
 </section-main-content>
 

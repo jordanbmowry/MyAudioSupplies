@@ -1,4 +1,4 @@
-{% # components v2.10.69 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
+{% # components v3.0.1 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
 {% comment %}
   Renders the inventory status of a product
 
@@ -75,9 +75,13 @@
           data-enabled="{{ block.settings.inventory_transfers_enable }}"
         >
           {%- if show_low_inventory_message -%}
-            {{ 'info.low_stock_count' | t: count: current_variant.inventory_quantity }}
+            {% assign info_low_stock_count = 'info.low_stock_count' | t: count: current_variant.inventory_quantity %}
+            {%- capture fallback_info_low_stock_count -%}
+              Low stock - {{ count }} item{%- if count != 1 -%}s{%- endif -%} left
+            {%- endcapture -%}
+            {% render 't_with_fallback', t: info_low_stock_count, fallback: fallback_info_low_stock_count %}
           {%- else -%}
-            {{ 'info.in_stock' | t }}
+            {% render 't_with_fallback', key: 'info.in_stock', fallback: 'In stock, ready to ship' %}
           {%- endif -%}
         </span>
       </span>
@@ -93,10 +97,14 @@
           {%- if current_variant.next_incoming_date -%}
             {%- assign date = current_variant.next_incoming_date | date: format: 'date' -%}
             {%- if current_variant.available == false -%}
-              {{ 'info.back_in_stock_on' | t: date: date }}
+              {% assign info_back_in_stock_on = 'info.back_in_stock_on' | t: date: date %}
+              {%- capture fallback_info_back_in_stock_on -%}
+                Back in stock {{ date }}
+              {%- endcapture -%}
+              {% render 't_with_fallback', t: info_back_in_stock_on, fallback: fallback_info_back_in_stock_on %}
             {%- endif -%}
           {%- else -%}
-            {{ 'info.backordered' | t }}
+            {% render 't_with_fallback', key: 'info.backordered', fallback: 'Backordered, shipping soon' %}
           {%- endif -%}
         </span>
       </span>
@@ -105,13 +113,24 @@
   <script type="application/json" data-current-variant-json>
     {{- product.selected_or_first_available_variant | json -}}
   </script>
-  <script type="application/json" data-locales-json>
+  <script type="application/json" data-locales>
     {
-      "willBeInStockAfter": "{{ 'info.back_in_stock_on' | t: date: '[date]' }}",
-      "waitingForStock": "{{ 'info.backordered' | t }}",
-      "otherStockLabel": "{{ 'info.low_stock_count.one' | t: count: '[count]' }}",
-      "oneStockLabel": "{{ 'info.low_stock_count.one' | t: count: '[count]' }}",
-      "inStockLabel": "{{ 'info.in_stock' | t }}"
+      "willBeInStockAfter":
+        {%- render 't_with_fallback', key: 'info.back_in_stock_on', fallback: 'Back in stock [date]', as_json: true -%}
+      ,
+      "waitingForStock":
+        {%- render 't_with_fallback', key: 'info.backordered', fallback: 'Backordered, shipping soon', as_json: true -%}
+      ,
+      "otherStockLabel":
+        {%- assign info_low_stock_count_one = 'info.low_stock_count.one' | t: count: '[count]' -%}
+        {%- render 't_with_fallback', t: info_low_stock_count_one, fallback: 'Low stock - [count] item left', as_json: true -%}
+      ,
+      "oneStockLabel":
+        {%- assign info_low_stock_count_one = 'info.low_stock_count.one' | t: count: '[count]' -%}
+        {%- render 't_with_fallback', t: info_low_stock_count_one, fallback: 'Low stock - [count] item left', as_json: true -%}
+      ,
+      "inStockLabel":
+        {%- render 't_with_fallback', key: 'info.in_stock', fallback: 'In stock, ready to ship', as_json: true -%}
     }
   </script>
   {%- comment -%}

@@ -1,8 +1,7 @@
-import { HTMLSectionElement } from '@archetype-themes/scripts/helpers/section'
+import { HTMLThemeElement } from '@archetype-themes/custom-elements/theme-element'
 
-class HotSpots extends HTMLSectionElement {
-  constructor() {
-    super()
+class HotSpots extends HTMLThemeElement {
+  connectedCallback() {
     this.el = this
     this.buttons = this.querySelectorAll('[data-button]')
     this.hotspotBlocks = this.querySelectorAll('[data-hotspot-block]')

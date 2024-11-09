@@ -1,4 +1,4 @@
-{% # components v2.10.69 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
+{% # components v3.0.1 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
 {%- comment -%}
   Renders a pagination component.
 
@@ -15,11 +15,15 @@
     <span class="prev">
       <a
         href="{{ paginate.previous.url | replace: 'view=ajax', '' }}{{ hash }}"
-        title="{{ 'actions.previous' | t }}"
+        title="
+          {% render 't_with_fallback', key: 'actions.previous', fallback: 'Previous' -%}
+        "
         class="btn btn--large btn--circle btn--icon"
       >
         {% render 'icon', name: 'chevron-left' %}
-        <span class="icon__fallback-text visually-hidden">{{ 'actions.previous' | t }}</span>
+        <span class="icon__fallback-text visually-hidden">
+          {% render 't_with_fallback', key: 'actions.previous', fallback: 'Previous' -%}
+        </span>
       </a>
     </span>
   {% endif %}
@@ -42,11 +46,15 @@
     <span class="next">
       <a
         href="{{ paginate.next.url | replace: 'view=ajax', '' }}{{ hash }}"
-        title="{{ 'actions.next' | t }}"
+        title="
+          {% render 't_with_fallback', key: 'actions.next', fallback: 'Next' -%}
+        "
         class="btn btn--large btn--circle btn--icon"
       >
         {% render 'icon', name: 'chevron-right' %}
-        <span class="icon__fallback-text visually-hidden">{{ 'actions.next' | t }}</span>
+        <span class="icon__fallback-text visually-hidden">
+          {% render 't_with_fallback', key: 'actions.next', fallback: 'Next' -%}
+        </span>
       </a>
     </span>
   {% endif %}

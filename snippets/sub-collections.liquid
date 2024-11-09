@@ -1,4 +1,4 @@
-{% # components v2.10.69 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
+{% # components v3.0.1 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
 {%- comment -%}
   Renders a collection grid item.
 
@@ -9,6 +9,7 @@
   - collection_grid_shape {string} - The collection grid shape
   - collection_grid_image_fill {string} - The collection grid image fill
   - collection_grid_color {string} - The collection grid color
+  - products_per_row {number} - The number of products per row
 
   Usage:
   {% render 'sub-collections', sub_collection_links: link.links %}
@@ -21,6 +22,7 @@
   assign collection_grid_shape = collection_grid_shape | default: settings.collection_grid_shape | default: 'square'
   assign collection_grid_image_fill = collection_grid_image_fill | default: settings.collection_grid_image_fill, allow_false: true | default: true, allow_false: true
   assign collection_grid_color = collection_grid_color | default: settings.collection_grid_color | default: 'grey'
+  assign products_per_row = products_per_row | default: 6
 
   for sub_collection_link in sub_collection_links
     if sub_collection_link.url contains '/collections/'
@@ -31,7 +33,7 @@
       if sub_collection != blank
         unless parent_url == sub_collection.url
           capture grid_view
-            render 'grid-view-type', products_per_row: sub_collection_links.size, style: 'fractions', type: false
+            render 'grid-view-type', products_per_row: products_per_row, style: 'fractions', type: false
           endcapture
 
           assign size_variable = sub_collection_links.size | at_most: 6

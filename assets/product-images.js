@@ -1,39 +1,23 @@
-import { config } from '@archetype-themes/scripts/config'
-import Photoswipe from '@archetype-themes/scripts/modules/photoswipe'
-import { Slideshow } from '@archetype-themes/scripts/modules/slideshow'
-import YouTube from '@archetype-themes/scripts/helpers/youtube'
-import VimeoPlayer from '@archetype-themes/scripts/helpers/vimeo'
-import { EVENTS, subscribe } from '@archetype-themes/utils/pubsub'
-import videoModal from '@archetype-themes/scripts/modules/video-modal'
-import { init, removeSectionModels } from '@archetype-themes/scripts/modules/product-media'
+import Photoswipe from '@archetype-themes/modules/photoswipe'
+import { Slideshow } from '@archetype-themes/modules/slideshow'
+import { EVENTS } from '@archetype-themes/utils/events'
 
 class ProductImages extends HTMLElement {
   constructor() {
     super()
-
-    if (!!this.dataset.modal) {
-      this.init()
-    }
-  }
-
-  init() {
-    this.videoObjects = {}
 
     this.classes = {
       hidden: 'hide'
     }
 
     this.selectors = {
-      productVideo: '.product__video',
       videoParent: '.product__video-wrapper',
+      modelParent: '.product__model-wrapper',
       slide: '.product-main-slide',
       currentSlide: '.is-selected',
       startingSlide: '.starting-slide',
-
       currentVariantJson: '[data-current-variant-json]',
       productOptionsJson: '[data-product-options-json]',
-
-      media: '[data-product-media-type-model]',
       closeMedia: '.product-single__close-media',
       thumbSlider: '[data-product-thumbs]',
       thumbScroller: '.product__thumbs--scroller',
@@ -41,17 +25,24 @@ class ProductImages extends HTMLElement {
       imageContainer: '[data-product-images]'
     }
 
-    this.sectionId = this.getAttribute('data-section-id')
-
     this.settings = {
       imageSetName: null,
       imageSetIndex: null,
       currentImageSet: null,
       currentSlideIndex: 0,
       mediaGalleryLayout: this.dataset.mediaGalleryLayout,
-      hasVideos: this.querySelector(this.selectors.productVideo) ? true : false,
-      hasModels: this.querySelector('[data-product-media-type-model]') ? true : false
+      hasVideos: this.querySelector(this.selectors.videoParent) ? true : false,
+      hasModels: this.querySelector(this.selectors.modelParent) ? true : false
     }
+  }
+
+  connectedCallback() {
+    if (!this.dataset.modal) return
+
+    this.abortController = new AbortController()
+    this.videoObjects = {}
+
+    this.sectionId = this.getAttribute('data-section-id')
 
     this.currentVariant = JSON.parse(this.querySelector(this.selectors.currentVariantJson).textContent)
     this.productOptions = JSON.parse(this.querySelector(this.selectors.productOptionsJson).textContent)
@@ -67,16 +58,12 @@ class ProductImages extends HTMLElement {
 
     this.initVariants()
     this.initImageZoom()
-    this.initModelViewerLibraries()
-    this.videoSetup()
     this.initProductSlider(this.currentVariant)
     this.customMediaListeners()
-    // open youtube/vimeo/mp4 video in modal
-    videoModal(this)
   }
 
   disconnectedCallback() {
-    removeSectionModels(this.sectionId)
+    this.abortController.abort()
 
     if (this.flickity && typeof this.flickity.destroy === 'function') {
       this.flickity.destroy()
@@ -92,16 +79,20 @@ class ProductImages extends HTMLElement {
   }
 
   initVariants() {
-    subscribe(
+    document.addEventListener(
       `${EVENTS.variantChange}:${this.dataset.sectionId}:${this.dataset.productId}`,
-      this.updateVariantImage.bind(this)
+      this.updateVariantImage.bind(this),
+      { signal: this.abortController.signal }
     )
+
     // image set names variant change listeners
-    if (this.settings.imageSetIndex)
-      subscribe(
+    if (this.settings.imageSetIndex) {
+      document.addEventListener(
         `${EVENTS.variantChange}:${this.dataset.sectionId}:${this.dataset.productId}`,
-        this.updateImageSet.bind(this)
+        this.updateImageSet.bind(this),
+        { signal: this.abortController.signal }
       )
+    }
   }
 
   /*============================================================================
@@ -144,7 +135,7 @@ class ProductImages extends HTMLElement {
      * @event product-images:updateImageSet
      * @description Triggered when the image set is updated.
      */
-    document.dispatchEvent(new CustomEvent('product-images:updateImageSet'))
+    this.dispatchEvent(new CustomEvent('product-images:updateImageSet', { bubbles: true }))
   }
 
   // Show/hide thumbnails based on current image set
@@ -200,7 +191,7 @@ class ProductImages extends HTMLElement {
     const variant = evt?.detail?.variant
 
     if (!variant || !variant.featured_media) return
-    if (!config.bpSmall && this.settings.mediaGalleryLayout === 'stacked') {
+    if (!matchMedia('(max-width: 768px)').matches && this.settings.mediaGalleryLayout === 'stacked') {
       const slide = this.cache.mainSlider.querySelector(
         `.product-main-slide[data-media-id="${variant.featured_media.id}"]`
       )
@@ -262,42 +253,34 @@ class ProductImages extends HTMLElement {
     if (!mediaTarget) return
 
     if (this.settings.hasVideos) {
-      this.stopVideos()
-
-      const video = mediaTarget.querySelector(this.selectors.productVideo)
+      const video = mediaTarget.querySelector(this.selectors.videoParent)
       if (video) {
-        const videoType = this._getVideoType(video)
-        const videoId = this._getVideoDivId(video)
-        if (videoType === 'youtube') {
-          if (this.videoObjects[videoId].videoPlayer && this.videoObjects[videoId].options.style !== 'sound') {
-            setTimeout(() => {
-              this.videoObjects[videoId].videoPlayer.playVideo()
-            }, 1000)
-            return
-          }
-        } else if (videoType === 'mp4') {
-          this.playMp4Video(videoId)
+        const isLandEl = video.querySelector('is-land')
+        const videoMediaEl = video.querySelector('video-media')
+        isLandEl.dispatchEvent(new CustomEvent('select'))
+        if (
+          videoMediaEl.hasAttribute('autoplay') &&
+          !videoMediaEl.hasAttribute('playing') &&
+          videoMediaEl.hasAttribute('loaded')
+        ) {
+          videoMediaEl.play()
         }
       }
     }
 
     if (this.settings.hasModels) {
-      const allMedia = this.querySelector(this.selectors.media)
-      if (allMedia.length) {
-        allMedia.forEach((el) => {
-          /**
-           * @event mediaHidden
-           * @description Event fired when media is hidden.
-           * @param {boolean} bubbles - Whether the event bubbles up through the DOM or not.
-           * @param {boolean} cancelable - Whether the event is cancelable or not.
-           */
-          el.dispatchEvent(
-            new CustomEvent('mediaHidden', {
-              bubbles: true,
-              cancelable: true
-            })
-          )
-        })
+      const model = mediaTarget.querySelector(this.selectors.modelParent)
+      if (model) {
+        const isLandEl = model.querySelector('is-land')
+        const modelMediaEl = model.querySelector('model-media')
+        isLandEl.dispatchEvent(new CustomEvent('select'))
+        if (
+          modelMediaEl.hasAttribute('autoplay') &&
+          !modelMediaEl.hasAttribute('playing') &&
+          modelMediaEl.hasAttribute('loaded')
+        ) {
+          modelMediaEl.play()
+        }
       }
 
       const currentMedia = mediaTarget.querySelector(this.selectors.media)
@@ -384,7 +367,7 @@ class ProductImages extends HTMLElement {
       this.updateImageSetThumbs(mainSliderArgs.imageSet)
     }
 
-    if (!config.bpSmall && this.settings.mediaGalleryLayout === 'stacked') {
+    if (!matchMedia('(max-width: 768px)').matches && this.settings.mediaGalleryLayout === 'stacked') {
       const imageContainer = this.querySelector(this.selectors.imageContainer) || this
       imageContainer.setAttribute('data-has-slideshow', 'false')
 
@@ -403,6 +386,18 @@ class ProductImages extends HTMLElement {
   onSliderInit(slide) {
     // If slider is initialized with image set feature active,
     // initialize any videos/media when they are first slide
+    const video = slide.querySelector(this.selectors.videoParent)
+    if (video) {
+      const isLandEl = video.querySelector('is-land')
+      isLandEl.dispatchEvent(new CustomEvent('select'))
+    }
+
+    const model = slide.querySelector(this.selectors.modelParent)
+    if (model) {
+      const isLandEl = model.querySelector('is-land')
+      isLandEl.dispatchEvent(new CustomEvent('select'))
+    }
+
     if (this.settings.imageSetName) {
       this.prepMediaOnSlide(slide)
     }
@@ -435,253 +430,58 @@ class ProductImages extends HTMLElement {
 
   stopMediaOnSlide(slide) {
     // Stop existing video
-    const video = slide.querySelector(this.selectors.productVideo)
+    const video = slide.querySelector(this.selectors.videoParent)
     if (video) {
-      const videoType = this._getVideoType(video)
-      const videoId = this._getVideoDivId(video)
-      if (videoType === 'youtube') {
-        if (this.videoObjects[videoId].videoPlayer) {
-          this.videoObjects[videoId].videoPlayer.stopVideo()
-          return
-        }
-      } else if (videoType === 'mp4') {
-        this.stopMp4Video(videoId)
-        return
+      const videoMediaEl = video.querySelector('video-media')
+      if (videoMediaEl.hasAttribute('playing')) {
+        videoMediaEl.pause()
       }
     }
 
     // Stop existing media
-    const currentMedia = slide.querySelector(this.selectors.media)
+    const currentMedia = slide.querySelector(this.selectors.modelParent)
     if (currentMedia) {
-      currentMedia.dispatchEvent(
-        new CustomEvent('mediaHidden', {
-          bubbles: true,
-          cancelable: true
-        })
-      )
+      const modelMediaEl = currentMedia.querySelector('model-media')
+      if (modelMediaEl.hasAttribute('playing')) {
+        modelMediaEl.pause()
+      }
     }
   }
 
   prepMediaOnSlide(slide) {
-    const video = slide.querySelector(this.selectors.productVideo)
+    const video = slide.querySelector(this.selectors.videoParent)
     if (video) {
       this.flickity.reposition()
-      const videoType = this._getVideoType(video)
-      const videoId = this._getVideoDivId(video)
-      if (videoType === 'youtube') {
-        if (this.videoObjects[videoId].videoPlayer && this.videoObjects[videoId].options.style !== 'sound') {
-          this.videoObjects[videoId].videoPlayer.playVideo()
-          return
-        }
-      } else if (videoType === 'mp4') {
-        this.playMp4Video(videoId)
+      const isLandEl = video.querySelector('is-land')
+      const videoMediaEl = video.querySelector('video-media')
+      isLandEl.dispatchEvent(new CustomEvent('select'))
+      if (
+        videoMediaEl.hasAttribute('autoplay') &&
+        !videoMediaEl.hasAttribute('playing') &&
+        videoMediaEl.hasAttribute('loaded')
+      ) {
+        videoMediaEl.play()
       }
     }
 
-    const nextMedia = slide.querySelector(this.selectors.media)
+    const nextMedia = slide.querySelector(this.selectors.modelParent)
     if (nextMedia) {
-      nextMedia.dispatchEvent(
-        new CustomEvent('mediaVisible', {
-          bubbles: true,
-          cancelable: true,
-          detail: {
-            autoplayMedia: true
-          }
-        })
-      )
-      slide.querySelector('.shopify-model-viewer-ui__button').setAttribute('tabindex', 0)
-      slide.querySelector('.product-single__close-media').setAttribute('tabindex', 0)
+      this.flickity.reposition()
+      const isLandEl = nextMedia.querySelector('is-land')
+      const modelMediaEl = nextMedia.querySelector('model-media')
+      isLandEl.dispatchEvent(new CustomEvent('select'))
+      if (
+        modelMediaEl.hasAttribute('autoplay') &&
+        !modelMediaEl.hasAttribute('playing') &&
+        modelMediaEl.hasAttribute('loaded')
+      ) {
+        modelMediaEl.play()
+      }
     }
   }
 
   _slideIndex(el) {
     return el.getAttribute('data-index')
-  }
-
-  /*============================================================================
-    Product videos
-  ==============================================================================*/
-  videoSetup() {
-    const productVideos = this.cache.mainSlider.querySelectorAll(this.selectors.productVideo)
-
-    if (!productVideos.length) {
-      return false
-    }
-
-    productVideos.forEach((vid) => {
-      const type = vid.dataset.videoType
-      if (type === 'youtube') {
-        this.initYoutubeVideo(vid)
-      } else if (type === 'vimeo') {
-        this.initVimeoVideo(vid)
-      } else if (type === 'mp4') {
-        this.initMp4Video(vid)
-      }
-    })
-  }
-
-  initYoutubeVideo(div) {
-    this.videoObjects[div.id] = new YouTube(div.id, {
-      videoId: div.dataset.videoId,
-      videoParent: this.selectors.videoParent,
-      autoplay: false, // will handle this in callback
-      style: div.dataset.videoStyle,
-      loop: div.dataset.videoLoop,
-      events: {
-        onReady: this.youtubePlayerReady.bind(this),
-        onStateChange: this.youtubePlayerStateChange.bind(this)
-      }
-    })
-  }
-
-  initVimeoVideo(div) {
-    this.videoObjects[div.id] = new VimeoPlayer(div.id, div.dataset.videoId, {
-      videoParent: this.selectors.videoParent,
-      autoplay: false,
-      style: div.dataset.videoStyle,
-      loop: div.dataset.videoLoop
-    })
-  }
-
-  // Comes from YouTube SDK
-  // Get iframe ID with evt.target.getIframe().id
-  // Then access product video players with this.videoObjects[id]
-  youtubePlayerReady(evt) {
-    const iframeId = evt.target.getIframe().id
-
-    if (!this.videoObjects[iframeId]) {
-      // No youtube player data
-      return
-    }
-
-    const obj = this.videoObjects[iframeId]
-    const player = obj.videoPlayer
-
-    if (obj.options.style !== 'sound') {
-      player.mute()
-    }
-
-    obj.parent.classList.remove('loading')
-    obj.parent.classList.add('loaded')
-    obj.parent.classList.add('video-interactable') // Previously, video was only interactable after slide change
-
-    // If we have an element, it is in the visible/first slide,
-    // and is muted, play it
-    if (this._isFirstSlide(iframeId) && obj.options.style !== 'sound') {
-      player.playVideo()
-    }
-  }
-
-  _isFirstSlide(id) {
-    return this.cache.mainSlider.querySelector(this.selectors.startingSlide + ' ' + '#' + id)
-  }
-
-  youtubePlayerStateChange(evt) {
-    const iframeId = evt.target.getIframe().id
-    const obj = this.videoObjects[iframeId]
-
-    switch (evt.data) {
-      case -1: // unstarted
-        // Handle low power state on iOS by checking if
-        // video is reset to unplayed after attempting to buffer
-        if (obj.attemptedToPlay) {
-          obj.parent.classList.add('video-interactable')
-        }
-        break
-      case 0: // ended
-        if (obj && obj.options.loop === 'true') {
-          obj.videoPlayer.playVideo()
-        }
-        break
-      case 3: // buffering
-        obj.attemptedToPlay = true
-        break
-    }
-  }
-
-  initMp4Video(div) {
-    this.videoObjects[div.id] = {
-      id: div.id,
-      type: 'mp4'
-    }
-
-    if (this._isFirstSlide(div.id)) {
-      this.playMp4Video(div.id)
-    }
-  }
-
-  stopVideos() {
-    for (const [id, vid] of Object.entries(this.videoObjects)) {
-      if (vid.videoPlayer) {
-        if (typeof vid.videoPlayer.stopVideo === 'function') {
-          vid.videoPlayer.stopVideo() // YouTube player
-        }
-      } else if (vid.type === 'mp4') {
-        this.stopMp4Video(vid.id) // MP4 player
-      }
-    }
-  }
-
-  _getVideoType(video) {
-    return video.getAttribute('data-video-type')
-  }
-
-  _getVideoDivId(video) {
-    return video.id
-  }
-
-  playMp4Video(id) {
-    const player = this.querySelector('#' + id)
-    const playPromise = player.play()
-
-    player.setAttribute('controls', '')
-    player.focus()
-
-    // When existing focus on the element, go back to thumbnail
-    player.addEventListener('focusout', this.returnFocusToThumbnail.bind(this))
-
-    if (playPromise !== undefined) {
-      playPromise
-        .then(function () {
-          // Playing as expected
-        })
-        .catch(function (error) {
-          // Likely low power mode on iOS, show controls
-          player.setAttribute('controls', '')
-          player.closest(this.selectors.videoParent).setAttribute('data-video-style', 'unmuted')
-        })
-    }
-  }
-
-  stopMp4Video(id) {
-    const player = this.querySelector('#' + id)
-    if (!player) return
-    player.removeEventListener('focusout', this.returnFocusToThumbnail.bind(this))
-    if (typeof player.pause === 'function') {
-      player.removeAttribute('controls')
-      player.pause()
-    }
-  }
-
-  returnFocusToThumbnail(evt) {
-    // Only return focus to active thumbnail if relatedTarget
-    // is a thumbnail, otherwise user may have clicked elsewhere on the page
-    if (evt.relatedTarget && evt.relatedTarget.classList.contains('product__thumb')) {
-      const thumb = this.querySelector('.product__thumb-item[data-index="' + this.settings.currentSlideIndex + '"] a')
-      if (thumb) {
-        thumb.focus()
-      }
-    }
-  }
-
-  /*============================================================================
-    Product media (3D)
-  ==============================================================================*/
-  initModelViewerLibraries() {
-    const modelViewerElements = this.querySelectorAll(this.selectors.media)
-    if (modelViewerElements.length < 1) return
-
-    init(modelViewerElements, this.sectionId)
   }
 
   customMediaListeners() {
@@ -715,38 +515,24 @@ class ProductImages extends HTMLElement {
     const modelViewers = this.querySelectorAll('model-viewer')
     if (modelViewers.length) {
       modelViewers.forEach((el) => {
-        el.addEventListener(
-          'shopify_model_viewer_ui_toggle_play',
-          function (evt) {
-            this.mediaLoaded(evt)
-          }.bind(this)
-        )
+        el.addEventListener('shopify_model_viewer_ui_toggle_play', this.mediaLoaded.bind(this), {
+          signal: this.abortController.signal
+        })
 
-        el.addEventListener(
-          'shopify_model_viewer_ui_toggle_pause',
-          function (evt) {
-            this.mediaUnloaded(evt)
-          }.bind(this)
-        )
+        el.addEventListener('shopify_model_viewer_ui_toggle_pause', this.mediaUnloaded.bind(this), {
+          signal: this.abortController.signal
+        })
       })
     }
   }
 
   mediaLoaded(evt) {
-    this.querySelectorAll(this.selectors.closeMedia).forEach((el) => {
-      el.classList.remove(this.classes.hidden)
-    })
-
     if (this.flickity) {
       this.flickity.setDraggable(false)
     }
   }
 
   mediaUnloaded(evt) {
-    this.querySelectorAll(this.selectors.closeMedia).forEach((el) => {
-      el.classList.add(this.classes.hidden)
-    })
-
     if (this.flickity) {
       this.flickity.setDraggable(true)
     }

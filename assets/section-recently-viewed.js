@@ -1,9 +1,10 @@
-import { config } from '@archetype-themes/scripts/config'
+import { hasLocalStorage } from '@archetype-themes/utils/storage'
 
 let recentlyViewedIds = []
 
-if (config.hasLocalStorage) {
-  const recentIds = window.localStorage.getItem('recently-viewed')
+if (hasLocalStorage()) {
+  const recentIds = localStorage.getItem('recently-viewed')
+
   if (recentIds && typeof recentIds !== undefined) {
     recentlyViewedIds = JSON.parse(recentIds)
   }
@@ -18,19 +19,6 @@ class RecentlyViewed extends HTMLElement {
     this.maxProducts = this.getAttribute('data-max-products')
 
     this.init()
-
-    /**
-     * @event recently-viewed:loaded
-     * @description Fired when the recently viewed section has been loaded.
-     * @param {string} detail.sectionId - The section's ID.
-     */
-    document.dispatchEvent(
-      new CustomEvent('recently-viewed:loaded', {
-        detail: {
-          sectionId: this.sectionId
-        }
-      })
-    )
   }
 
   addIdToRecentlyViewed(id) {
@@ -44,8 +32,8 @@ class RecentlyViewed extends HTMLElement {
     // Add id to array
     recentlyViewedIds.unshift(id)
 
-    if (config.hasLocalStorage) {
-      window.localStorage.setItem('recently-viewed', JSON.stringify(recentlyViewedIds))
+    if (hasLocalStorage()) {
+      localStorage.setItem('recently-viewed', JSON.stringify(recentlyViewedIds))
     }
   }
 

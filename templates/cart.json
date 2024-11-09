@@ -11,13 +11,11 @@
   "sections": {
     "main": {
       "type": "main-cart",
-      "settings": {
-      }
+      "settings": {}
     },
     "recently-viewed": {
       "type": "recently-viewed",
-      "settings": {
-      }
+      "settings": {}
     }
   },
   "order": [

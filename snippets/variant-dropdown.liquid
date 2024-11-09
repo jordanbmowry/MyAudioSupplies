@@ -1,4 +1,4 @@
-{% # components v2.10.69 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
+{% # components v3.0.1 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
 {% comment %}
   Renders a select dropdown for a product option
 
@@ -25,16 +25,16 @@
   assign variants_option3_arr = product.variants | map: 'option3'
 -%}
 
-<div class="variant-wrapper variant-wrapper--dropdown js" data-type="dropdown">
+<div class="variant-wrapper inline-block max-w-full mb-0 mr-4 no-js:hidden" data-type="dropdown">
   <label
-    class="variant-dropdown__label{% if option.name == 'Default' or option.name == 'Title' %} visually-hidden{% endif %}{% unless variant_labels %} visually-hidden{% endunless %}"
+    class="block mb-2.5 cursor-default {% if option.name == 'Default' or option.name == 'Title' %} visually-hidden{% endif %}{% unless variant_labels %} visually-hidden{% endunless %}"
     for="SingleOptionSelector-{{ section.id }}-{{ product.id }}-option-{{ forloop.index0 }}"
   >
     {{ option.name }}
   </label>
-  <div class="variant-dropdown-wrap" data-index="option{{ forloop.index }}" data-handle="{{ option.name | handleize }}">
+  <div class="relative -mb-3" data-index="option{{ forloop.index }}" data-handle="{{ option.name | handleize }}">
     <select
-      class="variant-input__select"
+      class="min-w-24"
       form="{{ form_id }}"
       data-variant-input
       id="SingleOptionSelector-{{ section.id }}-{{ product.id }}-option-{{ forloop.index0 }}"
@@ -74,8 +74,8 @@
             disabled="disabled"
           {% endif %}
           name="{{ option.name }}"
-          class="variant-input"
-          data-index="option{{ forloop.index }}"
+          class="block"
+          data-index="option{{ option.position }}"
         >
           {{ value }}
         </option>

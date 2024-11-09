@@ -1,5 +1,5 @@
-import BaseMedia from '@archetype-themes/scripts/modules/base-media'
-import loadScript from '@archetype-themes/utils/script-loader'
+import BaseMedia from '@archetype-themes/custom-elements/base-media'
+import { loadScript } from '@archetype-themes/utils/resource-loader'
 
 const onYouTubePromise = new Promise((resolve) => {
   window.onYouTubeIframeAPIReady = () => resolve()
@@ -62,13 +62,15 @@ export class VideoMedia extends BaseMedia {
       }
     })
 
-    video.addEventListener('click', () => {
-      if (video.paused) {
-        video.play()
-      } else {
-        video.pause()
-      }
-    })
+    if (this.autoplay) {
+      video.addEventListener('click', () => {
+        if (video.paused) {
+          video.play()
+        } else {
+          video.pause()
+        }
+      })
+    }
 
     return video
   }
