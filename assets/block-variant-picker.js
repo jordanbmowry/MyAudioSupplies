@@ -1,4 +1,4 @@
-import { EVENTS, publish } from '@archetype-themes/utils/pubsub'
+import { EVENTS } from '@archetype-themes/utils/events'
 
 class BlockVariantPicker extends HTMLElement {
   connectedCallback() {
@@ -31,21 +31,27 @@ class BlockVariantPicker extends HTMLElement {
       this.updateURL()
       const html = await this.getProductInfo()
 
-      publish(`${EVENTS.variantChange}:${this.dataset.sectionId}:${this.dataset.productId}`, {
-        detail: {
-          sectionId: this.dataset.sectionId,
-          html,
-          variant: this.currentVariant
-        }
-      })
+      this.dispatchEvent(
+        new CustomEvent(`${EVENTS.variantChange}:${this.dataset.sectionId}:${this.dataset.productId}`, {
+          bubbles: true,
+          detail: {
+            sectionId: this.dataset.sectionId,
+            html,
+            variant: this.currentVariant
+          }
+        })
+      )
     } else {
-      publish(`${EVENTS.variantChange}:${this.dataset.sectionId}:${this.dataset.productId}`, {
-        detail: {
-          sectionId: this.dataset.sectionId,
-          html: null,
-          variant: null
-        }
-      })
+      this.dispatchEvent(
+        new CustomEvent(`${EVENTS.variantChange}:${this.dataset.sectionId}:${this.dataset.productId}`, {
+          bubbles: true,
+          detail: {
+            sectionId: this.dataset.sectionId,
+            html: null,
+            variant: null
+          }
+        })
+      )
     }
   }
 
@@ -71,9 +77,9 @@ class BlockVariantPicker extends HTMLElement {
     this.currentVariant =
       'dynamicVariantsEnabled' in this.dataset
         ? // Add some additional smarts to variant matching if Dynamic Variants are enabled
-          availableFullMatch || closestAvailableMatch || fullMatch || null
+        availableFullMatch || closestAvailableMatch || fullMatch || null
         : // Only return a full match or null (variant doesn't exist) if Dynamic Variants are disabled
-          fullMatch || null
+        fullMatch || null
   }
 
   getFullMatch(needsToBeAvailable) {
@@ -182,6 +188,9 @@ class BlockVariantPicker extends HTMLElement {
       if (element.tagName === 'INPUT') {
         element.toggleAttribute('data-disabled', !availableElement)
         this.currentVariant?.[element.dataset.index] === value && (element.checked = true)
+      } else {
+        element.toggleAttribute('disabled', !availableElement)
+        this.currentVariant?.[element.dataset.index] === value && (element.selected = true)
       }
     })
   }

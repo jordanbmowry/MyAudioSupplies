@@ -1,5 +1,4 @@
-import { config } from '@archetype-themes/scripts/config'
-import { executeJSmodules } from '@archetype-themes/scripts/helpers/utils'
+import { executeJSmodules } from '@archetype-themes/utils/utils'
 
 /*============================================================================
   QuickShop
@@ -19,7 +18,7 @@ class QuickShop extends HTMLElement {
     }
 
     // No quick view on mobile breakpoint
-    if (config.bpSmall) {
+    if (matchMedia('(max-width: 768px)').matches) {
       return
     }
 
@@ -102,22 +101,6 @@ class QuickShop extends HTMLElement {
        * @description Triggered when the quick shop modal is loaded.
        */
       window.dispatchEvent(new CustomEvent(`quickshop:loaded-${this.prodId}`))
-
-      /**
-       * @event quickshop:loaded
-       * @description Triggered when the quick shop modal is loaded.
-       * @param {string} detail.productId - The product ID.
-       * @param {string} detail.handle - The product handle.
-       */
-      document.dispatchEvent(
-        new CustomEvent('quickshop:loaded', {
-          detail: {
-            productId: this.prodId,
-            handle: this.handle
-          }
-        })
-      )
-
       return fragment
     } catch (error) {
       console.error('Error:', error)

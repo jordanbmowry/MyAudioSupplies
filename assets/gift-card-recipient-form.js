@@ -1,4 +1,4 @@
-import { EVENTS, subscribe } from '@archetype-themes/utils/pubsub'
+import { EVENTS } from '@archetype-themes/utils/events'
 
 class GiftCardRecipientForm extends HTMLElement {
   constructor() {
@@ -17,20 +17,26 @@ class GiftCardRecipientForm extends HTMLElement {
   }
 
   connectedCallback() {
-    subscribe(EVENTS.ajaxProductError, (event) => {
+    this.abortController = new AbortController()
+
+    document.addEventListener(EVENTS.ajaxProductError, (event) => {
       const productVariantID = event.target.querySelector('[name="id"]').value
       if (productVariantID === this.dataset.productVariantId) {
         this.displayErrorMessage(event.detail.errorMessage)
       }
-    })
+    }, { signal: this.abortController.signal })
 
-    subscribe(EVENTS.ajaxProductAdded, (event) => {
+    document.addEventListener(EVENTS.ajaxProductAdded, (event) => {
       const productVariantID = event.target.querySelector('[name="id"]').value
       if (productVariantID === this.dataset.productVariantId) {
         this.clearInputFields()
         this.clearErrorMessage()
       }
-    })
+    }, { signal: this.abortController.signal })
+  }
+
+  disconnectedCallback() {
+    this.abortController.abort()
   }
 
   onChange() {

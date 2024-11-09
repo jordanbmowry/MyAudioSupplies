@@ -18,6 +18,7 @@ export default class AjaxRenderer {
   }
 
   renderPage(basePath, newParams, updateURLHash = true) {
+    document.dispatchEvent(new CustomEvent('ajaxRenderer:loading'))
     const currentParams = new URLSearchParams(window.location.search)
     const updatedParams = this.getUpdatedParams(currentParams, newParams)
 

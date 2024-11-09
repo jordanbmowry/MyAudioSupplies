@@ -1,9 +1,4 @@
-import {
-  removeTrapFocus,
-  lockMobileScrolling,
-  trapFocus,
-  unlockMobileScrolling
-} from '@archetype-themes/scripts/helpers/a11y'
+import { removeTrapFocus, lockMobileScrolling, trapFocus, unlockMobileScrolling } from '@archetype-themes/utils/a11y'
 
 class ToolTip extends HTMLElement {
   constructor() {

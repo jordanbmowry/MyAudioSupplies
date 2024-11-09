@@ -1,4 +1,4 @@
-{% # components v2.10.69 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
+{% # components v3.0.1 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
 {% comment %}
   Render a variant button for a product option.
 
@@ -25,18 +25,29 @@
 
   if block.settings.color_swatches
     assign is_color = false
-    assign swatch_trigger = 'trigger.color_swatch' | t | downcase
+
+    capture swatch_trigger
+      render 't_with_fallback', key: 'trigger.color_swatch', fallback: 'color'
+    endcapture
+    assign swatch_trigger = swatch_trigger | downcase
+
     assign downcased_option = option.name | downcase
-    if downcased_option contains swatch_trigger
+    if swatch_trigger contains downcased_option
       assign is_color = true
     elsif swatch_trigger == 'color' and downcased_option contains 'colour'
       assign is_color = true
     endif
   endif
+
   assign swatch_file_extension = swatch_file_extension | default: 'png'
 
   assign is_size = false
-  assign size_trigger = 'labels.size_chart' | t | downcase
+
+  capture size_trigger
+    render 't_with_fallback', key: 'labels.size_chart', fallback: 'size chart'
+  endcapture
+  assign size_trigger = size_trigger | downcase
+
   assign connect_to_sizechart = false
   assign prev_block = section.blocks[prev_block_index]
   if size_trigger contains downcased_option
@@ -140,6 +151,14 @@
       {% endif %}
     >
       {{- value | escape -}}
+      {%- if option_disabled -%}
+        <span class="visually-hidden">
+          {% render 't_with_fallback',
+            key: 'info.variant_sold_out_or_unavailable',
+            fallback: 'Variant sold out or unavailable'
+          %}
+        </span>
+      {%- endif -%}
     </label>
   {%- endfor -%}
 </fieldset>

@@ -1,25 +1,39 @@
-import inView from '@archetype-themes/scripts/vendors/in-view'
+import inView from '@archetype-themes/vendors/in-view'
 
 export default class extends HTMLElement {
+  constructor() {
+    super()
+    this.player = null
+    this.pausedByUser = false
+    this.playingWhenLastViewed = false
+  }
+
   connectedCallback() {
+    if (!this.hasAttribute('defer-hydration')) {
+      this.hydrate()
+    }
+  }
+
+  async hydrate() {
+    const playerTarget = this.getPlayerTarget()
     const handler = {
       get: (target, prop) => {
         return async () => {
-          target = await target
-          this.playerHandler(target, prop)
+          const resolvedTarget = await target
+          this.playerHandler(resolvedTarget, prop)
         }
       }
     }
 
-    this.player = new Proxy(this.getPlayerTarget(), handler)
-    this.pausedByUser = false
-    this.playingWhenLastViewed = false
+    this.player = new Proxy(playerTarget, handler)
+    this.setupInViewHandler()
+  }
 
+  setupInViewHandler() {
     inView(this, () => {
       if ((this.autoplay && !this.pausedByUser) || this.playingWhenLastViewed) {
         this.play()
       }
-
       return () => {
         this.playingWhenLastViewed = this.playing
         this.pause()
@@ -28,12 +42,18 @@ export default class extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ['playing']
+    return ['defer-hydration', 'playing']
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
-    if (name !== 'playing') return
+    if (name === 'defer-hydration' && newValue === null) {
+      this.hydrate()
+    } else if (name === 'playing') {
+      this.handlePlayingAttributeChange(oldValue, newValue)
+    }
+  }
 
+  handlePlayingAttributeChange(oldValue, newValue) {
     if (oldValue === null && newValue === '') {
       this.dispatchEvent(new CustomEvent('media:play', { bubbles: true }))
     } else if (newValue === null) {

@@ -1,4 +1,4 @@
-import { wrap } from '@archetype-themes/scripts/helpers/utils'
+import { wrap } from '@archetype-themes/utils/utils'
 
 class AtRte extends HTMLElement {
   connectedCallback() {

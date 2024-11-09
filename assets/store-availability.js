@@ -1,9 +1,11 @@
-import Modals from '@archetype-themes/scripts/modules/modal'
-import { EVENTS, subscribe } from '@archetype-themes/utils/pubsub'
-import Drawers from '@archetype-themes/scripts/modules/drawers'
+import Modals from '@archetype-themes/modules/modal'
+import { EVENTS } from '@archetype-themes/utils/events'
+import Drawers from '@archetype-themes/modules/drawers'
 
 class StoreAvailability extends HTMLElement {
-  connectedCallback() {
+  constructor() {
+    super()
+
     this.selectors = {
       drawerOpenBtn: '.js-drawer-open-availability',
       modalOpenBtn: '.js-modal-open-availability',
@@ -13,18 +15,17 @@ class StoreAvailability extends HTMLElement {
     this.baseUrl = this.dataset.baseUrl
     this.productTitle = this.dataset.productName
     this.variantId = this.dataset.variantId
+  }
 
+  connectedCallback() {
+    this.abortController = new AbortController()
     this.updateContent(this.variantId)
-    subscribe(
-      `${EVENTS.variantChange}:${this.dataset.sectionId}:${this.dataset.productId}`,
-      this.handleVariantChange.bind(this)
-    )
 
-    /**
-     * @event store-availability:loaded
-     * @description Fired when the store availability section has been loaded.
-     */
-    document.dispatchEvent(new CustomEvent('store-availability:loaded'))
+    document.addEventListener(
+      `${EVENTS.variantChange}:${this.dataset.sectionId}:${this.dataset.productId}`,
+      this.handleVariantChange.bind(this),
+      { signal: this.abortController.signal }
+    )
   }
 
   handleVariantChange({ detail }) {

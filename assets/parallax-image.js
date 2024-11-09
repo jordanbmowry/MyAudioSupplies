@@ -1,10 +1,6 @@
-/*============================================================================
-  ParallaxImage
-==============================================================================*/
-
 class ParallaxImage extends HTMLElement {
-  constructor() {
-    super()
+  connectedCallback() {
+    this.abortController = new AbortController()
     this.parallaxImage = this.querySelector('[data-parallax-image]')
     this.windowInnerHeight = window.innerHeight
     this.isActive = false
@@ -22,8 +18,14 @@ class ParallaxImage extends HTMLElement {
       270: [0, 1]
     }
 
+
+    window.addEventListener('scroll', this.scrollHandler.bind(this), { signal: this.abortController.signal })
+
     this.init()
-    window.addEventListener('scroll', () => this.scrollHandler())
+  }
+
+  disconnectedCallback() {
+    this.abortController.abort()
   }
 
   getParallaxInfo() {

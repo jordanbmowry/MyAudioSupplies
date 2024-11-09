@@ -11,7 +11,9 @@
 
     <button type="button" class="btn btn--circle btn--icon modal__close js-modal-close">
       {% render 'icon', name: 'close' %}
-      <span class="icon__fallback-text visually-hidden">{{ 'actions.close_esc' | t | json }}</span>
+      <span class="icon__fallback-text visually-hidden">
+        {% render 't_with_fallback', key: 'actions.close_esc', fallback: 'Close (esc)' %}
+      </span>
     </button>
   </div>
 </div>

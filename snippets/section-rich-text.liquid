@@ -1,4 +1,4 @@
-{% # components v2.10.69 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
+{% # components v3.0.1 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
 {%- comment -%}
   Renders a rich text section with a text blocks.
 
@@ -59,9 +59,14 @@
               {%- if block.settings.text != blank -%}
                 {%- if block.settings.enlarge_text %}<div class="enlarge-text">{% endif -%}
                 {{ block.settings.text }}
-                {%- if block.settings.enlarge_text %}</div>{% endif -%}
+                {%- if block.settings.enlarge_text %}
+                  </div>
+                {% endif -%}
               {%- else -%}
-                {{ 'info.section_no_content' | t }}
+                {% render 't_with_fallback',
+                  key: 'info.section_no_content',
+                  fallback: "This section doesn't currently include any content. Add content to this section using the sidebar."
+                %}
               {%- endif -%}
             </div>
           {%- when 'button' -%}

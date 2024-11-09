@@ -1,7 +1,6 @@
-import { config } from '@archetype-themes/scripts/config'
-import CartForm from '@archetype-themes/scripts/modules/cart-form'
-import { lockMobileScrolling, unlockMobileScrolling } from '@archetype-themes/scripts/helpers/a11y'
-import { prepareTransition, sizeDrawer } from '@archetype-themes/scripts/helpers/utils'
+import CartForm from '@archetype-themes/modules/cart-form'
+import { lockMobileScrolling, unlockMobileScrolling, trapFocus, removeTrapFocus } from '@archetype-themes/utils/a11y'
+import { prepareTransition, sizeDrawer } from '@archetype-themes/utils/utils'
 import { EVENTS, subscribe, publish } from '@archetype-themes/utils/pubsub'
 
 export default class HeaderCart {
@@ -31,6 +30,7 @@ export default class HeaderCart {
     this.noteBtn = this.wrapper.querySelector(this.selectors.noteBtn)
     this.form = this.wrapper.querySelector('form')
     this.cartType = this.form.dataset.cartType
+    this.overlayHeader = false
 
     this.abortController = new AbortController()
 
@@ -41,11 +41,14 @@ export default class HeaderCart {
     document.addEventListener('MobileNav:open', this.close.bind(this), { signal: this.abortController.signal })
     document.addEventListener('modalOpen', this.close.bind(this), { signal: this.abortController.signal })
 
+    this.unsubscribeOverlayHeader = subscribe(EVENTS.overlayHeaderChange, this.handleOverlayHeaderChange.bind(this))
+
     this.init()
   }
 
   disconnectedCallback() {
     this.productAddedUnsubscriber?.()
+    this.unsubscribeOverlayHeader?.()
     this.abortController.abort()
   }
 
@@ -83,10 +86,17 @@ export default class HeaderCart {
     document.addEventListener('cart:close', this.close.bind(this), { signal: this.abortController.signal })
   }
 
+  handleOverlayHeaderChange(event) {
+    this.overlayHeader = event.detail.overlayHeader
+  }
+
   async handleCartChange(evt) {
     await this.cartForm.buildCart()
-    if (!this.config.cartOpen) {
-      this.open()
+
+    publish(EVENTS.cartDrawerChange)
+
+    if (!this.config.cartOpen && !evt.detail.preventCartOpen) {
+      this.open(evt)
     }
 
     // Resets cart property so that the form submit button can work
@@ -96,6 +106,8 @@ export default class HeaderCart {
   }
 
   open(evt) {
+    this.activeElement = evt.target
+
     if (this.cartType !== 'dropdown') {
       return
     }
@@ -113,8 +125,11 @@ export default class HeaderCart {
 
     document.documentElement.classList.add('cart-open')
 
+    // Trap focus
+    trapFocus(this.wrapper)
+
     // Don't lock mobile scrolling if sticky header isn't present
-    if (!config.bpSmall && config.overlayHeader) {
+    if (!matchMedia('(max-width: 768px)').matches && this.overlayHeader) {
       lockMobileScrolling()
     }
 
@@ -160,13 +175,16 @@ export default class HeaderCart {
     window.removeEventListener('keyup', this._handleKeyUp)
     window.removeEventListener('click', this._handleClickOutside)
 
-    if (!config.bpSmall && config.overlayHeader) {
+    if (!matchMedia('(max-width: 768px)').matches && this.overlayHeader) {
       unlockMobileScrolling()
     }
 
     document.documentElement.classList.remove('cart-open')
 
     this.config.cartOpen = false
+
+    // Remove focus trap
+    if (!evt && this.activeElement) removeTrapFocus(this.activeElement)
   }
 
   _handleKeyUp(evt) {

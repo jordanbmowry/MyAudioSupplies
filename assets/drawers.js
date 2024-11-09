@@ -1,10 +1,5 @@
-import { prepareTransition } from '@archetype-themes/scripts/helpers/utils'
-import {
-  trapFocus,
-  removeTrapFocus,
-  lockMobileScrolling,
-  unlockMobileScrolling
-} from '@archetype-themes/scripts/helpers/a11y'
+import { prepareTransition } from '@archetype-themes/utils/utils'
+import { trapFocus, removeTrapFocus, lockMobileScrolling, unlockMobileScrolling } from '@archetype-themes/utils/a11y'
 
 export default class Drawers {
   constructor(id, name) {

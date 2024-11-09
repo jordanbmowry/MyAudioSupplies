@@ -3,7 +3,7 @@
   aria-hidden="true"
   focusable="false"
   role="presentation"
-  class="icon icon-circle-checkmark"
+  class="icon icon-circle-checkmark icon--line"
   viewbox="0 0 64 64"
   width="20"
   height="20"

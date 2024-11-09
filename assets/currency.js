@@ -1,4 +1,4 @@
-import { defaultTo } from '@archetype-themes/scripts/helpers/utils'
+import { defaultTo } from '@archetype-themes/utils/utils'
 
 /**
  * Currency Helpers

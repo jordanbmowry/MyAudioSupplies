@@ -1,4 +1,4 @@
-import { trapFocus, removeTrapFocus } from '@archetype-themes/scripts/helpers/a11y'
+import { trapFocus, removeTrapFocus } from '@archetype-themes/utils/a11y'
 
 export default class Modals {
   constructor(id, name, options) {

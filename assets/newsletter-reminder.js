@@ -1,20 +1,15 @@
-import Cookies from 'js-cookie'
-import Modals from '@archetype-themes/scripts/modules/modal'
-import { HTMLSectionElement } from '@archetype-themes/scripts/helpers/section'
+import Modals from '@archetype-themes/modules/modal'
+import { HTMLThemeElement } from '@archetype-themes/custom-elements/theme-element'
+import { setLocalStorage, getLocalStorage } from '@archetype-themes/utils/storage'
 
-/*============================================================================
-  NewsletterReminder
-==============================================================================*/
-
-class NewsletterReminder extends HTMLSectionElement {
+class NewsletterReminder extends HTMLThemeElement {
   constructor() {
     super()
     this.closeBtn = this.querySelector('[data-close-button]')
     this.popupTrigger = this.querySelector('[data-message]')
 
     this.newsletterId = `NewsletterPopup-${this.sectionId}`
-    this.cookie = Cookies.get(`newsletter-${this.sectionId}`)
-    this.cookieName = `newsletter-${this.sectionId}`
+    this.storageKey = `newsletter-${this.sectionId}`
     this.secondsBeforeShow = this.dataset.delaySeconds
     this.expiry = parseInt(this.dataset.delayDays)
     this.modal = new Modals(`NewsletterPopup-${this.newsletterId}`, 'newsletter-popup-modal')
@@ -34,29 +29,30 @@ class NewsletterReminder extends HTMLSectionElement {
 
     this.closeBtn.addEventListener('click', () => {
       this.hide()
-      Cookies.set(this.cookieName, 'opened', { path: '/', expires: this.expiry })
+      setLocalStorage(this.storageKey, 'opened', this.expiry)
     })
 
     this.popupTrigger.addEventListener('click', () => {
-      /**
-       * @event reminder:openNewsletter
-       * @description Fired when the reminder to open the newsletter is triggered.
-       * @param {boolean} bubbles - Indicates whether the event bubbles up through the DOM or not.
-       */
       const reminderOpen = new CustomEvent('reminder:openNewsletter', { bubbles: true })
       this.dispatchEvent(reminderOpen)
-
       this.hide()
     })
+
+    this.checkAndShowReminder()
   }
 
-  show(time = this.secondsBeforeShow, forceOpen = false) {
-    const reminderAppeared = sessionStorage.getItem('reminderAppeared') === 'true'
+  checkAndShowReminder() {
+    const storedValue = getLocalStorage(this.storageKey)
+    if (storedValue === 'opened' && !sessionStorage.getItem('reminderShownThisSession')) {
+      this.show(this.secondsBeforeShow)
+    }
+  }
 
-    if (!reminderAppeared || forceOpen) {
+  show(time = 0, forceOpen = false) {
+    if (forceOpen || !sessionStorage.getItem('reminderShownThisSession')) {
       setTimeout(() => {
         this.dataset.enabled = 'true'
-        sessionStorage.setItem('reminderAppeared', true)
+        sessionStorage.setItem('reminderShownThisSession', 'true')
       }, time * 1000)
     }
   }

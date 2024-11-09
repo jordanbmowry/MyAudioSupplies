@@ -1,132 +1,65 @@
-import '@archetype-themes/scripts/config'
-import '@archetype-themes/scripts/helpers/delegate'
+import { EVENTS } from '@archetype-themes/utils/events'
 
-theme.headerSearch = (function () {
-  var searchTimeout
-
-  var selectors = {
-    input: 'input[type="search"]',
-
-    searchInlineContainer: '.site-header__search-container',
-    searchInlineBtn: '.js-search-header',
-
-    searchButton: '[data-predictive-search-button]',
-    closeSearch: '.site-header__search-btn--cancel',
-
-    wrapper: '#SearchResultsWrapper',
-    topSearched: '#TopSearched',
-    predictiveWrapper: '#PredictiveWrapper',
-    resultDiv: '#PredictiveResults'
+class HeaderSearch extends HTMLElement {
+  connectedCallback() {
+    this.abortController = new AbortController()
+    this.boundDocumentClick = this.handleDocumentClick.bind(this)
+    this.boundCloseAll = this.handleCloseAll.bind(this)
+    document.addEventListener(EVENTS.headerSearchOpen, this.openInlineSearch.bind(this), {
+      signal: this.abortController.signal
+    })
   }
 
-  var cache = {}
-
-  var config = {
-    namespace: '.search',
-    topSearched: false,
-    predictiveSearch: false,
-    imageSize: 'square',
-    predictiveImageFill: true
+  disconnectedCallback() {
+    this.abortController.abort()
   }
 
-  function init() {
-    initInlineSearch()
+  openInlineSearch(evt) {
+    evt.preventDefault()
+    evt.stopImmediatePropagation()
+    this.classList.add('is-active')
+
+    this.dispatchEvent(new CustomEvent(EVENTS.predictiveSearchOpen, { bubbles: true, detail: { context: 'header' } }))
+
+    this.enableCloseListeners()
   }
 
-  function close(evt) {
+  enableCloseListeners() {
+    // Clicking out of search area closes it. Timeout to prevent immediate bubbling
+    setTimeout(() => {
+      document.addEventListener('click', this.boundDocumentClick, { signal: this.abortController.signal })
+    }, 0)
+
+    document.addEventListener('predictiveSearch:close-all', this.boundCloseAll, { signal: this.abortController.signal })
+  }
+
+  close(evt) {
     // If close button is clicked, close as expected.
     // Otherwise, ignore clicks in search results, search form, or container elements
     if (evt && evt.target.closest) {
-      if (evt.target.closest(selectors.closeSearch)) {
-      } else {
-        if (evt.target.closest('.site-header__element--sub')) {
-          return
-        } else if (evt.target.closest('#SearchResultsWrapper')) {
-          return
-        } else if (evt.target.closest('.site-header__search-container')) {
-          return
-        }
+      if (evt.target.closest('.site-header__element--sub')) {
+        return
+      } else if (evt.target.closest('#SearchResultsWrapper')) {
+        return
+      } else if (evt.target.closest('.site-header__search-container')) {
+        return
       }
     }
 
-    //emit predictive search close event
-    document.dispatchEvent(new CustomEvent('predictive-search:close', { bubbles: true }))
+    this.classList.remove('is-active')
 
-    // deselect any focused form elements
-    document.activeElement.blur()
-
-    if (cache.wrapper) {
-      cache.wrapper.classList.add('hide')
-    }
-
-    if (config.topSearched) {
-      cache.topSearched.classList.remove('hide')
-    }
-
-    if (config.predictiveSearch) {
-      cache.predictiveWrapper.classList.add('hide')
-      clearTimeout(searchTimeout)
-    }
-
-    if (cache.inlineSearchContainer) {
-      cache.inlineSearchContainer.classList.remove('is-active')
-    }
-
-    window.off('click' + config.namespace)
+    document.removeEventListener('click', this.boundDocumentClick)
+    this.dispatchEvent(new CustomEvent(EVENTS.headerSearchClose, { bubbles: true }))
   }
 
-  function initInlineSearch() {
-    cache.inlineSearchContainer = document.querySelector(selectors.searchInlineContainer)
-    document.querySelectorAll(selectors.searchInlineBtn).forEach((btn) => {
-      btn.addEventListener('click', openInlineSearch)
-    })
+  handleDocumentClick(evt) {
+    this.close(evt)
   }
 
-  function openInlineSearch(evt) {
-    evt.preventDefault()
-    evt.stopImmediatePropagation()
-    var container = document.querySelector(selectors.searchInlineContainer)
-    container.classList.add('is-active')
-
-    //emit predictive search open event
-    document.dispatchEvent(
-      new CustomEvent('predictive-search:open', {
-        detail: {
-          context: 'header'
-        },
-        bubbles: true
-      })
-    )
-
-    enableCloseListeners()
+  handleCloseAll() {
+    document.removeEventListener('predictiveSearch:close-all', this.boundCloseAll)
+    this.close()
   }
+}
 
-  function enableCloseListeners() {
-    // Clicking out of search area closes it. Timeout to prevent immediate bubbling
-    setTimeout(function () {
-      window.on('click' + config.namespace, function (evt) {
-        close(evt)
-      })
-    }, 0)
-
-    // Esc key also closes search
-    window.on('keyup', function (evt) {
-      if (evt.keyCode === 27) {
-        close()
-      }
-    })
-
-    //listen for predictive-search:close
-    document.addEventListener(
-      'predictive-search:close-all',
-      function () {
-        close()
-      },
-      { once: true }
-    )
-  }
-
-  return {
-    init: init
-  }
-})()
+customElements.define('header-search', HeaderSearch)

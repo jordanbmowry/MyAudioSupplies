@@ -1,4 +1,4 @@
-import { prepareTransition } from '@archetype-themes/scripts/helpers/utils'
+import { prepareTransition } from '@archetype-themes/utils/utils'
 
 // Either collapsible containers all acting individually,
 // or tabs that can only have one open at a time
@@ -109,10 +109,10 @@ class AtCollapsible extends HTMLElement {
     el.setAttribute('aria-expanded', !isOpen)
     if (isOpen) {
       el.classList.remove(classes.open)
-      document.dispatchEvent(new CustomEvent('collapsible:close', { detail: { id: moduleId } }))
+      this.dispatchEvent(new CustomEvent('collapsible:close', { detail: { id: moduleId }, bubbles: true }))
     } else {
       el.classList.add(classes.open)
-      document.dispatchEvent(new CustomEvent('collapsible:open', { detail: { id: moduleId } }))
+      this.dispatchEvent(new CustomEvent('collapsible:open', { detail: { id: moduleId }, bubbles: true }))
     }
 
     this.setTransitionHeight(container, height, isOpen, isAutoHeight)

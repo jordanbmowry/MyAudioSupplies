@@ -36,18 +36,13 @@ export function forceFocus(element, options = {}) {
   }
 }
 
+// https://github.com/Shopify/dawn/blob/v15.1.0/assets/global.js#L1-L7
 export function focusable(container) {
-  let elements = Array.prototype.slice.call(
+  return Array.from(
     container.querySelectorAll(
-      '[tabindex], [draggable], a[href], area, button:enabled, input:not([type=hidden]):enabled, object, select:enabled, textarea:enabled'
+      "summary, a[href], button:enabled, [tabindex]:not([tabindex^='-']), [draggable], area, input:not([type=hidden]):enabled, select:enabled, textarea:enabled, object, iframe"
     )
   )
-
-  // Filter out elements that are not visible.
-  // Copied from jQuery https://github.com/jquery/jquery/blob/2d4f53416e5f74fa98e0c1d66b6f3c285a12f0ce/src/css/hiddenVisibleSelectors.js
-  return elements.filter(function (element) {
-    return !!(element.offsetWidth || element.offsetHeight || element.getClientRects().length)
-  })
 }
 
 /**
@@ -107,10 +102,12 @@ export function trapFocus(container, options = {}) {
 /**
  * Removes the trap of focus from the page
  */
-export function removeTrapFocus() {
+export function removeTrapFocus(elementToFocus = null) {
   document.removeEventListener('focusin', trapFocusHandlers.focusin)
   document.removeEventListener('focusout', trapFocusHandlers.focusout)
   document.removeEventListener('keydown', trapFocusHandlers.keydown)
+
+  if (elementToFocus) elementToFocus.focus()
 }
 
 let _handleTouchmove = () => true
@@ -125,4 +122,28 @@ export function unlockMobileScrolling(element) {
   document.documentElement.classList.remove('lock-scroll')
   let el = element ? element : document.documentElement
   el.removeEventListener('touchmove', _handleTouchmove)
+}
+
+let scrollPosition = 0
+
+/**
+ * Locks the body from scrolling
+ */
+export function lockScroll() {
+  scrollPosition = window.pageYOffset
+  document.body.style.overflow = 'hidden'
+  document.body.style.position = 'fixed'
+  document.body.style.top = `-${scrollPosition}px`
+  document.body.style.width = '100%'
+}
+
+/**
+ * Unlocks the body to scrolling
+ */
+export function unlockScroll() {
+  document.body.style.removeProperty('overflow')
+  document.body.style.removeProperty('position')
+  document.body.style.removeProperty('top')
+  document.body.style.removeProperty('width')
+  window.scrollTo(0, scrollPosition)
 }

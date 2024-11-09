@@ -1,9 +1,7 @@
-import { config } from '@archetype-themes/scripts/config'
-import CollectionSidebar from '@archetype-themes/scripts/modules/collection-sidebar'
-import AjaxRenderer from '@archetype-themes/scripts/helpers/ajax-renderer'
-import { updateAttribute } from '@archetype-themes/scripts/helpers/cart'
-import { debounce } from '@archetype-themes/scripts/helpers/utils'
-import { EVENTS, publish } from '@archetype-themes/utils/pubsub'
+import CollectionSidebar from '@archetype-themes/modules/collection-sidebar'
+import AjaxRenderer from '@archetype-themes/utils/ajax-renderer'
+import { debounce } from '@archetype-themes/utils/utils'
+import { EVENTS } from '@archetype-themes/utils/events'
 
 class ItemGrid extends HTMLElement {
   constructor() {
@@ -13,7 +11,6 @@ class ItemGrid extends HTMLElement {
 
     this.selectors = {
       sortSelect: '#SortBy',
-      sortBtn: '.filter-sort',
 
       viewChange: '.grid-view-btn',
       productGrid: '.product-grid',
@@ -26,15 +23,7 @@ class ItemGrid extends HTMLElement {
       tagsForm: '.filter-form',
       filterBar: '.collection-filter',
       priceRange: '.price-range',
-      trigger: '.collapsible-trigger',
-
-      filters: '.filter-wrapper',
-      sidebarWrapper: '#CollectionSidebarFilterWrap',
-      inlineWrapper: '#CollectionInlineFilterWrap'
-    }
-
-    this.config = {
-      mobileFiltersInPlace: false
+      trigger: '.collapsible-trigger'
     }
 
     this.classes = {
@@ -50,27 +39,55 @@ class ItemGrid extends HTMLElement {
       onReplace: this.onReplaceAjaxContent.bind(this)
     })
 
-    document.dispatchEvent(
-      new CustomEvent('collection-component:loaded', {
-        detail: {
-          sectionId: this.sectionId
-        }
-      })
-    )
+    this.isStickyHeader = false
   }
 
   connectedCallback() {
+    this.abortController = new AbortController()
     this.init()
+
+    if (document.querySelector('header[data-sticky="true"]')) {
+      this.setFilterStickyPosition()
+    }
+
+    document.addEventListener(EVENTS.stickyHeaderChange, this.handleStickyHeaderChange.bind(this), {
+      signal: this.abortController.signal
+    })
+
+    document.addEventListener(EVENTS.toggleMobileFilters, this.handleToggleMobileFilters.bind(this), {
+      signal: this.abortController.signal
+    })
   }
 
   disconnectedCallback() {
     this.abortController.abort()
+
+    if (this.headerStickyChangeListener) {
+      document.removeEventListener('headerStickyChange', this.headerStickyChangeListener)
+    }
+
+    if (this.resizeListener) {
+      window.removeEventListener('resize', this.resizeListener)
+    }
+  }
+
+  handleToggleMobileFilters(evt) {
+    const { isOpen } = evt.detail
+
+    if (isOpen) {
+      document.dispatchEvent(
+        new CustomEvent(EVENTS.sizeDrawer, {
+          detail: { heights: [document.querySelector(this.selectors.filterBar).offsetHeight] }
+        })
+      )
+
+      // Scroll to top of filter bar when opened
+      let scrollTo = this.getScrollFilterTop()
+      window.scrollTo({ top: scrollTo, behavior: 'smooth' })
+    }
   }
 
   init() {
-    this.config.mobileFiltersInPlace = false
-
-    this.cloneFiltersOnMobile()
     this.initSort()
     this.initFilters()
     this.initPriceRange()
@@ -79,29 +96,32 @@ class ItemGrid extends HTMLElement {
     this.sidebar = new CollectionSidebar()
   }
 
+  handleStickyHeaderChange(evt) {
+    this.isStickyHeader = evt.detail.isSticky
+
+    if (this.isStickyHeader) {
+      this.setFilterStickyPosition()
+    }
+  }
+
   initSort() {
     this.queryParams = new URLSearchParams(window.location.search)
     this.sortSelect = document.querySelector(this.selectors.sortSelect)
-    this.sortBtns = document.querySelectorAll(this.selectors.sortBtn)
 
     if (this.sortSelect) {
       this.defaultSort = this.getDefaultSortValue()
-      this.sortSelect.addEventListener('change', () => {this.onSortChange()}, { signal: this.abortController.signal })
+      this.sortSelect.addEventListener(
+        'change',
+        () => {
+          this.onSortChange()
+        },
+        { signal: this.abortController.signal }
+      )
     }
 
-    if (this.sortBtns.length) {
-      this.sortBtns.forEach((btn) => {
-        btn.addEventListener(
-          'click',
-          () => {
-            document.dispatchEvent(new Event('filter:selected'))
-            const sortValue = btn.dataset.value
-            this.onSortChange(sortValue)
-          },
-          { signal: this.abortController.signal }
-        )
-      })
-    }
+    document.addEventListener(EVENTS.sortSelected, (evt) => {
+      this.onSortChange(evt.detail.sortValue)
+    })
   }
 
   getSortValue() {
@@ -138,13 +158,30 @@ class ItemGrid extends HTMLElement {
           btn.classList.add('is-active')
           const newView = btn.dataset.view
           grid.dataset.view = newView
-          
-          updateAttribute('product_view', newView)
+
+          this.updateAttribute('product_view', newView)
 
           window.dispatchEvent(new Event('resize'))
         },
         { signal: this.abortController.signal }
       )
+    })
+  }
+
+  updateAttribute(key, value) {
+    return fetch(window.Shopify.routes.root + 'cart/update.js', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        attributes: {
+          [key]: value
+        }
+      })
+    }).then((response) => {
+      if (!response.ok) throw response
+      return response.json()
     })
   }
 
@@ -155,18 +192,16 @@ class ItemGrid extends HTMLElement {
       return
     }
 
-    document.addEventListener('matchSmall', this.cloneFiltersOnMobile.bind(this), {
-      signal: this.abortController.signal
-    })
     this.bindBackButton()
 
-    publish(EVENTS.headerStickyCheck)
-    if (config.stickyHeader) {
+    this.dispatchEvent(new CustomEvent(EVENTS.headerStickyCheck), { bubbles: true })
+    if (this.isStickyHeader) {
       this.setFilterStickyPosition()
 
       document.addEventListener('headerStickyChange', debounce(500, this.setFilterStickyPosition.bind(this)), {
         signal: this.abortController.signal
       })
+
       window.addEventListener('resize', debounce(500, this.setFilterStickyPosition.bind(this)), {
         signal: this.abortController.signal
       })
@@ -190,26 +225,6 @@ class ItemGrid extends HTMLElement {
 
   onPriceRangeChange(event) {
     this.renderFromFormData(event.detail)
-  }
-
-  cloneFiltersOnMobile() {
-    if (this.config.mobileFiltersInPlace) {
-      return
-    }
-
-    const sidebarWrapper = document.querySelector(this.selectors.sidebarWrapper)
-    if (!sidebarWrapper) {
-      return
-    }
-    const filters = sidebarWrapper.querySelector(this.selectors.filters).cloneNode(true)
-
-    const inlineWrapper = document.querySelector(this.selectors.inlineWrapper)
-
-    inlineWrapper.innerHTML = ''
-    inlineWrapper.append(config.filtersPrime ?? filters)
-    config.filtersPrime = null
-
-    this.config.mobileFiltersInPlace = true
   }
 
   renderActiveTag(parent, el) {
@@ -240,7 +255,7 @@ class ItemGrid extends HTMLElement {
   onTagClick(evt) {
     const el = evt.currentTarget
 
-    document.dispatchEvent(new Event('filter:selected'))
+    this.dispatchEvent(new Event('filter:selected', { bubbles: true }))
 
     if (el.classList.contains('no-ajax')) {
       return
@@ -265,7 +280,7 @@ class ItemGrid extends HTMLElement {
   onFormSubmit(evt) {
     const el = evt.target
 
-    document.dispatchEvent(new Event('filter:selected'))
+    this.dispatchEvent(new Event('filter:selected', { bubbles: true }))
 
     if (el.classList.contains('no-ajax')) {
       return
@@ -322,7 +337,7 @@ class ItemGrid extends HTMLElement {
       this.init()
       this.updateScroll(false)
 
-      document.dispatchEvent(new CustomEvent('collection:reloaded'))
+      this.dispatchEvent(new CustomEvent('collection:reloaded', { bubbles: true }))
 
       this.isAnimating = false
     })
@@ -332,11 +347,11 @@ class ItemGrid extends HTMLElement {
     let scrollTo = document.getElementById('AjaxContent').offsetTop
 
     // Scroll below the sticky header
-    if (config.stickyHeader) {
+    if (this.isStickyHeader) {
       scrollTo = scrollTo - document.querySelector('#SiteHeader').offsetHeight
     }
 
-    if (!config.bpSmall) {
+    if (!matchMedia('(max-width: 768px)').matches) {
       scrollTo -= 10
     }
 
@@ -355,6 +370,7 @@ class ItemGrid extends HTMLElement {
         this.renderCollectionPage(newUrl.searchParams, false)
       }
     }
+
     window.addEventListener('popstate', this._popStateHandler, { signal: this.abortController.signal })
   }
 
@@ -390,11 +406,17 @@ class ItemGrid extends HTMLElement {
   }
 
   startLoading() {
-    this.querySelector(this.selectors.collectionGrid).classList.add('unload') 
+    this.querySelector(this.selectors.collectionGrid).classList.add('unload')
   }
 
   forceReload() {
     this.init()
+  }
+
+  getScrollFilterTop() {
+    let scrollTop = window.pageYOffset || document.documentElement.scrollTop
+    let elTop = document.querySelector(this.selectors.filterBar).getBoundingClientRect().top
+    return elTop + scrollTop
   }
 }
 

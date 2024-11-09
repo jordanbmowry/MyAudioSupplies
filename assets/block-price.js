@@ -1,15 +1,23 @@
-import { EVENTS, subscribe } from '@archetype-themes/utils/pubsub'
+import { EVENTS } from '@archetype-themes/utils/events'
 
 class BlockPrice extends HTMLElement {
+  constructor() {
+    super()
+
+    this.handleVariantChange = this.handleVariantChange.bind(this)
+  }
   connectedCallback() {
-    this.variantChangeUnsubscriber = subscribe(
+    this.abortController = new AbortController()
+
+    document.addEventListener(
       `${EVENTS.variantChange}:${this.dataset.sectionId}:${this.dataset.productId}`,
-      this.handleVariantChange.bind(this)
+      this.handleVariantChange,
+      { signal: this.abortController.signal }
     )
   }
 
   disconnectedCallback() {
-    this.variantChangeUnsubscriber()
+    this.abortController.abort()
   }
 
   handleVariantChange({ detail }) {

@@ -1,6 +1,5 @@
 import noUiSlider from 'nouislider'
-import { config } from '@archetype-themes/scripts/config'
-import { formatMoney } from '@archetype-themes/scripts/helpers/currency'
+import { formatMoney } from '@archetype-themes/utils/currency'
 
 if (typeof noUiSlider === 'undefined') {
   throw new Error('theme.PriceRange is missing vendor noUiSlider: // =require vendor/nouislider.js')
@@ -13,16 +12,11 @@ const selectors = {
   priceRangeInputMin: '.price-range__input-min',
   priceRangeInputMax: '.price-range__input-max',
   priceRangeDisplayMin: '.price-range__display-min',
-  priceRangeDisplayMax: '.price-range__display-max',
-  filters: '#CollectionSidebarFilterWrap .filter-wrapper'
+  priceRangeDisplayMax: '.price-range__display-max'
 }
 
 class PriceRange extends HTMLElement {
   connectedCallback() {
-    if (!config.filtersPrime) {
-      config.filtersPrime = document.querySelector(selectors.filters).cloneNode(true)
-    }
-
     this.init()
   }
 
@@ -73,8 +67,9 @@ class PriceRange extends HTMLElement {
        * @description Triggered when the price range slider is updated.
        * @param {object} detail - The values of the price range slider.
        */
-      document.dispatchEvent(
+      this.dispatchEvent(
         new CustomEvent('price-range:update', {
+          bubbles: true,
           detail: values
         })
       )
@@ -91,8 +86,9 @@ class PriceRange extends HTMLElement {
        * @description Triggered when the price range slider is changed.
        * @param {Object} formData - The form data.
        */
-      document.dispatchEvent(
+      this.dispatchEvent(
         new CustomEvent('price-range:change', {
+          bubbles: true,
           detail: formData
         })
       )
