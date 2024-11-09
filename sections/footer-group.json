@@ -15,39 +15,21 @@
       "type": "footer-promotions",
       "settings": {},
       "blocks": {
-        "footer-promotions-0": {
-          "type": "promotion",
+        "follow_shop_cta_9F9BGk": {
+          "type": "follow_shop_cta",
+          "disabled": true,
+          "settings": {}
+        },
+        "payment_6x7Bnn": {
+          "type": "payment",
           "settings": {
-            "enable_image": true,
-            "color_scheme": "1"
+            "show_payment_icons": true,
+            "show_locale_selector": true,
+            "show_currency_selector": true,
+            "show_currency_flags": true
           }
         },
-        "footer-promotions-1": {
-          "type": "promotion",
-          "settings": {
-            "enable_image": true,
-            "color_scheme": "3"
-          }
-        },
-        "footer-promotions-2": {
-          "type": "promotion",
-          "settings": {
-            "enable_image": true,
-            "color_scheme": "2"
-          }
-        }
-      },
-      "block_order": [
-        "footer-promotions-0",
-        "footer-promotions-1",
-        "footer-promotions-2"
-      ]
-    },
-    "footer": {
-      "type": "footer",
-      "settings": {},
-      "blocks": {
-        "footer-0": {
+        "menu_RPWT9e": {
           "type": "menu",
           "settings": {
             "menu": "footer",
@@ -57,28 +39,31 @@
         "footer-1": {
           "type": "contact",
           "settings": {
-            "phone": "+1 800 123 1234",
-            "enable_social": true
-          }
-        },
-        "footer-2": {
-          "type": "payment",
-          "settings": {
-            "show_payment_icons": true,
-            "show_locale_selector": true,
-            "show_currency_selector": true
+            "email": "support@myaudiosupplies.com",
+            "phone": "(930) 203-1226",
+            "address": "1284 W Rangeview Cir\nBloomington, IN 47403",
+            "business_hours": "Monday - Friday\n9 AM - 5 PM EST",
+            "contact": "",
+            "chat": "",
+            "enable_social": false
           }
         }
       },
       "block_order": [
-        "footer-0",
-        "footer-1",
-        "footer-2"
-      ]
+        "follow_shop_cta_9F9BGk",
+        "payment_6x7Bnn",
+        "menu_RPWT9e",
+        "contact_K6me8B"
+      ],
+      "settings": {
+        "show_newsletter": true,
+        "newsletter_richtext": "<p>Join our email list for news updates, and new sales.</p>",
+        "footer_main_menu": false,
+        "show_copyright": true,
+        "copyright_text": "",
+        "policies_menu": ""
+      }
     }
   },
-  "order": [
-    "footer-promotions",
-    "footer"
-  ]
+  "order": ["footer-promotions", "footer"]
 }

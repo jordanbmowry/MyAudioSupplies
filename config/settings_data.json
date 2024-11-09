@@ -104,6 +104,184 @@
     "collection_grid_gutter": true,
     "breadcrumb": false,
     "sections": {
+      "header": {
+        "type": "header",
+        "blocks": {
+          "1524770014057": {
+            "type": "logo",
+            "settings": {
+              "logo": "shopify://shop_images/urban_living-white.png",
+              "logo-inverted": "shopify://shop_images/urban_living-white.png",
+              "desktop_logo_width": 120,
+              "mobile_logo_width": 110
+            }
+          }
+        },
+        "block_order": ["1524770014057"],
+        "settings": {
+          "main_menu_link_list": "main-menu",
+          "main_menu_alignment": "below",
+          "mega_products": true,
+          "header_sticky": true,
+          "header_footer_menu": true,
+          "sticky_index": false,
+          "sticky_collection": false
+        }
+      },
+      "article-template": {
+        "type": "article-template",
+        "settings": {
+          "blog_capitalize_first": true,
+          "blog_show_tags": true,
+          "blog_show_date": true,
+          "blog_show_comments": true,
+          "blog_show_author": true
+        }
+      },
+      "blog-template": {
+        "type": "blog-template",
+        "settings": {
+          "blog_show_rss": false,
+          "blog_show_tags": true,
+          "blog_show_date": true,
+          "blog_show_comments": true,
+          "blog_show_author": false,
+          "blog_image_size": "wide"
+        }
+      },
+      "1499789718857": {
+        "type": "featured-collections",
+        "blocks": {
+          "1499789718857-0": {
+            "type": "collection",
+            "settings": {
+              "collection": "furniture",
+              "title": ""
+            }
+          },
+          "deff6d8f-5200-4686-b6aa-bcfff90ddeef": {
+            "type": "collection",
+            "settings": {
+              "collection": "planters",
+              "title": ""
+            }
+          },
+          "1499789718857-1": {
+            "type": "collection",
+            "settings": {
+              "collection": "outdoor-garden-decor",
+              "title": "Outdoor & Garden"
+            }
+          },
+          "1499789718857-2": {
+            "type": "collection",
+            "settings": {
+              "collection": "bergo-kids",
+              "title": "Kids"
+            }
+          },
+          "1499789718857-3": {
+            "type": "collection",
+            "settings": {
+              "collection": "coffee-accessories",
+              "title": ""
+            }
+          },
+          "e2697eb6-4ee1-4531-8beb-f000e64b262c": {
+            "type": "collection",
+            "settings": {
+              "collection": "knives",
+              "title": ""
+            }
+          },
+          "bdee223b-343e-40da-97f5-d2f936098982": {
+            "type": "collection",
+            "settings": {
+              "collection": "bookends",
+              "title": ""
+            }
+          },
+          "87af0dc3-6ea7-4a4e-a530-47a86583d1d9": {
+            "type": "collection",
+            "settings": {
+              "collection": "canadiana",
+              "title": ""
+            }
+          },
+          "e15fd0c4-d11d-498d-8146-bf6198f0f9c4": {
+            "type": "collection",
+            "settings": {
+              "collection": "design-icons",
+              "title": ""
+            }
+          },
+          "62c4462c-e69d-4b80-9b86-e137c4fd84cf": {
+            "type": "collection",
+            "settings": {
+              "collection": "limited-editions",
+              "title": ""
+            }
+          },
+          "3a8d8b83-f7c4-4265-aaae-55621028d824": {
+            "type": "collection",
+            "settings": {
+              "collection": "fun-games-puzzles",
+              "title": "Games & Puzzles"
+            }
+          },
+          "9d71d183-dc21-4253-9b92-e2eaaff7bef9": {
+            "type": "collection",
+            "settings": {
+              "collection": "sale",
+              "title": ""
+            }
+          }
+        },
+        "block_order": [
+          "1499789718857-0",
+          "deff6d8f-5200-4686-b6aa-bcfff90ddeef",
+          "1499789718857-1",
+          "1499789718857-2",
+          "1499789718857-3",
+          "e2697eb6-4ee1-4531-8beb-f000e64b262c",
+          "bdee223b-343e-40da-97f5-d2f936098982",
+          "87af0dc3-6ea7-4a4e-a530-47a86583d1d9",
+          "e15fd0c4-d11d-498d-8146-bf6198f0f9c4",
+          "62c4462c-e69d-4b80-9b86-e137c4fd84cf",
+          "3a8d8b83-f7c4-4265-aaae-55621028d824",
+          "9d71d183-dc21-4253-9b92-e2eaaff7bef9"
+        ],
+        "settings": {
+          "title": "Top picks",
+          "divider": false
+        }
+      },
+      "newsletter-popup": {
+        "type": "newsletter-popup",
+        "blocks": {
+          "6a2a8ea3-1f40-4a70-a4e1-66e625091344": {
+            "type": "header",
+            "settings": {
+              "reminder_label": "Get 10% off"
+            }
+          }
+        },
+        "block_order": ["6a2a8ea3-1f40-4a70-a4e1-66e625091344"],
+        "settings": {
+          "disable_for_account_holders": true,
+          "popup_seconds": 5,
+          "popup_days": 30,
+          "popup_title": "Get 10% off your first purchase.",
+          "popup_text": "<p>Sign up today and we'll send you a 10% discount code towards your first purchase. Some restrictions apply.</p>",
+          "popup_image": "shopify://shop_images/office-furniture-grey-chairs.jpg",
+          "image_position": "left",
+          "color_scheme": "2",
+          "show_social_icons": false,
+          "enable_newsletter": true,
+          "button_label": "",
+          "button_link": ""
+        }
+      },
       "collection-header": {
         "type": "collection-header",
         "settings": {
@@ -128,9 +306,268 @@
           "desktop_logo_height": 100,
           "mobile_logo_height": 60
         }
+      },
+      "161789469679fffe6b": {
+        "type": "slideshow-split",
+        "blocks": {
+          "161789469679fffe6b-2": {
+            "type": "slide",
+            "settings": {
+              "top_subheading": "",
+              "title": "New from Wild Wood",
+              "title_size": 60,
+              "subheading": "Decorative planters that will bring your home office to life.",
+              "link": "shopify://collections/planters",
+              "link_text": "Shop Planters",
+              "link_text_2": "",
+              "text_position": "right",
+              "image": "shopify://shop_images/green-wall-cream.jpg",
+              "indent_image": false,
+              "color_scheme": "1"
+            }
+          },
+          "161789469679fffe6b-1": {
+            "type": "slide",
+            "settings": {
+              "top_subheading": "",
+              "title": "Lakehouse Lifestyle.",
+              "title_size": 60,
+              "subheading": "Spring has sprung and it's time to make your outdoor space come to life. Shop all the top outdoor brands.",
+              "link": "shopify://collections/homestyle",
+              "link_text": "Shop Home",
+              "link_2": "shopify://collections/decor",
+              "link_text_2": "Shop All",
+              "text_position": "left",
+              "image": "shopify://shop_images/outdoor-dining_685376f1-9e94-4d09-8b14-a621a5e8e19b.jpg",
+              "indent_image": false,
+              "color_scheme": "2"
+            }
+          },
+          "161789469679fffe6b-0": {
+            "type": "slide",
+            "settings": {
+              "top_subheading": "",
+              "title": "Back in stock.",
+              "title_size": 70,
+              "subheading": "We've restocked on items from Jonathan Adler, Tom Dixon, and more of your favourite designers.",
+              "link": "/collections/vendors?q=Jonathan%20Adler",
+              "link_text": "Shop New",
+              "link_2": "shopify://collections/decor",
+              "link_text_2": "Shop All",
+              "text_position": "left",
+              "image": "shopify://shop_images/product.jpg",
+              "indent_image": true,
+              "color_scheme": "1"
+            }
+          }
+        },
+        "block_order": [
+          "161789469679fffe6b-2",
+          "161789469679fffe6b-1",
+          "161789469679fffe6b-0"
+        ],
+        "settings": {
+          "full_width": true,
+          "height": 600,
+          "height_mobile": 450,
+          "style": "arrows",
+          "autoplay": true,
+          "autoplay_speed": 7
+        }
+      },
+      "161789690258ed465f": {
+        "type": "newsletter",
+        "settings": {
+          "color_scheme": "2"
+        }
+      },
+      "1617897211fa46356d": {
+        "type": "background-image-text",
+        "disabled": true,
+        "settings": {
+          "subtitle": "",
+          "title": "Serving NYC since 1994.",
+          "text": "<p>Thanks to your business over the years we&#x27;ve grown to cover Brooklyn, Manhattan and Queens. Now offering next-day local pickup.</p>",
+          "button_label": "View locations",
+          "button_link": "shopify://pages/our-story",
+          "image": "shopify://shop_images/store-expensive_6dd3bb0d-7aaf-4624-919f-4f57bc61932c.jpg",
+          "layout": "left",
+          "height": 550,
+          "parallax": false
+        }
+      },
+      "16194500635e2e2d35": {
+        "type": "promo-grid",
+        "blocks": {
+          "95ee7881-6f87-497a-8b37-65a8307e81de": {
+            "type": "sale_collection",
+            "settings": {
+              "sale_collection": "coffee-time",
+              "top_text": "Up to",
+              "middle_text": "20% off",
+              "bottom_text": "Coffee accessories",
+              "width": "50",
+              "color_scheme": "3"
+            }
+          },
+          "58061451-10b9-4cc7-95b8-f03131795311": {
+            "type": "sale_collection",
+            "settings": {
+              "sale_collection": "cutlery",
+              "top_text": "Up to",
+              "middle_text": "15% off",
+              "bottom_text": "Select cutlery",
+              "width": "50",
+              "color_scheme": "3"
+            }
+          }
+        },
+        "block_order": [
+          "95ee7881-6f87-497a-8b37-65a8307e81de",
+          "58061451-10b9-4cc7-95b8-f03131795311"
+        ],
+        "settings": {
+          "full_width": false,
+          "gutter_size": 20,
+          "space_above": false,
+          "space_below": false
+        }
+      },
+      "1623090756d994291c": {
+        "type": "slideshow",
+        "blocks": {
+          "1623090756d994291c-0": {
+            "type": "hero",
+            "settings": {
+              "top_subheading": "",
+              "title": "<p>Build your dream <br/>outdoor oasis.</p>",
+              "title_size": 56,
+              "subheading": "",
+              "link": "shopify://collections/outdoor-garden-decor",
+              "link_text": "Shop Outdoor",
+              "link_2": "shopify://collections/decor",
+              "link_text_2": "Shop All",
+              "color_accent": "#ffffff",
+              "text_align": "vertical-center horizontal-center",
+              "image": "shopify://shop_images/outdoor-pool_cf604255-b274-4f3c-a917-4fd383330216.jpg",
+              "overlay_opacity": 0
+            }
+          },
+          "1623090756d994291c-1": {
+            "type": "hero",
+            "settings": {
+              "top_subheading": "",
+              "title": "<p>Entertain in style.</p>",
+              "title_size": 55,
+              "subheading": "",
+              "link": "shopify://collections/outdoor-style",
+              "link_text": "Shop Outdoor",
+              "link_2": "shopify://collections/decor",
+              "link_text_2": "Shop All",
+              "color_accent": "#ffffff",
+              "text_align": "vertical-center horizontal-center",
+              "image": "shopify://shop_images/outdoor-dining_842be956-7149-4cee-bf47-2ed9d99bbb19.jpg",
+              "overlay_opacity": 0
+            }
+          }
+        },
+        "block_order": ["1623090756d994291c-0", "1623090756d994291c-1"],
+        "settings": {
+          "full_width": true,
+          "desktop_size": -10,
+          "mobile_size": 0,
+          "style": "arrows",
+          "autoplay": true,
+          "autoplay_speed": 5
+        }
+      },
+      "16242877764ba69f0b": {
+        "type": "slideshow-split",
+        "blocks": {
+          "16242877764ba69f0b-0": {
+            "type": "slide",
+            "settings": {
+              "top_subheading": "",
+              "title": "Serving NYC since 1994.",
+              "title_size": 45,
+              "subheading": "Thanks to your business over the years we've grown to cover Brooklyn, Manhattan and Queens. Now offering next-day local pickup.",
+              "link": "shopify://pages/our-story",
+              "link_text": "View locations",
+              "link_text_2": "",
+              "text_position": "left",
+              "image": "shopify://shop_images/store-expensive_6dd3bb0d-7aaf-4624-919f-4f57bc61932c.jpg",
+              "indent_image": false,
+              "color_scheme": "1"
+            }
+          }
+        },
+        "block_order": ["16242877764ba69f0b-0"],
+        "settings": {
+          "full_width": true,
+          "height": 550,
+          "height_mobile": 450,
+          "style": "arrows",
+          "autoplay": true,
+          "autoplay_speed": 7
+        }
+      },
+      "age-verification-popup": {
+        "type": "age-verification-popup",
+        "settings": {
+          "enable_test_mode": false,
+          "color_scheme": "none",
+          "blur_image": false,
+          "heading": "Confirm your age",
+          "text": "<p>Are you 18 years old or older?</p>",
+          "decline_button_label": "No I'm not",
+          "approve_button_label": "Yes I am",
+          "decline_heading": "Come back when you're older",
+          "decline_text": "<p>Sorry, the content of this store can't be seen by a younger audience. Come back when you're older.</p>",
+          "return_button_label": "Oops, I entered incorrectly"
+        }
       }
     },
-    "content_for_index": []
+    "content_for_index": [
+      "161789469679fffe6b",
+      "1499789718857",
+      "16194500635e2e2d35",
+      "1525295772132",
+      "1623090756d994291c",
+      "16154004051a1fa86e",
+      "16166970499d200586",
+      "16167068142513abfa",
+      "161789690258ed465f",
+      "1525115199973",
+      "1617897211fa46356d",
+      "16242877764ba69f0b"
+    ],
+    "blocks": {
+      "855628211100114053": {
+        "type": "shopify://apps/klaviyo-email-marketing-sms/blocks/klaviyo-onsite-embed/2632fe16-c075-4321-a88b-50b567f42507",
+        "disabled": false,
+        "settings": {}
+      },
+      "14060646107696862457": {
+        "type": "shopify://apps/judge-me-reviews/blocks/judgeme_core/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+        "disabled": false,
+        "settings": {}
+      },
+      "9365423049038898845": {
+        "type": "shopify://apps/tawk-to-live-chat/blocks/widget-embed-code/91169e75-f163-40ce-90e0-9059f3c9b772",
+        "disabled": false,
+        "settings": {}
+      },
+      "14327677521557774844": {
+        "type": "shopify://apps/simprosys-google-shopping-feed/blocks/core_settings_block/1f0b859e-9fa6-4007-97e8-4513aff5ff3b",
+        "disabled": false,
+        "settings": {}
+      },
+      "14352282602675302068": {
+        "type": "shopify://apps/cloud-search-product-filter/blocks/cloudsearch_opt/8ddbd0bf-e311-492e-ab28-69d0ad268fac",
+        "disabled": false,
+        "settings": {}
+      }
+    }
   },
   "presets": {
     "Modern": {
@@ -391,9 +828,7 @@
               }
             }
           },
-          "block_order": [
-            "1524770014057"
-          ],
+          "block_order": ["1524770014057"],
           "settings": {
             "main_menu_link_list": "main-menu",
             "main_menu_alignment": "below",
@@ -542,9 +977,7 @@
               }
             }
           },
-          "block_order": [
-            "6a2a8ea3-1f40-4a70-a4e1-66e625091344"
-          ],
+          "block_order": ["6a2a8ea3-1f40-4a70-a4e1-66e625091344"],
           "settings": {
             "disable_for_account_holders": true,
             "popup_seconds": 5,
@@ -1114,10 +1547,7 @@
               }
             }
           },
-          "block_order": [
-            "1623090756d994291c-0",
-            "1623090756d994291c-1"
-          ],
+          "block_order": ["1623090756d994291c-0", "1623090756d994291c-1"],
           "settings": {
             "full_width": true,
             "desktop_size": -10,
@@ -1147,9 +1577,7 @@
               }
             }
           },
-          "block_order": [
-            "16242877764ba69f0b-0"
-          ],
+          "block_order": ["16242877764ba69f0b-0"],
           "settings": {
             "full_width": true,
             "height": 550,
@@ -1322,9 +1750,7 @@
               }
             }
           },
-          "block_order": [
-            "1524770014057"
-          ],
+          "block_order": ["1524770014057"],
           "settings": {
             "main_menu_link_list": "main-menu",
             "main_menu_alignment": "below",
@@ -1425,9 +1851,7 @@
               }
             }
           },
-          "block_order": [
-            "89af8827-ae1b-4a50-9436-ebdfb8553fd5"
-          ],
+          "block_order": ["89af8827-ae1b-4a50-9436-ebdfb8553fd5"],
           "settings": {
             "disable_for_account_holders": true,
             "popup_seconds": 6,
@@ -1545,9 +1969,7 @@
               }
             }
           },
-          "block_order": [
-            "f709e6ea-d5cc-4702-adbf-e66e246fcaf1"
-          ],
+          "block_order": ["f709e6ea-d5cc-4702-adbf-e66e246fcaf1"],
           "settings": {
             "announcement_center": false,
             "toolbar_social": false,
@@ -1836,9 +2258,7 @@
               }
             }
           },
-          "block_order": [
-            "162396200786f8a51c-0"
-          ],
+          "block_order": ["162396200786f8a51c-0"],
           "settings": {
             "full_width": true,
             "height": 650,
@@ -1868,9 +2288,7 @@
               }
             }
           },
-          "block_order": [
-            "162402863370f49f13-0"
-          ],
+          "block_order": ["162402863370f49f13-0"],
           "settings": {
             "full_width": true,
             "desktop_size": -10,
