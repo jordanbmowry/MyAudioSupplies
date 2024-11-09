@@ -1,4 +1,4 @@
-{% # components v2.10.69 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
+{% # components v3.0.1 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
 {%- comment -%}
   Renders breadcrumbs for the current page.
 
@@ -18,13 +18,22 @@
 {% if show_breadcrumbs %}
   {% unless template.name == 'index' or template.name == 'cart' %}
     <nav class="breadcrumb" role="navigation" aria-label="breadcrumbs">
-      <a href="{{ routes.root_url }}" title="{{ 'actions.back_to_homepage' | t }}">{{ 'labels.home' | t }}</a>
+      <a
+        href="{{ routes.root_url }}"
+        title="
+          {% render 't_with_fallback', key: 'actions.back_to_homepage', fallback: 'Back to the frontpage' -%}
+        "
+      >
+        {% render 't_with_fallback', key: 'labels.home', fallback: 'Home' %}
+      </a>
 
       {% if template.name == 'product' %}
         {% if collection %}
           {% if show_breadcrumbs_collection_link %}
             <span class="breadcrumb__divider" aria-hidden="true">/</span>
-            <a href="{{ routes.collections_url }}">{{ 'labels.collections' | t | replace: ':', '' }}</a>
+            <a href="{{ routes.collections_url }}">
+              {% render 't_with_fallback', key: 'labels.collections', fallback: 'Collections' %}
+            </a>
           {% endif %}
 
           <span class="breadcrumb__divider" aria-hidden="true">/</span>
@@ -40,7 +49,9 @@
       {% elsif template.name == 'collection' and collection.handle %}
         {% if show_breadcrumbs_collection_link %}
           <span class="breadcrumb__divider" aria-hidden="true">/</span>
-          <a href="{{ routes.collections_url }}">{{ 'labels.collections' | t | replace: ':', '' }}</a>
+          <a href="{{ routes.collections_url }}">
+            {% render 't_with_fallback', key: 'labels.collections', fallback: 'Collections' %}
+          </a>
         {% endif %}
 
         <span class="breadcrumb__divider" aria-hidden="true">/</span>

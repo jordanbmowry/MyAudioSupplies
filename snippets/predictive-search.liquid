@@ -1,4 +1,4 @@
-{% # components v2.10.69 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
+{% # components v3.0.1 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
 {%- comment -%}
   Renders the predictive search component.
 
@@ -6,6 +6,8 @@
   - context {string} - The context in which the predictive search is being used.
   - predictive_search_enabled {boolean} - Enable predictive search
   - color_header_search {color} - The color of the header search
+  - no_submit_button {boolean} - Hides the submit button
+  - no_overlay {boolean} - Disables the overlay element
   - hydration {string} - The hydration strategy
 
   Usage:
@@ -17,6 +19,7 @@
   assign predictive_search_enabled = predictive_search_enabled | default: settings.predictive_search_enabled, allow_false: true | default: true, allow_false: true
   assign color_header_search = color_header_search | default: settings.color_header_search | default: '#fff'
   assign hydration = hydration | default: 'on:idle'
+  assign no_submit = no_submit | default: false, allow_false: true
 
   assign dark_search_bg = false
   assign lightness = color_header_search | color_brightness
@@ -25,13 +28,16 @@
     assign dark_search_bg = true
   endif
 -%}
-<is-land {{ hydration }}>
+<is-land class="site-header__search-island" {{ hydration }}>
   <predictive-search
     data-context="{{ context }}"
     data-enabled="{{ predictive_search_enabled }}"
     data-dark="{{ dark_search_bg }}"
+    defer-hydration
   >
-    <div class="predictive__screen" data-screen></div>
+    {%- unless no_overlay -%}
+      <div class="predictive__screen" data-screen></div>
+    {%- endunless -%}
     <form action="{{ routes.search_url }}" method="get" role="search">
       <label for="Search" class="visually-hidden">Search</label>
       <div class="search__input-wrap">
@@ -51,18 +57,25 @@
           autocomplete="off"
           autocapitalize="off"
           spellcheck="false"
-          placeholder="{{ 'labels.search' | t }}"
+          placeholder="{% render 't_with_fallback', key: 'labels.search', fallback: 'Search' -%}"
           tabindex="0"
         >
         <input name="options[prefix]" type="hidden" value="last">
-        <button class="btn--search" type="submit">
-          {%  render 'icon', name: 'search' %}
-          <span class="icon__fallback-text visually-hidden">{{ 'labels.search' | t }}</span>
-        </button>
+        {%- unless no_submit_button -%}
+          <button class="btn--search" type="submit">
+            {% render 'icon', name: 'search' %}
+            <span class="icon__fallback-text visually-hidden">
+              {% render 't_with_fallback', key: 'labels.search', fallback: 'Search' -%}
+            </span>
+          </button>
+        {%- endunless -%}
       </div>
 
       <button class="btn--close-search">
-        {%  render 'icon', name: 'close' %}
+        {% render 'icon', name: 'close' %}
+        <span class="icon__fallback-text visually-hidden">
+          {% render 't_with_fallback', key: 'actions.close', fallback: 'Close' -%}
+        </span>
       </button>
       <div id="predictive-search" class="search__results" tabindex="-1"></div>
     </form>

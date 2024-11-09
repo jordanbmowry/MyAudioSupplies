@@ -8,10 +8,7 @@
     <link rel="canonical" href="{{ canonical_url }}">
 
     {%- if settings.favicon != blank -%}
-      <link
-        rel="shortcut icon"
-        href="{{ settings.favicon | img_url: '32x32' }}"
-        type="image/png">
+      <link rel="shortcut icon" href="{{ settings.favicon | img_url: '32x32' }}" type="image/png">
     {%- endif -%}
 
     {%- assign formatted_initial_value = gift_card.initial_value | money_without_trailing_zeros: gift_card.currency -%}
@@ -41,7 +38,8 @@
     data-edges="{{ settings.roundness }}"
     data-type_header_capitalize="{{ settings.type_header_capitalize }}"
     data-swatch_style="{{ settings.swatch_style }}"
-    data-grid-style="{{ settings.product_grid_style }}">
+    data-grid-style="{{ settings.product_grid_style }}"
+  >
     <div id="PageContainer">
       <div class="page-width">
         {%- section 'giftcard-header' -%}
@@ -53,14 +51,14 @@
         <footer class="giftcard__footer">
           <a class="add-to-apple-wallet" href="{{ gift_card.pass_url }}">
             {% assign alt_text = 'actions.add_to_apple_wallet' | t %}
-            {%- render 'image-element'
-              , asset: 'gift-card/add-to-apple-wallet.svg'
-              , type: 'asset'
-              , img_width: 120
-              , img_height: 40
-              , alt: alt_text
-              , sizes: '120px'
-              , context: 'giftcard'
+            {%- render 'image-element',
+              asset: 'gift-card/add-to-apple-wallet.svg',
+              type: 'asset',
+              img_width: 120,
+              img_height: 40,
+              alt: alt_text,
+              sizes: '120px',
+              context: 'giftcard'
             -%}
           </a>
         </footer>

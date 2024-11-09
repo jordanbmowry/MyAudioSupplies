@@ -1,4 +1,4 @@
-{% # components v2.10.69 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
+{% # components v3.0.1 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
 {% comment %}
   Renders the price varies component.
 
@@ -28,6 +28,16 @@
 -%}
 
 <span aria-hidden="true" class="grid-product__price--from">
-  {{- 'labels.from_price_html' | t: price: formatted_price -}}
+  {% assign labels_from_price_html = 'labels.from_price_html' | t: price: formatted_price %}
+  {%- capture fallback_labels_from_price_html -%}
+    <span>from</span> {{ formatted_price }}
+  {%- endcapture -%}
+  {% render 't_with_fallback', t: labels_from_price_html, fallback: fallback_labels_from_price_html %}
 </span>
-<span class="visually-hidden">{{ 'labels.from_price_html' | t: price: raw_price }}</span>
+<span class="visually-hidden">
+  {%- assign labels_from_price_html = 'labels.from_price_html' | t: price: raw_price %}
+  {%- capture fallback_labels_from_price_html -%}
+    <span>from</span> {{ raw_price }}
+  {%- endcapture -%}
+  {% render 't_with_fallback', t: labels_from_price_html, fallback: fallback_labels_from_price_html -%}
+</span>

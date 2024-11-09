@@ -1,4 +1,4 @@
-{% # components v2.10.69 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
+{% # components v3.0.1 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
 {%- comment -%}
   Renders an "empty" product grid item for onboarding purposes.
 
@@ -42,11 +42,10 @@
   <div class="grid-item__content">
     <a href="{{ product.url | within: collection | default: '#' }}" class="grid-item__link">
       <div class="grid-product__image-wrap">
-        
         {%- if index == 1 -%}
           <div class="grid-product__tags">
             <div class="grid-product__tag grid-product__tag--sale">
-              {{ 'labels.sale' | t }}
+              {% render 't_with_fallback', key: 'labels.sale', fallback: 'Sale' %}
             </div>
           </div>
         {%- endif -%}
@@ -57,7 +56,9 @@
       </div>
       <div class="grid-item__meta">
         <div class="grid-item__meta-main">
-          <div class="grid-product__title">{{ 'labels.example_product' | t }}</div>
+          <div class="grid-product__title">
+            {% render 't_with_fallback', key: 'labels.example_product', fallback: 'Example product' %}
+          </div>
         </div>
         <div class="grid-item__meta-secondary">
           <div class="grid-product__price">
@@ -76,7 +77,11 @@
                   {%- capture saved_amount -%}{{ 3599 | minus: 2999 | times: 100.0 | divided_by: 3599 | round }}%{%- endcapture -%}
                 {%- endif -%}
                 <span class="grid-product__price--savings">
-                  {{ 'info.save_amount' | t: saved_amount: saved_amount }}
+                  {% assign info_save_amount = 'info.save_amount' | t: saved_amount: saved_amount %}
+                  {%- capture fallback_info_save_amount -%}
+                    Save {{ saved_amount }}
+                  {%- endcapture -%}
+                  {% render 't_with_fallback', t: info_save_amount, fallback: fallback_info_save_amount %}
                 </span>
               {%- endif -%}
             {%- endif -%}

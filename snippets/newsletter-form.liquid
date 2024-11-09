@@ -1,4 +1,4 @@
-{% # components v2.10.69 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
+{% # components v3.0.1 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
 {%- comment -%}
   Renders a newsletter form.
 
@@ -16,7 +16,7 @@
 {% form 'customer', id: newsletter_form_id %}
   {%- if form.posted_successfully? -%}
     <div class="note note--success">
-      {{ 'info.newsletter_success' | t }}
+      {% render 't_with_fallback', key: 'info.newsletter_success', fallback: 'Thanks for subscribing' %}
     </div>
   {%- endif -%}
   {%- if form.errors and form.context == context -%}
@@ -24,15 +24,19 @@
   {%- endif -%}
 
   {%- unless form.posted_successfully? -%}
-    <label for="Email-{{ section.id }}" class="visually-hidden">{{ 'actions.enter_email' | t }}</label>
-    <label for="newsletter-form-submit-{{ section.id }}" class="visually-hidden">{{ 'actions.subscribe' | t }}</label>
+    <label for="Email-{{ section.id }}" class="visually-hidden">
+      {% render 't_with_fallback', key: 'actions.enter_email', fallback: 'Enter email' -%}
+    </label>
+    <label for="newsletter-form-submit-{{ section.id }}" class="visually-hidden">
+      {% render 't_with_fallback', key: 'actions.subscribe', fallback: 'Subscribe' -%}
+    </label>
     <input type="hidden" name="contact[tags]" value="prospect,newsletter">
     <input type="hidden" name="contact[context]" value="{{ context }}">
     <div class="input-group newsletter__input-group">
       <input
         type="email"
         value="{% if customer %}{{ customer.email }}{% endif %}"
-        placeholder="{{ 'actions.enter_email' | t }}"
+        placeholder="{% render 't_with_fallback', key: 'actions.enter_email', fallback: 'Enter your email' -%}"
         name="contact[email]"
         id="Email-{{ section.id }}"
         class="input-group-field newsletter__input"
@@ -46,9 +50,13 @@
           id="newsletter-form-submit-{{ section.id }}"
           class="btn"
           name="commit"
-          aria-label="{{ 'actions.subscribe' | t }}"
+          aria-label="
+            {% render 't_with_fallback', key: 'actions.subscribe', fallback: 'Subscribe' -%}
+          "
         >
-          <span class="form__submit--large">{{ 'actions.subscribe' | t }}</span>
+          <span class="form__submit--large">
+            {% render 't_with_fallback', key: 'actions.subscribe', fallback: 'Subscribe' -%}
+          </span>
           <span class="form__submit--small">
             {% render 'icon', name: 'arrow-right' %}
           </span>

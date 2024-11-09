@@ -1,14 +1,25 @@
-{% # components v2.10.69 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
+{% # components v3.0.1 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
+{%- comment -%}
+  Renders the customer register section.
+
+  Usage:
+  {% render 'section-main-register %}
+{%- endcomment -%}
+
 <div class="page-width page-width--tiny page-content">
   <header class="section-header">
-    <h1 class="section-header__title">{{ 'actions.create_account' | t }}</h1>
+    <h1 class="section-header__title">
+      {% render 't_with_fallback', key: 'actions.create_account', fallback: 'Create Account' %}
+    </h1>
   </header>
 
   <div class="form-vertical">
     {%- form 'create_customer' -%}
       {{ form.errors | default_errors }}
 
-      <label for="FirstName">{{ 'labels.first_name' | t }}</label>
+      <label for="FirstName">
+        {% render 't_with_fallback', key: 'labels.first_name', fallback: 'First name' -%}
+      </label>
       <input
         type="text"
         name="customer[first_name]"
@@ -21,7 +32,9 @@
         autofocus
       >
 
-      <label for="LastName">{{ 'labels.last_name' | t }}</label>
+      <label for="LastName">
+        {% render 't_with_fallback', key: 'labels.last_name', fallback: 'Last name' -%}
+      </label>
       <input
         type="text"
         name="customer[last_name]"
@@ -33,7 +46,9 @@
         autocapitalize="words"
       >
 
-      <label for="Email">{{ 'labels.email' | t }}</label>
+      <label for="Email">
+        {% render 't_with_fallback', key: 'labels.email', fallback: 'Email' -%}
+      </label>
       <input
         type="email"
         name="customer[email]"
@@ -46,7 +61,9 @@
         autocapitalize="off"
       >
 
-      <label for="CreatePassword">{{ 'labels.password' | t }}</label>
+      <label for="CreatePassword">
+        {% render 't_with_fallback', key: 'labels.password', fallback: 'Password' -%}
+      </label>
       <input
         type="password"
         name="customer[password]"
@@ -55,8 +72,15 @@
       >
 
       <p>
-        <label for="register-submit" class="visually-hidden">{{ 'actions.create' | t }}</label>
-        <input type="submit" id="register-submit" value="{{ 'actions.create' | t }}" class="btn btn--full">
+        <label for="register-submit" class="visually-hidden">
+          {% render 't_with_fallback', key: 'actions.create', fallback: 'Create' -%}
+        </label>
+        <input
+          type="submit"
+          id="register-submit"
+          value="            {% render 't_with_fallback', key: 'actions.create', fallback: 'Create' %}"
+          class="btn btn--full"
+        >
       </p>
     {%- endform -%}
   </div>

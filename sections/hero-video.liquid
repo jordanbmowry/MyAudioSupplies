@@ -83,11 +83,16 @@
       ]
     },
     {
-      "type": "text",
+      "type": "video",
+      "id": "video",
+      "label": "t:labels.video",
+      "info": "t:info.overrides_video_url_if_both_set"
+    },
+    {
+      "type": "video_url",
       "id": "video_url",
-      "label": "t:labels.background_video_link",
-      "default": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
-      "info": "t:info.supported_video_formats"
+      "label": "t:labels.video_url",
+      "accept": ["youtube", "vimeo"]
     },
     {
       "type": "range",

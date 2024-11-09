@@ -1,4 +1,4 @@
-{% # components v2.10.69 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
+{% # components v3.0.1 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
 {%- comment -%}
   Renders the product description
 
@@ -21,9 +21,12 @@
     assign description = product.description
   endif
 
-  assign title = 'labels.description' | t
   capture slot_button
-    echo title
+    assign labels_description = 'labels.description' | t
+    capture fallback_labels_description
+      echo 'Description'
+    endcapture
+    render 't_with_fallback', t: labels_description, fallback: fallback_labels_description
     render 'collapsible-icons'
   endcapture
 -%}

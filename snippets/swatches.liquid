@@ -1,4 +1,4 @@
-{% # components v2.10.69 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
+{% # components v3.0.1 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
 {%- comment -%}
   Renders a product's color swatches.
 
@@ -10,7 +10,11 @@
 {%- endcomment -%}
 
 {%- liquid
-  assign swatch_trigger = 'trigger.color_swatch' | t | downcase
+  capture swatch_trigger
+    assign trigger_color_swatch = 'trigger.color_swatch' | t | downcase
+    render 't_with_fallback', t: trigger_color_swatch, fallback: 'color'
+  endcapture
+
   assign swatch_file_extension = 'png'
   assign color_count = 0
   assign max_colors_show = 4
@@ -22,7 +26,7 @@
   {%- liquid
     assign option_name = option.name | downcase
     assign is_color = false
-    if option_name contains swatch_trigger
+    if swatch_trigger contains option_name
       assign is_color = true
     elsif swatch_trigger == 'color' and option_name contains 'colour'
       assign is_color = true
@@ -70,7 +74,7 @@
 
         <template data-island>
           <script type="module">
-            import '@archetype-themes/scripts/modules/swatches'
+            import '@archetype-themes/custom-elements/swatches'
           </script>
         </template>
       </color-swatches>

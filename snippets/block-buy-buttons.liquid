@@ -1,4 +1,4 @@
-{% # components v2.10.69 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
+{% # components v3.0.1 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
 {% comment %}
   Renders product buy buttons
 
@@ -33,14 +33,6 @@
     assign quantity_rule_soldout = true
   endif
 
-  assign button_text = 'actions.add_to_cart' | t
-  if template contains 'preorder'
-    assign button_text = 'actions.preorder' | t
-  endif
-  if product.selected_or_first_available_variant.available == false or quantity_rule_soldout
-    assign button_text = 'info.sold_out' | t
-  endif
-
   assign gift_card_recipient_feature_active = false
   if block.settings.show_gift_card_recipient and product.gift_card?
     assign gift_card_recipient_feature_active = true
@@ -63,11 +55,15 @@
       {%- if cart.taxes_included or shop.shipping_policy.body != blank -%}
         <div class="product__policies rte">
           {%- if cart.taxes_included -%}
-            {{ 'info.tax_included' | t }}
+            {% render 't_with_fallback', key: 'info.tax_included', fallback: 'Tax included.' %}
           {%- endif -%}
 
           {%- if shop.shipping_policy.body != blank -%}
-            {{ 'info.shipping_policy_html' | t: link: shop.shipping_policy.url }}
+            {% assign info_shipping_policy_html = 'info.shipping_policy_html' | t: link: shop.shipping_policy.url %}
+            {%- capture fallback_info_shipping_policy_html -%}
+              <a href='{{ shop.shipping_policy.url }}'>Shipping</a> calculated at checkout.
+            {%- endcapture -%}
+            {% render 't_with_fallback', t: info_shipping_policy_html, fallback: fallback_info_shipping_policy_html %}
           {%- endif -%}
         </div>
       {%- endif -%}
@@ -95,7 +91,25 @@
           {% endif %}
         >
           <span>
-            {{- button_text -}}
+            {% liquid
+              capture button_text
+                render 't_with_fallback', key: 'actions.add_to_cart', fallback: 'Add to cart'
+              endcapture
+
+              if template contains 'preorder'
+                capture button_text
+                  render 't_with_fallback', key: 'actions.preorder', fallback: 'Pre-order'
+                endcapture
+              endif
+
+              if product.selected_or_first_available_variant.available == false or quantity_rule_soldout
+                capture button_text
+                  render 't_with_fallback', key: 'info.sold_out', fallback: 'Sold out'
+                endcapture
+              endif
+
+              echo button_text
+            %}
           </span>
         </button>
 
@@ -106,6 +120,7 @@
           {{- form | payment_button -}}
         {%- endif -%}
       </div>
+      <div class="shopify-payment-terms product__policies">{{ form | payment_terms }}</div>
     {%- endform -%}
 
     <script type="application/json">

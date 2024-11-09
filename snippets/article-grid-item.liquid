@@ -1,4 +1,4 @@
-{% # components v2.10.69 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
+{% # components v3.0.1 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
 {%- comment -%}
   Renders a blog article grid item.
 
@@ -114,7 +114,11 @@
         {%- if show_comments -%}
           <span>
             <a href="#">
-              {{ 'info.comments_count' | t: count: 0 }}
+              {% assign info_comments_count = 'info.comments_count' | t: count: 0 %}
+              {%- capture fallback_info_comments_count -%}
+                {{ count }} comments
+              {%- endcapture -%}
+              {% render 't_with_fallback', t: info_comments_count, fallback: fallback_info_comments_count %}
             </a>
           </span>
         {%- endif -%}
@@ -148,7 +152,11 @@
         {%- if show_comments and article.comments_count > 0 -%}
           <span>
             <a href="{{ article.url }}#comments">
-              {{ 'info.comments_count' | t: count: article.comments_count }}
+              {% assign info_comments_count = 'info.comments_count' | t: count: article.comments_count %}
+              {%- capture fallback_info_comments_count -%}
+                {{ article.comments_count }} comment{%- if article.comments_count != 1 -%}s{%- endif -%}
+              {%- endcapture -%}
+              {% render 't_with_fallback', t: info_comments_count, fallback: fallback_info_comments_count %}
             </a>
           </span>
         {%- endif -%}

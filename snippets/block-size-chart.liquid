@@ -1,4 +1,4 @@
-{% # components v2.10.69 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
+{% # components v3.0.1 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
 {%- comment -%}
   Renders a size chart block
 
@@ -19,8 +19,12 @@
   assign next_block = section.blocks[next_block_index]
 
   if next_block.type == 'variant_picker' and next_block.settings.picker_type == 'button' and product.has_only_default_variant == false
+    capture size_trigger
+      render 't_with_fallback', key: 'labels.size_chart', fallback: 'size chart'
+    endcapture
+    assign size_trigger = size_trigger | downcase
+
     for option in product.options_with_values
-      assign size_trigger = 'labels.size_chart' | t | downcase
       assign downcased_option = option.name | downcase
 
       if size_trigger contains downcased_option
@@ -32,7 +36,8 @@
 
 {% unless connect_to_variant_picker %}
   {%- capture size_chart_title -%}
-    {{ 'labels.size_chart' | t }}{% render 'icon', name: 'size-chart' %}
+    {% render 't_with_fallback', key: 'labels.size_chart', fallback: 'Size chart' %}
+    {% render 'icon', name: 'size-chart' %}
   {%- endcapture -%}
 
   <div class="size-chart__standalone" {{ block.shopify_attributes }}>

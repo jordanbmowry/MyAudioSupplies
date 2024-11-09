@@ -1,4 +1,4 @@
-{% # components v2.10.69 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
+{% # components v3.0.1 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
 {% comment %}
   JS-load cart markup without bloat of a full layout.
 
@@ -12,7 +12,6 @@
 <div
   class="cart__items"
   data-count="{{ cart.item_count }}"
-  data-cart-subtotal="{{ cart.total_price }}"
 >
   {% for item in cart.items %}
     {%- render 'cart-item',
@@ -31,9 +30,21 @@
     {% for cart_discount in cart.cart_level_discount_applications %}
       {%- assign savings = cart_discount.total_allocated_amount | money -%}
       <div class="cart__discount">
-        {{ 'info.you_save_amount' | t: saved_amount: savings }}
+        {% assign info_you_save_amount = 'info.you_save_amount' | t: saved_amount: savings %}
+        {%- capture fallback_info_you_save_amount -%}
+          You save {{ savings }}
+        {%- endcapture -%}
+        {% render 't_with_fallback', t: info_you_save_amount, fallback: fallback_info_you_save_amount %}
         ({{ cart_discount.title }})
       </div>
     {% endfor %}
   </div>
 </div>
+
+<div class="cart__subtotal">
+  {%- render 'price', price: cart.total_price -%}
+</div>
+
+<span class="cart-link__bubble{% if cart.item_count > 0 %} cart-link__bubble--visible{% endif %}">
+  <span class="cart-link__bubble-num">{{ cart.item_count }}</span>
+</span>

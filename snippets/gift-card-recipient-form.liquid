@@ -1,4 +1,4 @@
-{% # components v2.10.69 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
+{% # components v3.0.1 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
 {% comment %}
   Renders the gift card recipient form.
 
@@ -26,7 +26,9 @@
       type="checkbox"
       name="{{ gift_card_recipient_control_flag }}"
     >
-    <label class="checkbox-label" for="Recipient-Checkbox-{{ section.id }}">{{ 'actions.send_as_gift' | t }} </label>
+    <label class="checkbox-label" for="Recipient-Checkbox-{{ section.id }}">
+      {% render 't_with_fallback', key: 'actions.send_as_gift', fallback: 'I want to send this as a gift' %}
+    </label>
   </div>
 
   <div class="recipient-fields">
@@ -36,7 +38,7 @@
           class="field__input input-full recipient-form__email"
           id="Recipient-email-{{ section.id }}"
           type="email"
-          placeholder="{{ 'labels.email' | t }}"
+          placeholder="{% render 't_with_fallback', key: 'labels.email', fallback: 'Email' -%}"
           name="properties[Recipient email]"
           value="{{ form.email }}"
           {% if form.errors contains 'email' %}
@@ -45,7 +47,9 @@
           {% endif %}
         >
         <label class="field__label" for="Recipient-email-{{ section.id }}">
-          <span class="recipient-email-label required">{{ 'labels.recipient_email' | t }}</span>
+          <span class="recipient-email-label required">
+            {% render 't_with_fallback', key: 'labels.recipient_email', fallback: 'Recipient email' -%}
+          </span>
         </label>
       </div>
     </div>
@@ -58,7 +62,7 @@
           type="text"
           id="Recipient-name-{{ section.id }}"
           name="properties[Recipient name]"
-          placeholder="{{ 'labels.name' | t }}"
+          placeholder="{% render 't_with_fallback', key: 'labels.name', fallback: 'Name' -%}"
           value="{{ form.name }}"
           {% if form.errors contains 'name' %}
             aria-invalid="true"
@@ -66,15 +70,21 @@
           {% endif %}
         >
         <label class="field__label" for="Recipient-name-{{ section.id }}">
-          {{- 'labels.recipient_name_optional' | t -}}
+          {% render 't_with_fallback', key: 'labels.recipient_name_optional', fallback: 'Recipient name (optional)' %}
         </label>
       </div>
     </div>
 
     <div class="recipient-fields__field">
       {%- assign max_chars_message = 200 -%}
-      {%- assign max_chars_message_rendered = 'info.max_characters' | t: max_chars: max_chars_message -%}
-      {%- assign message_label_rendered = 'labels.message_optional' | t -%}
+      {%- capture max_chars_message_rendered -%}
+        {%- assign info_max_characters = 'info.max_characters' | t: max_chars: max_chars_message -%}
+        {%- capture fallback_max_chars_message_rendered -%}
+          {{ max_chars_message }} characters max
+        {%- endcapture -%}
+        {% render 't_with_fallback', t: info_max_characters, fallback: fallback_max_chars_message_rendered %}
+      {%- endcapture -%}
+
       <div class="field">
         <textarea
           rows="10"
@@ -82,15 +92,19 @@
           class="text-area field__input input-full recipient-form__message"
           name="properties[Message]"
           maxlength="{{ max_chars_message }}"
-          placeholder="{{ 'labels.message' | t }}"
-          aria-label="{{ message_label_rendered }} {{ max_chars_message_rendered }}"
+          placeholder="{% render 't_with_fallback', key: 'labels.message', fallback: 'Message' -%}"
+          aria-label="
+            {%- assign labels_message_optional = 'labels.message_optional' | t -%}
+            {%- render 't_with_fallback', label: labels_message_optional, fallback: 'Message (optional)' %} {{ max_chars_message_rendered }}
+          "
           {% if form.errors contains 'labels.message' %}
             aria-invalid="true"
             aria-describedby="RecipientForm-message-error-{{ section.id }}"
           {% endif %}
         >{{ form.message }}</textarea>
         <label class="form__label field__label" for="Recipient-message-{{ section.id }}">
-          {{ message_label_rendered }}
+          {%- assign labels_message_optional = 'labels.message_optional' | t -%}
+          {% render 't_with_fallback', label: labels_message_optional, fallback: 'Message (optional)' %}
         </label>
       </div>
 
@@ -114,7 +128,7 @@
         {% endif %}
       >
       <label class="form__label field__label" for="Recipient-send-on-{{ section.id }}">
-        {{ 'labels.recipient_send_on' | t }}
+        {% render 't_with_fallback', key: 'labels.recipient_send_on', fallback: 'Send on (optional)' %}
       </label>
     </div>
   </div>

@@ -1,5 +1,5 @@
-{% # components v2.10.69 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
-{% comment %} 
+{% # components v3.0.1 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
+{% comment %}
   Renders a placeholder when there are no blocks in a section.
 
   Usage:
@@ -8,6 +8,9 @@
 
 {%- if section.blocks.size == 0 -%}
   <div class="placeholder-noblocks">
-    {{ 'info.section_no_content' | t }}
+    {% render 't_with_fallback',
+      key: 'info.section_no_content',
+      fallback: "This section doesn't currently include any content. Add content to this section using the sidebar."
+    %}
   </div>
 {%- endif -%}

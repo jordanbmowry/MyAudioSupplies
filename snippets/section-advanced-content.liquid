@@ -1,4 +1,4 @@
-{% # components v2.10.69 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
+{% # components v3.0.1 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
 {%- comment -%}
   Renders a section with a list of blocks.
 
@@ -60,7 +60,10 @@
               </div>
             {%- else -%}
               <div class="rte clearfix">
-                {{ 'info.section_no_content' | t }}
+                {% render 't_with_fallback',
+                  key: 'info.section_no_content',
+                  fallback: "This section doesn't currently include any content. Add content to this section using the sidebar."
+                %}
               </div>
             {%- endif -%}
           {%- when 'image' -%}
@@ -102,10 +105,13 @@
 
   {%- if section.blocks.size == 0 -%}
     <div class="page-width">
-      <div class="grid clearfix">
+      <div class="float-grid clearfix">
         <div class="grid__item">
           <div class="rte clearfix">
-            {{ 'info.section_no_content' | t }}
+            {% render 't_with_fallback',
+              key: 'info.section_no_content',
+              fallback: "This section doesn't currently include any content. Add content to this section using the sidebar."
+            %}
           </div>
         </div>
       </div>

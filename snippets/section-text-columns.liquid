@@ -1,4 +1,4 @@
-{% # components v2.10.69 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
+{% # components v3.0.1 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
 {%- comment -%}
   Renders a text columns with image section.
 
@@ -42,7 +42,7 @@
       </div>
     {%- endif -%}
 
-    <div class="grid{% unless section.blocks.size == 5 %} grid--uniform{% endunless %} grid--flush-bottom clearfix">
+    <div class="float-grid{% unless section.blocks.size == 5 %} grid--uniform{% endunless %} grid--flush-bottom clearfix">
       {%- liquid
         assign grid_item_width = 'medium-up--one-third'
         case section.blocks.size

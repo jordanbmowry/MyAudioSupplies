@@ -1,4 +1,4 @@
-{% # components v2.10.69 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
+{% # components v3.0.1 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
 {%- comment -%}
   Renders a section with a blog post and a list of blog posts.
 
@@ -91,14 +91,15 @@
 
 {%- if divider -%}<div class="section--divider">{%- endif -%}
 
-
 <div class="page-width">
   {%- if title != blank -%}
     <header class="section-header section-header--with-link">
       <h2 class="section-header__title {{ heading_size }} text-{{ heading_position }}">
         {{ title | escape }}
       </h2>
-      <a href="{{ blog.url }}" class="section-header__link">{{ 'actions.view_all' | t }}</a>
+      <a href="{{ blog.url }}" class="section-header__link">
+        {% render 't_with_fallback', key: 'actions.view_all', fallback: 'View all' -%}
+      </a>
     </header>
   {%- endif -%}
 
@@ -117,7 +118,9 @@
       </div>
     </div>
     <div class="blog-layout__sidebar">
-      <div class="h4">{{ 'labels.latest_posts' | t }}</div>
+      <div class="h4">
+        {% render 't_with_fallback', key: 'labels.latest_posts', fallback: 'Latest posts' %}
+      </div>
 
       {% liquid
         if have_blog
@@ -133,7 +136,9 @@
 
       {%- if blog_show_tags and blog.all_tags.size > 0 -%}
         <hr class="hr--small hr--clear">
-        <div class="h4">{{ 'actions.explore_more' | t }}</div>
+        <div class="h4">
+          {% render 't_with_fallback', key: 'actions.explore_more', fallback: 'Explore more' %}
+        </div>
 
         <ul class="no-bullets tag-list">
           {%- for tag in blog.all_tags -%}

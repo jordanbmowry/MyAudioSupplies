@@ -1,4 +1,4 @@
-{% # components v2.10.69 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
+{% # components v3.0.1 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
 {%- comment -%}
   Renders a section with a grid of promotional blocks.
 
@@ -160,8 +160,12 @@
                   {%- endif -%}
 
                   <div class="promo-grid__bg">
-                    {%- if block.settings.video_url != '' -%}
-                      {%- render 'promo-video', block: block -%}
+                    {%- if block.settings.video_url != blank -%}
+                      {%- render 'video-media',
+                        external_video: block.settings.video_url,
+                        autoplay: true,
+                        background: true
+                      -%}
                     {%- else -%}
                       {%- if block.settings.image != blank -%}
                         {%- capture image_classes -%}
@@ -523,7 +527,7 @@
                                   -%}
                                 </a>
                               {%- else -%}
-                              <div class="product-image--placeholder">
+                                <div class="product-image--placeholder">
                                   {%- capture placeholder -%}product-{% cycle 1, 2, 3, 4, 5, 6 %}{%- endcapture -%}
                                   {%- render 'placeholder-svg', name: placeholder -%}
                                 </div>
@@ -549,7 +553,10 @@
       <div class="page-width text-center">
         <div class="rte clearfix">
           <p>
-            {{ 'info.section_no_content' | t }}
+            {% render 't_with_fallback',
+              key: 'info.section_no_content',
+              fallback: "This section doesn't currently include any content. Add content to this section using the sidebar."
+            %}
           </p>
         </div>
       </div>
@@ -559,13 +566,4 @@
       </div>
     {%- endunless -%}
   </div>
-
-  <template data-island>
-    <script type="module">
-      import '@archetype-themes/scripts/modules/video-section'
-      import videoModal from '@archetype-themes/scripts/modules/video-modal'
-
-      videoModal()
-    </script>
-  </template>
 </is-land>

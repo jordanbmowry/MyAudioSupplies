@@ -1,5 +1,5 @@
-{% # components v2.10.69 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
-{% comment %} 
+{% # components v3.0.1 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
+{% comment %}
   Renders a quantity selector for a given product
 
   Accepts:
@@ -7,19 +7,19 @@
   - name {string} - Name of the quantity selector
   - value {number} - Initial value of the quantity selector
   - min {number} - Minimum value of the quantity selector
+  - max {number} - Maximum value of the quantity selector
   - form_id {string} - ID of the form the quantity selector is associated with
   - cart_item_key {string} - Key of the cart item the quantity selector is associated with
 
   Usage:
     {% render 'quantity-selector' %}
-
 {% endcomment %}
 
-{%- liquid 
+{%- liquid
   assign default_id = 'Quantity-' | append: section.id | append: '-' | append: product.id
 
   assign id = id | default: default_id
-  assign name = name | default: "quantity"
+  assign name = name | default: 'quantity'
   assign value = value | default: 1
   assign min = min | default: 1
   assign form_id = form_id | default: ''
@@ -33,14 +33,18 @@
     id="{{ id }}"
     name="{{ name }}"
     value="{{ value }}"
+    data-initial-value="{{ value }}"
     min="{{ min }}"
+    max="{{ max }}"
     pattern="[0-9]*"
     form="{{ form_id }}"
   >
   <button
     type="button"
     class="js-qty__adjust js-qty__adjust--minus"
-    aria-label="{{ 'actions.reduce_item_quantity' | t }}"
+    aria-label="
+      {% render 't_with_fallback', key: 'actions.reduce_item_quantity', fallback: 'Reduce item quantity by one' -%}
+    "
   >
     {% render 'icon', name: 'minus' %}
     <span class="icon__fallback-text visually-hidden" aria-hidden="true">&minus;</span>
@@ -48,7 +52,10 @@
   <button
     type="button"
     class="js-qty__adjust js-qty__adjust--plus"
-    aria-label="{{ 'actions.increase_item_quantity' | t }}"
+    aria-label="
+      {% render 't_with_fallback', key: 'actions.increase_item_quantity', fallback: 'Increase item quantity by one' -%}
+    "
+    -
   >
     {% render 'icon', name: 'plus' %}
     <span class="icon__fallback-text visually-hidden" aria-hidden="true">+</span>

@@ -1,4 +1,4 @@
-{% # components v2.10.69 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
+{% # components v3.0.1 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
 {%- comment -%}
   Renders a section with an article template.
 
@@ -51,7 +51,11 @@
     {%- if blog_show_comments and article.comments_count > 0 -%}
       <span>
         <a href="{{ article.url }}#comments" class="js-no-transition">
-          {{ 'info.comments_count' | t: count: article.comments_count }}
+          {% assign info_comments_count = 'info.comments_count' | t: count: article.comments_count %}
+          {%- capture fallback_info_comments_count -%}
+            {{ article.comments_count }} comment{%- if article.comments_count != 1 -%}s{%- endif -%}
+          {%- endcapture -%}
+          {% render 't_with_fallback', t: info_comments_count, fallback: fallback_info_comments_count %}
         </a>
       </span>
     {%- endif -%}
@@ -77,7 +81,17 @@
 {%- if blog.comments_enabled? -%}
   {%- if number_of_comments > 0 -%}
     <hr class="hr--large">
-    <h3>{{ 'info.comments_count' | t: count: number_of_comments }}</h3>
+    <h3>
+      {% assign info_comments_count = 'info.comments_count' | t: count: number_of_comments %}
+      {%- capture fallback_info_comments_count -%}
+        {%- if number_of_comments != 0 -%}
+          {{ number_of_comments }} comments
+        {%- else -%}
+          {{ number_of_comments }} comment
+        {%- endif -%}
+      {%- endcapture -%}
+      {% render 't_with_fallback', t: info_comments_count, fallback: fallback_info_comments_count %}
+    </h3>
     <hr class="hr--small hr--clear">
   {%- endif -%}
 
@@ -87,9 +101,17 @@
         <hr class="hr--small hr--clear">
         <p class="note note--success">
           {%- if blog.moderated? -%}
-            {{ 'info.posted_successfully_moderated' | t }}
+            {% assign info_posted_successfully_moderated = 'info.posted_successfully_moderated' | t %}
+            {% render 't_with_fallback',
+              t: info_posted_successfully_moderated,
+              fallback: 'Your comment was posted successfully. We will publish it in a little while, as our blog is moderated.'
+            %}
           {%- else -%}
-            {{ 'info.comment_posted_successfully' | t }}
+            {% assign info_comment_posted_successfully = 'info.comment_posted_successfully' | t %}
+            {% render 't_with_fallback',
+              t: info_comment_posted_successfully,
+              fallback: 'Your comment was posted successfully! Thank you!'
+            %}
           {%- endif -%}
         </p>
       {%- endif -%}
@@ -121,16 +143,20 @@
       <hr class="hr--large">
 
       <header class="section-header">
-        <h3 class="section-header__title">{{ 'actions.leave_a_comment' | t }}</h3>
+        <h3 class="section-header__title">
+          {% render 't_with_fallback', key: 'actions.leave_a_comment', fallback: 'Leave a comment' %}
+        </h3>
       </header>
 
       <div class="form-vertical">
         {%- form 'new_comment', article -%}
           {{ form.errors | default_errors }}
 
-          <div class="grid grid--small clearfix">
+          <div class="float-grid grid--small clearfix">
             <div class="grid__item medium-up--one-half">
-              <label for="CommentAuthor">{{ 'labels.name' | t }}</label>
+              <label for="CommentAuthor">
+                {% render 't_with_fallback', key: 'labels.name', fallback: 'Name' -%}
+              </label>
               <input
                 required
                 class="input-full{% if form.errors contains 'author' %} error{% endif %}"
@@ -142,7 +168,9 @@
               >
             </div>
             <div class="grid__item medium-up--one-half">
-              <label for="CommentEmail">{{ 'labels.email' | t }}</label>
+              <label for="CommentEmail">
+                {% render 't_with_fallback', key: 'labels.email', fallback: 'Email' -%}
+              </label>
               <input
                 required
                 class="input-full{% if form.errors contains 'email' %} error{% endif %}"
@@ -156,7 +184,9 @@
             </div>
           </div>
 
-          <label for="CommentBody">{{ 'labels.message' | t }}</label>
+          <label for="CommentBody">
+            {% render 't_with_fallback', key: 'labels.message', fallback: 'Message' -%}
+          </label>
           <textarea
             required
             class="input-full{% if form.errors contains 'body' %} error{% endif %}"
@@ -166,12 +196,18 @@
 
           {%- if blog.moderated? -%}
             <p>
-              <small>{{ 'info.comments_must_be_approved' | t }}</small>
+              <small>
+                {% assign info_comments_must_be_approved = 'info.comments_must_be_approved' | t %}
+                {%- render 't_with_fallback',
+                  t: info_comments_must_be_approved,
+                  fallback: 'Comments must be approved'
+                -%}
+              </small>
             </p>
           {%- endif -%}
 
           <button type="submit" class="btn btn--secondary">
-            {{ 'actions.post_comment' | t }}
+            {% render 't_with_fallback', key: 'actions.post_comment', fallback: 'Post comment' %}
           </button>
 
           {% comment %}
@@ -191,7 +227,9 @@
 
 {%- if blog_show_tags and article.tags.size > 0 -%}
   <div class="article-tag__wrapper">
-    <span class="label">{{ 'labels.more_from' | t }}:</span>
+    <span class="label">
+      {% render 't_with_fallback', key: 'labels.more_from', fallback: 'More from' %}
+    >
     {%- for tag in article.tags -%}
       {% if tag contains '_' %}
         {%- assign tag_starts_with = tag | slice: 0 -%}
@@ -208,7 +246,11 @@
 <div class="text-center">
   <a href="{{ blog.url }}" class="btn return-link">
     {%- render 'icon', name: 'arrow-left' %}
-    {{ 'actions.back_to' | t: collection: blog.title -}}
+    {% assign actions_back_to = 'actions.back_to' | t: collection: blog.title %}
+    {%- capture fallback_actions_back_to -%}
+      Back to {{ blog.title }}
+    {%- endcapture -%}
+    {% render 't_with_fallback', t: actions_back_to, fallback: fallback_actions_back_to %}
   </a>
 </div>
 

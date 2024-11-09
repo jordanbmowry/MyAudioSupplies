@@ -1,4 +1,4 @@
-{% # components v2.10.69 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
+{% # components v3.0.1 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
 {%- comment -%}
   Renders product variant-picker
 
@@ -33,7 +33,6 @@
     {% endif %}
     data-picker-type="{{ block.settings.picker_type }}"
     data-product-id="{{ product.id }}"
-    data-swatch_style="{{ swatch_style }}"
     {{ block.shopify_attributes }}
   >
     {%- for option in product.options_with_values -%}

@@ -1,4 +1,4 @@
-{% # components v2.10.69 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
+{% # components v3.0.1 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
 {%- comment -%}
   Renders an item grid with filters and sorting.
 
@@ -35,6 +35,7 @@
         </div>
       </div>
     </div>
+
     <div class="grid__item medium-up--four-fifths">
       <div class="collection-grid__wrapper">
         {%- render 'item-grid-controls', context: context, grid_style: grid_style -%}
@@ -57,7 +58,7 @@
     data-section-id="{{ section.id }}"
     data-section-type="collection-template"
   >
-    <div id="AjaxContent" class="grid clearfix">
+    <div id="AjaxContent" class="float-grid clearfix">
       {{- grid_content -}}
     </div>
   </item-grid>

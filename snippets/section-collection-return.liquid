@@ -1,4 +1,4 @@
-{% # components v2.10.69 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
+{% # components v3.0.1 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
 {%- comment -%}
   Renders a section with a return link to a collection.
 
@@ -26,7 +26,11 @@
         class="btn return-link"
       >
         {% render 'icon', name: 'arrow-left' %}
-        {{ 'actions.back_to' | t: collection: collection.title }}
+        {% assign actions_back_to = 'actions.back_to' | t: collection: collection.title %}
+        {%- capture fallback_actions_back_to -%}
+          Back to {{ collection.title }}
+        {%- endcapture -%}
+        {% render 't_with_fallback', t: actions_back_to, fallback: fallback_actions_back_to %}
       </a>
     </div>
   </div>

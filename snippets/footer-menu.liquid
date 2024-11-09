@@ -1,4 +1,4 @@
-{% # components v2.10.69 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
+{% # components v3.0.1 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
 {%- comment -%}
   Renders the footer menu block.
 
@@ -33,7 +33,10 @@
 
   {%- if enable_account_link -%}
     <li>
-      <a href="{{ routes.account_url }}">{{ 'labels.my_account' | t }}</a>
+      <a href="{{ routes.account_url }}">
+        {% assign labels_my_account = 'labels.my_account' | t %}
+        {% render 't_with_fallback', t: labels_my_account, fallback: 'My account' -%}
+      </a>
     </li>
   {%- endif -%}
 </ul>

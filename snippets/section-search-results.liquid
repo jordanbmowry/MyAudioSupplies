@@ -1,4 +1,4 @@
-{% # components v2.10.69 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
+{% # components v3.0.1 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
 {%- comment -%}
   Renders a section with search results.
 
@@ -48,7 +48,7 @@
         {%- if predictive_search.resources.queries.size > 0 -%}
           <div class="results results--queries">
             <h3 class="h4" id="predictive-search-suggestions">
-              {{ 'labels.suggestions' | t }}
+              {% render 't_with_fallback', key: 'labels.suggestions', fallback: 'Suggestions' %}
             </h3>
             <ul role="listbox" aria-labelledby="predictive-search-queries">
               {%- for query in predictive_search.resources.queries -%}
@@ -64,7 +64,7 @@
         {%- if predictive_search.resources.pages.size > 0 -%}
           <div class="results results--pages">
             <h3 class="h4" id="predictive-search-pages">
-              {{ 'labels.pages' | t }}
+              {% render 't_with_fallback', key: 'labels.pages', fallback: 'Pages' %}
             </h3>
             <ul role="listbox" aria-labelledby="predictive-search-pages">
               {%- for page in predictive_search.resources.pages -%}
@@ -80,7 +80,7 @@
         {%- if predictive_search.resources.articles.size > 0 -%}
           <div class="results results--articles">
             <h3 class="h4" id="predictive-search-articles">
-              {{ 'labels.articles' | t }}
+              {% render 't_with_fallback', key: 'labels.articles', fallback: 'Articles' %}
             </h3>
             <ul role="listbox" aria-labelledby="predictive-search-articles">
               {%- for article in predictive_search.resources.articles -%}
@@ -96,7 +96,7 @@
         {%- if predictive_search.resources.collections.size > 0 -%}
           <div class="results results--collections">
             <h3 class="h4" id="predictive-search-collections">
-              {{ 'labels.collections' | t }}
+              {% render 't_with_fallback', key: 'labels.collections', fallback: 'Collections' %}
             </h3>
             <ul role="listbox" aria-labelledby="predictive-search-collections">
               {%- for collection in predictive_search.resources.collections -%}
@@ -115,7 +115,7 @@
         {%- if predictive_search.resources.products.size > 0 -%}
           <div class="results results--products">
             <h3 class="h4" id="predictive-search-products">
-              {{ 'labels.products' | t }}
+              {% render 't_with_fallback', key: 'labels.products', fallback: 'Products' %}
             </h3>
             <ul role="listbox" aria-labelledby="predictive-search-products">
               {%- for product in predictive_search.resources.products -%}
@@ -143,14 +143,27 @@
                       {% endif %}
                       {% if predictive_search_show_price %}
                         {%- if on_sale -%}
-                          <span class="visually-hidden">{{ 'labels.regular_price' | t }}</span>
+                          <span class="visually-hidden">
+                            {% render 't_with_fallback', key: 'labels.regular_price', fallback: 'Regular price' -%}
+                          </span>
                           <span class="grid-product__price--original">{{ product.compare_at_price | money }}</span>
-                          <span class="visually-hidden">{{ 'labels.sale_price' | t }}</span>
+                          <span class="visually-hidden">
+                            {% render 't_with_fallback', key: 'labels.sale_price', fallback: 'Sale price' -%}
+                          </span>
                         {%- endif -%}
 
                         {%- if product.price_varies -%}
                           {%- assign price = product.price_min | money -%}
-                          <span class="grid-product__price">{{ 'labels.from_price_html' | t: price: price }}</span>
+                          <span class="grid-product__price">
+                            {%- assign labels_from_price_html = 'labels.from_price_html' | t: price: price %}
+                            {%- capture fallback_labels_from_price_html -%}
+                              <span>from</span> {{ price }}
+                            {%- endcapture -%}
+                            {% render 't_with_fallback',
+                              t: labels_from_price_html,
+                              fallback: fallback_labels_from_price_html
+                            -%}
+                          </span>
                         {%- else -%}
                           <span class="grid-product__price">{{ product.price | money }}</span>
                         {%- endif -%}
@@ -164,7 +177,11 @@
                               endif
                             -%}
                             <span class="grid-product__price--savings">
-                              {{ 'info.save_amount' | t: saved_amount: saved_amount }}
+                              {% assign info_save_amount = 'info.save_amount' | t: saved_amount: saved_amount %}
+                              {%- capture fallback_info_save_amount -%}
+                                Save {{ saved_amount }}
+                              {%- endcapture -%}
+                              {% render 't_with_fallback', t: info_save_amount, fallback: fallback_info_save_amount %}
                             </span>
                           {%- endif -%}
                         {%- endif -%}
@@ -179,7 +196,7 @@
         {%- if predictive_search.resources.pages.size > 0 -%}
           <div class="results results--pages">
             <h3 class="h4" id="predictive-search-pages">
-              {{ 'labels.pages' | t }}
+              {% render 't_with_fallback', key: 'labels.pages', fallback: 'Pages' %}
             </h3>
             <ul role="listbox" aria-labelledby="predictive-search-pages">
               {%- for page in predictive_search.resources.pages -%}
@@ -195,7 +212,7 @@
         {%- if predictive_search.resources.articles.size > 0 -%}
           <div class="results results--articles">
             <h3 class="h4" id="predictive-search-articles">
-              {{ 'labels.articles' | t }}
+              {% render 't_with_fallback', key: 'labels.articles', fallback: 'Articles' %}
             </h3>
             <ul role="listbox" aria-labelledby="predictive-search-articles">
               {%- for article in predictive_search.resources.articles -%}
@@ -211,7 +228,7 @@
         {%- if predictive_search.resources.collections.size > 0 -%}
           <div class="results results--collections">
             <h3 class="h4" id="predictive-search-collections">
-              {{ 'labels.collections' | t }}
+              {% render 't_with_fallback', key: 'labels.collections', fallback: 'Collections' %}
             </h3>
             <ul role="listbox" aria-labelledby="predictive-search-collections">
               {%- for collection in predictive_search.resources.collections -%}
@@ -231,7 +248,11 @@
           class="predictive-search__no-results"
           href="{{ routes.search_url }}?q={{ predictive_search.terms | escape }}"
         >
-          {{- 'info.search_no_results_html' | t: terms: predictive_search.terms -}}
+          {% assign info_search_no_results_html = 'info.search_no_results_html' | t: terms: predictive_search.terms %}
+          {%- capture fallback_info_search_no_results_html -%}
+            Search for "{{ predictive_search.terms }}"
+          {%- endcapture -%}
+          {% render 't_with_fallback', t: info_search_no_results_html, fallback: fallback_info_search_no_results_html %}
         </a>
       </div>
     {% endif %}
@@ -239,7 +260,11 @@
 
   {% if totalCount > 0 %}
     <button class="results__search-btn">
-      {{ 'actions.show_all_results' | t: terms: predictive_search.terms }}
+      {% assign actions_show_all_results = 'actions.show_all_results' | t: terms: predictive_search.terms %}
+      {%- capture fallback_actions_show_all_results -%}
+        Show all results for "{{ predictive_search.terms }}"
+      {%- endcapture -%}
+      {% render 't_with_fallback', t: actions_show_all_results, fallback: fallback_actions_show_all_results %}
       {% render 'icon', name: 'arrow-right' %}
     </button>
   {% endif %}

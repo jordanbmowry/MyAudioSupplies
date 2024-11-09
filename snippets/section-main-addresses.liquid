@@ -1,4 +1,14 @@
-{% # components v2.10.69 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
+{% # components v3.0.1 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
+{%- comment -%}
+  Renders the list of customer addresses.
+
+  Accepts:
+  - hydration {string} - The hydration strategy
+
+  Usage:
+  {% render 'section-main-addresses' %}
+{%- endcomment -%}
+
 {%- liquid
   assign hydration = hydration | default: 'on:visible'
 -%}
@@ -9,24 +19,34 @@
       <div class="page-width page-width--narrow page-content">
         {%- if settings.show_breadcrumbs -%}
           <nav class="breadcrumb" role="navigation" aria-label="breadcrumbs">
-            <a href="{{ routes.account_url }}">{{ 'labels.my_account' | t }}</a>
+            <a href="{{ routes.account_url }}">
+              {% render 't_with_fallback', key: 'labels.my_account', fallback: 'My account' -%}
+            </a>
             <span class="divider" aria-hidden="true">/</span>
-            {{ 'labels.addresses' | t }}
+            {% render 't_with_fallback', key: 'labels.addresses', fallback: 'Addresses' %}
           </nav>
         {%- endif -%}
 
         <header class="section-header section-header--with-link">
-          <h1 class="section-header__title">{{ 'labels.addresses' | t }}</h1>
-          <button type="button" class="section-header__link address-new-toggle">{{ 'actions.add_address' | t }}</button>
+          <h1 class="section-header__title">
+            {% render 't_with_fallback', key: 'labels.addresses', fallback: 'Addresses' %}
+          </h1>
+          <button type="button" class="section-header__link address-new-toggle">
+            {% render 't_with_fallback', key: 'actions.add_address', fallback: 'Add address' %}
+          </button>
         </header>
 
         <div id="AddressNewForm" class="form-vertical js-address-form text-left hide">
           {%- form 'customer_address', customer.new_address -%}
-            <h2>{{ 'actions.add_address' | t }}</h2>
+            <h2>
+              {% render 't_with_fallback', key: 'actions.add_address', fallback: 'Add address' %}
+            </h2>
 
-            <div class="grid grid--small clearfix">
+            <div class="float-grid grid--small clearfix">
               <div class="grid__item one-half small--one-whole">
-                <label for="AddressFirstNameNew">{{ 'labels.first_name' | t }}</label>
+                <label for="AddressFirstNameNew">
+                  {% render 't_with_fallback', key: 'labels.first_name', fallback: 'First name' -%}
+                </label>
                 <input
                   type="text"
                   id="AddressFirstNameNew"
@@ -38,7 +58,9 @@
               </div>
 
               <div class="grid__item one-half small--one-whole">
-                <label for="AddressLastNameNew">{{ 'labels.last_name' | t }}</label>
+                <label for="AddressLastNameNew">
+                  {% render 't_with_fallback', key: 'labels.last_name', fallback: 'Last name' -%}
+                </label>
                 <input
                   type="text"
                   id="AddressLastNameNew"
@@ -50,7 +72,9 @@
               </div>
             </div>
 
-            <label for="AddressCompanyNew">{{ 'labels.company' | t }}</label>
+            <label for="AddressCompanyNew">
+              {% render 't_with_fallback', key: 'labels.company', fallback: 'Company' -%}
+            </label>
             <input
               type="text"
               id="AddressCompanyNew"
@@ -60,7 +84,9 @@
               autocapitalize="words"
             >
 
-            <label for="AddressAddress1New">{{ 'labels.address1' | t }}</label>
+            <label for="AddressAddress1New">
+              {% render 't_with_fallback', key: 'labels.address1', fallback: 'Address1' -%}
+            </label>
             <input
               type="text"
               id="AddressAddress1New"
@@ -70,7 +96,9 @@
               autocapitalize="words"
             >
 
-            <label for="AddressAddress2New">{{ 'labels.address2' | t }}</label>
+            <label for="AddressAddress2New">
+              {% render 't_with_fallback', key: 'labels.address2', fallback: 'Address2' -%}
+            </label>
             <input
               type="text"
               id="AddressAddress2New"
@@ -80,9 +108,11 @@
               autocapitalize="words"
             >
 
-            <div class="grid grid--small clearfix">
+            <div class="float-grid grid--small clearfix">
               <div class="grid__item medium-up--one-half">
-                <label for="AddressCityNew">{{ 'labels.city' | t }}</label>
+                <label for="AddressCityNew">
+                  {% render 't_with_fallback', key: 'labels.city', fallback: 'City' -%}
+                </label>
                 <input
                   type="text"
                   id="AddressCityNew"
@@ -99,7 +129,9 @@
                 data-province-container-id="AddressProvinceContainerNew"
                 data-province-id="AddressProvinceNew"
               >
-                <label for="AddressCountryNew">{{ 'labels.country' | t }}</label>
+                <label for="AddressCountryNew">
+                  {% render 't_with_fallback', key: 'labels.country', fallback: 'Country' -%}
+                </label>
                 <select
                   id="AddressCountryNew"
                   class="input-full"
@@ -111,7 +143,9 @@
               </div>
 
               <div class="grid__item" id="AddressProvinceContainerNew" style="display: none;">
-                <label for="AddressProvinceNew">{{ 'labels.province' | t }}</label>
+                <label for="AddressProvinceNew">
+                  {% render 't_with_fallback', key: 'labels.province', fallback: 'Province' -%}
+                </label>
                 <select
                   id="AddressProvinceNew"
                   class="input-full"
@@ -121,7 +155,9 @@
               </div>
 
               <div class="grid__item medium-up--one-half">
-                <label for="AddressZipNew">{{ 'labels.zip' | t }}</label>
+                <label for="AddressZipNew">
+                  {% render 't_with_fallback', key: 'labels.zip', fallback: 'Zip' -%}
+                </label>
                 <input
                   type="text"
                   id="AddressZipNew"
@@ -133,26 +169,34 @@
               </div>
 
               <div class="grid__item medium-up--one-half">
-                <label for="AddressPhoneNew">{{ 'labels.phone' | t }}</label>
+                <label for="AddressPhoneNew">
+                  {% render 't_with_fallback', key: 'labels.phone', fallback: 'Phone' -%}
+                </label>
                 <input type="tel" id="AddressPhoneNew" class="input-full" name="address[phone]" value="{{form.phone}}">
               </div>
             </div>
 
             <p>
               {{ form.set_as_default_checkbox }}
-              <label for="address_default_address_new" class="inline">{{ 'actions.set_default_address' | t }}</label>
+              <label for="address_default_address_new" class="inline">
+                {% render 't_with_fallback', key: 'actions.set_default_address', fallback: 'Set default address' -%}
+              </label>
             </p>
 
             <p>
-              <label for="addresses-add-submit" class="visually-hidden">{{ 'actions.add_address' | t }}</label>
+              <label for="addresses-add-submit" class="visually-hidden">
+                {% render 't_with_fallback', key: 'actions.add_address', fallback: 'Add address' -%}
+              </label>
               <button type="submit" id="addresses-add-submit" class="btn">
-                {{ 'actions.add_address' | t }}
+                {% render 't_with_fallback', key: 'actions.add_address', fallback: 'Add address' %}
               </button>
             </p>
             <p>
-              <label for="addresses-cancel-submit" class="visually-hidden">{{ 'actions.cancel' | t }}</label>
+              <label for="addresses-cancel-submit" class="visually-hidden">
+                {% render 't_with_fallback', key: 'actions.cancel', fallback: 'Cancel' -%}
+              </label>
               <button type="button" id="addresses-cancel-submit" class="text-link address-new-toggle">
-                {{ 'actions.cancel' | t }}
+                {% render 't_with_fallback', key: 'actions.cancel', fallback: 'Cancel' %}
               </button>
             </p>
           {%- endform -%}
@@ -160,33 +204,39 @@
 
         {%- for address in customer.addresses -%}
           {%- if address == customer.default_address -%}
-            <p class="h4">{{ 'labels.default' | t }}</p>
+            <p class="h4">
+              {% render 't_with_fallback', key: 'labels.default', fallback: 'Default' %}
+            </p>
           {%- endif -%}
 
           {{ address | format_address }}
 
           <p>
             <button type="button" class="btn btn--small address-edit-toggle" data-form-id="{{ address.id }}">
-              {{ 'actions.edit' | t }}
+              {% render 't_with_fallback', key: 'actions.edit', fallback: 'Edit' %}
             </button>
             <button
               type="button"
               class="btn btn--secondary btn--small address-delete"
               data-form-id="{{ address.id }}"
-              data-confirm-message="{{ 'actions.confirm_address_delete' | t }}"
+              data-confirm-message="{% render 't_with_fallback', key: 'actions.confirm_address_delete', fallback: 'Are you sure you wish to delete this address?' -%}"
             >
-              {{ 'actions.delete' | t }}
+              {% render 't_with_fallback', key: 'actions.delete', fallback: 'Delete' %}
             </button>
           </p>
 
           <div id="EditAddress_{{ address.id }}" class="form-vertical js-address-form text-left hide">
             {%- form 'customer_address', address -%}
               <hr class="hr--large">
-              <h2>{{ 'actions.edit_address' | t }}</h2>
+              <h2>
+                {% render 't_with_fallback', key: 'actions.edit_address', fallback: 'Edit address' %}
+              </h2>
 
-              <div class="grid grid--small clearfix">
+              <div class="float-grid grid--small clearfix">
                 <div class="grid__item one-half small--one-whole">
-                  <label for="AddressFirstName_{{form.id}}">{{ 'labels.first_name' | t }}</label>
+                  <label for="AddressFirstName_{{form.id}}">
+                    {% render 't_with_fallback', key: 'labels.first_name', fallback: 'First name' -%}
+                  </label>
                   <input
                     type="text"
                     id="AddressFirstName_{{form.id}}"
@@ -198,7 +248,9 @@
                 </div>
 
                 <div class="grid__item one-half small--one-whole">
-                  <label for="AddressLastName_{{form.id}}">{{ 'labels.last_name' | t }}</label>
+                  <label for="AddressLastName_{{form.id}}">
+                    {% render 't_with_fallback', key: 'labels.last_name', fallback: 'Last name' -%}
+                  </label>
                   <input
                     type="text"
                     id="AddressLastName_{{form.id}}"
@@ -210,7 +262,9 @@
                 </div>
               </div>
 
-              <label for="AddressCompany_{{form.id}}">{{ 'labels.company' | t }}</label>
+              <label for="AddressCompany_{{form.id}}">
+                {% render 't_with_fallback', key: 'labels.company', fallback: 'Company' -%}
+              </label>
               <input
                 type="text"
                 id="AddressCompany_{{form.id}}"
@@ -220,7 +274,9 @@
                 autocapitalize="words"
               >
 
-              <label for="AddressAddress1_{{form.id}}">{{ 'labels.address1' | t }}</label>
+              <label for="AddressAddress1_{{form.id}}">
+                {% render 't_with_fallback', key: 'labels.address1', fallback: 'Address1' -%}
+              </label>
               <input
                 type="text"
                 id="AddressAddress1_{{form.id}}"
@@ -230,7 +286,9 @@
                 autocapitalize="words"
               >
 
-              <label for="AddressAddress2_{{form.id}}">{{ 'labels.address2' | t }}</label>
+              <label for="AddressAddress2_{{form.id}}">
+                {% render 't_with_fallback', key: 'labels.address2', fallback: 'Address2' -%}
+              </label>
               <input
                 type="text"
                 id="AddressAddress2_{{form.id}}"
@@ -240,7 +298,9 @@
                 autocapitalize="words"
               >
 
-              <label for="AddressCity_{{form.id}}">{{ 'labels.city' | t }}</label>
+              <label for="AddressCity_{{form.id}}">
+                {% render 't_with_fallback', key: 'labels.city', fallback: 'City' -%}
+              </label>
               <input
                 type="text"
                 id="AddressCity_{{form.id}}"
@@ -256,7 +316,9 @@
                 data-province-container-id="AddressProvinceContainer_{{form.id}}"
                 data-province-id="AddressProvince_{{form.id}}"
               >
-                <label for="AddressCountry_{{form.id}}">{{ 'labels.country' | t }}</label>
+                <label for="AddressCountry_{{form.id}}">
+                  {% render 't_with_fallback', key: 'labels.country', fallback: 'Country' -%}
+                </label>
                 <select
                   id="AddressCountry_{{form.id}}"
                   class="input-full"
@@ -268,7 +330,9 @@
               </div>
 
               <div id="AddressProvinceContainer_{{form.id}}" style="display: none;">
-                <label for="AddressProvince_{{form.id}}">{{ 'labels.province' | t }}</label>
+                <label for="AddressProvince_{{form.id}}">
+                  {% render 't_with_fallback', key: 'labels.province', fallback: 'Province' -%}
+                </label>
                 <select
                   id="AddressProvince_{{form.id}}"
                   class="input-full"
@@ -277,9 +341,11 @@
                 ></select>
               </div>
 
-              <div class="grid grid--small clearfix">
+              <div class="float-grid grid--small clearfix">
                 <div class="grid__item one-half small--one-whole">
-                  <label for="AddressZip_{{form.id}}">{{ 'labels.zip' | t }}</label>
+                  <label for="AddressZip_{{form.id}}">
+                    {% render 't_with_fallback', key: 'labels.zip', fallback: 'Zip' -%}
+                  </label>
                   <input
                     type="text"
                     id="AddressZip_{{form.id}}"
@@ -291,7 +357,9 @@
                 </div>
 
                 <div class="grid__item one-half small--one-whole">
-                  <label for="AddressPhone_{{form.id}}">{{ 'labels.phone' | t }}</label>
+                  <label for="AddressPhone_{{form.id}}">
+                    {% render 't_with_fallback', key: 'labels.phone', fallback: 'Phone' -%}
+                  </label>
                   <input
                     type="tel"
                     id="AddressPhone_{{form.id}}"
@@ -305,25 +373,29 @@
               <p>
                 {{ form.set_as_default_checkbox }}
                 <label for="address_default_address_{{form.id}}" class="inline">
-                  {{- 'actions.set_default_address' | t -}}
+                  {% render 't_with_fallback', key: 'actions.set_default_address', fallback: 'Set as default address' %}
                 </label>
               </p>
 
               <p>
-                <label for="addresses-update-submit" class="visually-hidden">{{ 'actions.update_address' | t }}</label>
+                <label for="addresses-update-submit" class="visually-hidden">
+                  {% render 't_with_fallback', key: 'actions.update_address', fallback: 'Update address' -%}
+                </label>
                 <button type="submit" id="addresses-update-submit" class="btn">
-                  {{ 'actions.update_address' | t }}
+                  {% render 't_with_fallback', key: 'actions.update_address', fallback: 'Update address' %}
                 </button>
               </p>
               <p>
-                <label for="address-edit-toggle" class="visually-hidden">{{ 'actions.cancel' | t }}</label>
+                <label for="address-edit-toggle" class="visually-hidden">
+                  {% render 't_with_fallback', key: 'actions.cancel', fallback: 'Cancel' -%}
+                </label>
                 <button
                   type="button"
                   id="address-edit-toggle"
                   class="text-link address-edit-toggle"
                   data-form-id="{{ form.id }}"
                 >
-                  {{ 'actions.cancel' | t }}
+                  {% render 't_with_fallback', key: 'actions.cancel', fallback: 'Cancel' %}
                 </button>
               </p>
             {%- endform -%}

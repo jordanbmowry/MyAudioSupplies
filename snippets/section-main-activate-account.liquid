@@ -1,19 +1,37 @@
-{% # components v2.10.69 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
+{% # components v3.0.1 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
+{%- comment -%}
+  Renders the section for the customer account activation page.
+
+  Usage:
+  {% render 'section-main-activate-account' %}
+{%- endcomment -%}
+
 <div class="page-width page-width--tiny page-content">
   <header class="section-header">
-    <h1 class="section-header__title">{{ 'actions.activate' | t }}</h1>
+    <h1 class="section-header__title">
+      {% render 't_with_fallback', key: 'actions.activate', fallback: 'Activate account' %}
+    </h1>
     <br>
-    <p>{{ 'info.create_your_password_to_activate' | t }}</p>
+    <p>
+      {% render 't_with_fallback',
+        key: 'info.create_your_password_to_activate',
+        fallback: 'Create your password to activate your account.'
+      %}
+    </p>
   </header>
 
   <div class="form-vertical">
     {%- form 'activate_customer_password' -%}
       {{ form.errors | default_errors }}
 
-      <label for="CustomerPassword">{{ 'labels.password' | t }}</label>
+      <label for="CustomerPassword">
+        {% render 't_with_fallback', key: 'labels.password', fallback: 'Password' -%}
+      </label>
       <input type="password" value="" name="customer[password]" id="CustomerPassword" class="input-full">
 
-      <label for="CustomerPasswordConfirmation">{{ 'actions.confirm_password' | t }}</label>
+      <label for="CustomerPasswordConfirmation">
+        {% render 't_with_fallback', key: 'actions.confirm_password', fallback: 'Confirm password' -%}
+      </label>
       <input
         type="password"
         value=""
@@ -22,9 +40,11 @@
         class="input-full"
       >
 
-      <label for="active-account-submit" class="visually-hidden">{{ 'actions.activate' | t }}</label>
+      <label for="active-account-submit" class="visually-hidden">
+        {% render 't_with_fallback', key: 'actions.activate', fallback: 'Activate' -%}
+      </label>
       <button type="submit" id="active-account-submit" class="btn">
-        {{ 'actions.activate' | t }}
+        {% render 't_with_fallback', key: 'actions.activate', fallback: 'Activate account' %}
       </button>
     {%- endform -%}
   </div>

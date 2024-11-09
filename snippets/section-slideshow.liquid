@@ -1,4 +1,4 @@
-{% # components v2.10.69 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
+{% # components v3.0.1 | Copyright © 2024 Archetype Themes Limited Partnership  | "Shopify Theme Store (https://www.shopify.com/legal/terms#9-additional-services)" License  %}
 {%- comment -%}
   Renders a slideshow section.
 
@@ -53,11 +53,15 @@
             >
               <span class="slideshow__pause-stop">
                 {% render 'icon', name: 'pause' %}
-                <span class="icon__fallback-text visually-hidden">{{ 'actions.slideshow_pause' | t }}</span>
+                <span class="icon__fallback-text visually-hidden">
+                  {% render 't_with_fallback', key: 'actions.slideshow_pause', fallback: 'Slideshow pause' -%}
+                </span>
               </span>
               <span class="slideshow__pause-play">
                 {% render 'icon', name: 'play' %}
-                <span class="icon__fallback-text visually-hidden">{{ 'actions.slideshow_play' | t }}</span>
+                <span class="icon__fallback-text visually-hidden">
+                  {% render 't_with_fallback', key: 'actions.slideshow_play', fallback: 'Slideshow play' -%}
+                </span>
               </span>
             </button>
           {%- endif -%}
@@ -296,7 +300,7 @@
 
   <template data-island>
     <script type="module">
-      import '@archetype-themes/scripts/modules/slideshow'
+      import '@archetype-themes/modules/slideshow'
     </script>
   </template>
 </is-land>
