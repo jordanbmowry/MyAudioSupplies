@@ -962,6 +962,16 @@
         "type": "shopify://apps/tawk-to-live-chat/blocks/widget-embed-code/91169e75-f163-40ce-90e0-9059f3c9b772",
         "disabled": false,
         "settings": {}
+      },
+      "14327677521557774844": {
+        "type": "shopify://apps/simprosys-google-shopping-feed/blocks/core_settings_block/1f0b859e-9fa6-4007-97e8-4513aff5ff3b",
+        "disabled": false,
+        "settings": {}
+      },
+      "14352282602675302068": {
+        "type": "shopify://apps/cloud-search-product-filter/blocks/cloudsearch_opt/8ddbd0bf-e311-492e-ab28-69d0ad268fac",
+        "disabled": false,
+        "settings": {}
       }
     }
   },
