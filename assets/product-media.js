@@ -1,5 +1,4 @@
-import { load } from '@archetype-themes/scripts/helpers/library-loader'
-import { config } from '@archetype-themes/scripts/config'
+import { loadCSS } from '@archetype-themes/utils/resource-loader'
 
 let modelJsonSections = {}
 let models = {}
@@ -10,7 +9,7 @@ let selectors = {
   xrButton: '[data-shopify-xr]'
 }
 
-export function init(modelViewerContainers, sectionId) {
+export async function init(modelViewerContainers, sectionId) {
   modelJsonSections[sectionId] = {
     loaded: false
   }
@@ -50,7 +49,7 @@ export function init(modelViewerContainers, sectionId) {
     }
   ])
 
-  load('modelViewerUiStyles')
+  await loadCSS('https://cdn.shopify.com/shopifycloud/model-viewer-ui/assets/v1.0/model-viewer-ui.css')
 }
 
 function setupShopifyXr(errors) {
@@ -99,7 +98,7 @@ function setupModelViewerListeners(model) {
 
   model.container.addEventListener('mediaVisible', function (event) {
     xrButton.element.setAttribute('data-shopify-model3d-id', model.modelId)
-    if (config.isTouch) return
+    if (window.matchMedia('(hover: none) and (pointer: coarse)').matches) return
     if (event.detail && !event.detail.autoplayMedia) return
     model.modelViewerUi.play()
   })

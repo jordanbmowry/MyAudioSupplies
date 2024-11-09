@@ -1,4 +1,4 @@
-import { debounce } from '@archetype-themes/scripts/helpers/utils'
+import { debounce } from '@archetype-themes/utils/utils'
 
 class ToolTipTrigger extends HTMLElement {
   constructor() {

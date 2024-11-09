@@ -1,15 +1,15 @@
-import { config } from '@archetype-themes/scripts/config'
-import { load } from '@archetype-themes/scripts/helpers/library-loader'
-import Modals from '@archetype-themes/scripts/modules/modal'
-import YouTube from '@archetype-themes/scripts/helpers/youtube'
-import VimeoPlayer from '@archetype-themes/scripts/helpers/vimeo'
+import Modals from '@archetype-themes/modules/modal'
+import YouTube from '@archetype-themes/utils/youtube'
+import VimeoPlayer from '@archetype-themes/utils/vimeo'
+import { loadScript } from '@archetype-themes/utils/resource-loader'
+import { EVENTS, subscribe } from '@archetype-themes/utils/pubsub'
 
 // Video modal will auto-initialize for any anchor link that points to YouTube
 // MP4 videos must manually be enabled with:
 //   - .product-video-trigger--mp4 (trigger button)
 //   - .product-video-mp4-sound video player element (cloned into modal)
 //     - see media.liquid for example of this
-export default function videoModal(scope) {
+export default async function videoModal(scope) {
   let youtubePlayer
   let vimeoPlayer
 
@@ -33,11 +33,12 @@ export default function videoModal(scope) {
   let videoHolderDiv = document.getElementById(videoHolderId)
 
   if (youtubeTriggers.length) {
-    load('youtubeSdk')
+    await loadScript('https://www.youtube.com/iframe_api')
   }
 
   if (vimeoTriggers.length) {
-    load('vimeo', window.vimeoApiReady)
+    await loadScript('https://player.vimeo.com/api/player.js')
+    window.vimeoApiReady()
   }
 
   let modal = new Modals('VideoModal', 'video-modal', {
@@ -65,12 +66,19 @@ export default function videoModal(scope) {
   document.addEventListener('modalClose.VideoModal', closeVideoModal)
 
   function triggerYouTubeModal(evt) {
-    // If not already loaded, treat as normal link
-    if (!config.youTubeReady) {
-      return
-    }
-
     evt.preventDefault()
+
+    if (window.YT && window.YT.Player) {
+      openYouTubeModal(evt)
+    } else {
+      const unsubscribe = subscribe(EVENTS.youtubeReady, () => {
+        openYouTubeModal(evt)
+        unsubscribe()
+      })
+    }
+  }
+
+  function openYouTubeModal(evt) {
     emptyVideoHolder()
 
     modal.open(evt)
@@ -86,12 +94,19 @@ export default function videoModal(scope) {
   }
 
   function triggerVimeoModal(evt) {
-    // If not already loaded, treat as normal link
-    if (!config.vimeoReady) {
-      return
-    }
-
     evt.preventDefault()
+
+    if (window.Vimeo) {
+      openVimeoModal(evt)
+    } else {
+      const unsubscribe = subscribe(EVENTS.vimeoReady, () => {
+        openVimeoModal(evt)
+        unsubscribe()
+      })
+    }
+  }
+
+  function openVimeoModal(evt) {
     emptyVideoHolder()
 
     modal.open(evt)

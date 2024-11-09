@@ -1,9 +1,8 @@
-import { config } from '@archetype-themes/scripts/config'
-import { load } from '@archetype-themes/scripts/helpers/library-loader'
+import { loadScript } from '@archetype-themes/utils/resource-loader'
+import { EVENTS, publish, subscribe } from '@archetype-themes/utils/pubsub'
 
 window.onYouTubeIframeAPIReady = function () {
-  config.youTubeReady = true
-  document.dispatchEvent(new CustomEvent('youTubeReady'))
+  publish(EVENTS.youtubeReady)
 }
 
 const classes = {
@@ -70,12 +69,18 @@ export default class YouTube {
     }
 
     this.setAsLoading()
+    this.checkYouTubeReady()
+  }
 
-    if (config.youTubeReady) {
+  async checkYouTubeReady() {
+    if (window.YT && window.YT.Player) {
       this.init()
     } else {
-      load('youtubeSdk')
-      document.addEventListener('youTubeReady', this.init.bind(this))
+      await loadScript('https://www.youtube.com/iframe_api')
+      this.youtubeReadyUnsubscriber = subscribe(EVENTS.youtubeReady, () => {
+        this.init()
+        this.youtubeReadyUnsubscriber()
+      })
     }
   }
 
@@ -162,5 +167,7 @@ export default class YouTube {
     if (this.videoPlayer && typeof this.videoPlayer.destroy === 'function') {
       this.videoPlayer.destroy()
     }
+
+    this.youtubeReadyUnsubscriber?.()
   }
 }

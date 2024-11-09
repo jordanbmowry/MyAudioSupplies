@@ -23,6 +23,11 @@ export const EVENTS = {
   predictiveSearchClose: 'predictiveSearch:close',
   predictiveSearchCloseAll: 'predictiveSearch:close-all',
   headerStickyCheck: 'headerSticky:check',
+  overlayHeaderChange: 'overlayHeader:change',
   headerOverlayDisable: 'headerOverlay:disable',
-  headerOverlayRemoveClass: 'headerOverlay:remove-class'
+  headerOverlayRemoveClass: 'headerOverlay:remove-class',
+  cartDrawerChange: 'CartDrawer:change',
+  youtubeReady: 'youtube:ready',
+  vimeoReady: 'vimeo:ready',
+  filtersCloned: 'filters:cloned'
 }

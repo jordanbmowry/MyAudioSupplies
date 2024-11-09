@@ -1,5 +1,5 @@
-import YouTube from '@archetype-themes/scripts/helpers/youtube'
-import VimeoPlayer from '@archetype-themes/scripts/helpers/vimeo'
+import YouTube from '@archetype-themes/utils/youtube'
+import VimeoPlayer from '@archetype-themes/utils/vimeo'
 
 class VideoSection extends HTMLElement {
   constructor() {

@@ -1,8 +1,7 @@
-import { Slideshow } from '@archetype-themes/scripts/modules/slideshow'
+import { Slideshow } from '@archetype-themes/modules/slideshow'
 
 class ProductRecommendations extends HTMLElement {
-  constructor() {
-    super()
+  connectedCallback() {
     this.el = this
     this.url = this.dataset.url
     this.intent = this.dataset.intent
@@ -10,9 +9,7 @@ class ProductRecommendations extends HTMLElement {
     this.productResults = this.querySelector('.grid-product')
     this.sectionId = this.dataset.sectionId
     this.blockId = this.dataset.blockId
-  }
 
-  connectedCallback() {
     fetch(this.url)
       .then((response) => response.text())
       .then((text) => {
@@ -33,15 +30,6 @@ class ProductRecommendations extends HTMLElement {
         if (this.slideshow) {
           this.setupSlider()
         }
-
-        document.dispatchEvent(
-          new CustomEvent('recommendations:loaded', {
-            detail: {
-              section: this.el,
-              intent: this.intent
-            }
-          })
-        )
       })
       .catch((e) => {
         console.error(e)

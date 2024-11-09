@@ -1,18 +1,12 @@
-// This is the javascript entrypoint for the age-verification-popup section.
-// This file and all its inclusions will be processed through esbuild
+import Modals from '@archetype-themes/modules/modal'
+import { lockMobileScrolling, unlockMobileScrolling } from '@archetype-themes/utils/a11y'
+import { HTMLThemeElement } from '@archetype-themes/custom-elements/theme-element'
+import { setLocalStorage, getLocalStorage } from '@archetype-themes/utils/storage'
 
-import Cookies from 'js-cookie'
-import { config } from '@archetype-themes/scripts/config'
-import Modals from '@archetype-themes/scripts/modules/modal'
-import { lockMobileScrolling, unlockMobileScrolling } from '@archetype-themes/scripts/helpers/a11y'
-import { HTMLSectionElement } from '@archetype-themes/scripts/helpers/section'
-
-class AgeVerificationPopup extends HTMLSectionElement {
-  constructor() {
-    super()
-
-    this.cookieName = this.id
-    this.cookie = Cookies.get(this.cookieName)
+class AgeVerificationPopup extends HTMLThemeElement {
+  connectedCallback() {
+    this.storageKey = this.id
+    this.storageValue = getLocalStorage(this.storageKey)
 
     this.classes = {
       activeContent: 'age-verification-popup__content--active',
@@ -30,8 +24,8 @@ class AgeVerificationPopup extends HTMLSectionElement {
     this.mobileBackgroundImage = this.querySelector('[data-mobile-background-image]')
 
     // Age verification popup will only be hidden if test mode is disabled AND
-    // either a cookie exists OR visibility is toggled in the editor
-    if (this.cookie && this.dataset.testMode === 'false') return
+    // either a local storage value exists OR visibility is toggled in the editor
+    if (this.storageValue && this.dataset.testMode === 'false') return
 
     this.init()
   }
@@ -45,7 +39,7 @@ class AgeVerificationPopup extends HTMLSectionElement {
       this.backgroundImage.style.display = 'block'
     }
 
-    if (config.bpSmall && this.mobileBackgroundImage) {
+    if (matchMedia('(max-width: 768px)').matches && this.mobileBackgroundImage) {
       this.mobileBackgroundImage.style.display = 'block'
     }
 
@@ -84,16 +78,16 @@ class AgeVerificationPopup extends HTMLSectionElement {
       this.exitButton.addEventListener('click', (e) => {
         e.preventDefault()
 
-        // We don't want to set a cookie if in test mode
+        // We don't want to set the local storage if we're in test mode
         if (this.dataset.testMode === 'false') {
-          Cookies.set(this.cookieName, 'entered', { expires: 30, sameSite: 'none', secure: true })
+          setLocalStorage(this.storageKey, 'entered', 30)
         }
 
         if (this.backgroundImage) {
           this.backgroundImage.style.display = 'none'
         }
 
-        if (config.bpSmall && this.mobileBackgroundImage) {
+        if (matchMedia('(max-width: 768px)').matches && this.mobileBackgroundImage) {
           this.mobileBackgroundImage.style.display = 'none'
         }
 
@@ -123,9 +117,9 @@ class AgeVerificationPopup extends HTMLSectionElement {
   onSectionLoad() {
     this.init()
 
-    // If 'Test mode' is enabled, remove the cookie we've set
-    if (this.dataset.testMode === 'true' && this.cookie) {
-      Cookies.remove(this.cookieName)
+    // If 'Test mode' is enabled, remove the local storage item we've set
+    if (this.dataset.testMode === 'true' && this.storageValue) {
+      localStorage.removeItem(this.storageKey)
     }
 
     // Check session storage if user was editing on the second view

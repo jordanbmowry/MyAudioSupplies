@@ -1,7 +1,10 @@
-import { EVENTS, subscribe } from '@archetype-themes/utils/pubsub'
+import { EVENTS } from '@archetype-themes/utils/events'
+import { HTMLThemeElement } from '@archetype-themes/custom-elements/theme-element'
 
-class ProductInventory extends HTMLElement {
-  connectedCallback() {
+class ProductInventory extends HTMLThemeElement {
+  constructor() {
+    super()
+
     this.classes = {
       hidden: 'hide',
       lowInventory: 'inventory--low'
@@ -12,13 +15,19 @@ class ProductInventory extends HTMLElement {
       inventory: '[data-product-inventory]',
       incomingInventory: '[data-incoming-inventory]',
       inventory: '[data-product-inventory]',
-      locales: '[data-locales-json]',
+      locales: '[data-locales]',
       inventories: '[data-inventories-json]'
     }
 
     this.settings = {
       inventoryThreshold: 10
     }
+
+    this.updateInventory = this.updateInventory.bind(this)
+  }
+
+  connectedCallback() {
+    this.abortController = new AbortController()
 
     this.productId = this.dataset.productId
     this.currentVariant = JSON.parse(this.querySelector(this.selectors.variantJson).textContent)
@@ -27,7 +36,16 @@ class ProductInventory extends HTMLElement {
     this.settings.inventoryThreshold = inventoryEl.dataset.threshold
     // Update inventory on page load
     this.updateInventory({ detail: { variant: this.currentVariant } })
-    subscribe(`${EVENTS.variantChange}:${this.dataset.sectionId}:${this.productId}`, this.updateInventory.bind(this))
+
+    document.addEventListener(
+      `${EVENTS.variantChange}:${this.dataset.sectionId}:${this.productId}`,
+      this.updateInventory,
+      { signal: this.abortController.signal }
+    )
+  }
+
+  disconnectedCallback() {
+    this.abortController.abort()
   }
 
   updateInventory(evt) {
@@ -102,13 +120,13 @@ class ProductInventory extends HTMLElement {
       if (showLowInventoryMessage) {
         productInventoryEl.parentNode.classList.add(this.classes.lowInventory)
         if (quantity > 1) {
-          productInventoryEl.textContent = this.getLocales().otherStockLabel.replace('[count]', quantity)
+          productInventoryEl.textContent = this.locales.otherStockLabel.replace('[count]', quantity)
         } else {
-          productInventoryEl.textContent = this.getLocales().oneStockLabel.replace('[count]', quantity)
+          productInventoryEl.textContent = this.locales.oneStockLabel.replace('[count]', quantity)
         }
       } else {
         productInventoryEl.parentNode.classList.remove(this.classes.lowInventory)
-        productInventoryEl.textContent = this.getLocales().inStockLabel
+        productInventoryEl.textContent = this.locales.inStockLabel
       }
 
       if (inventorySalesPoint) {
@@ -138,10 +156,10 @@ class ProductInventory extends HTMLElement {
 
     if (showIncomingInventory) {
       if (incomingInventoryDate) {
-        textEl.textContent = this.getLocales().willBeInStockAfter.replace('[date]', incomingInventoryDate)
+        textEl.textContent = this.locales.willBeInStockAfter.replace('[date]', incomingInventoryDate)
         incomingInventoryEl.classList.remove(this.classes.hidden)
       } else {
-        textEl.textContent = this.getLocales().waitingForStock
+        textEl.textContent = this.locales.waitingForStock
         incomingInventoryEl.classList.remove(this.classes.hidden)
       }
 
@@ -156,11 +174,6 @@ class ProductInventory extends HTMLElement {
     } else {
       incomingInventoryEl.classList.add(this.classes.hidden)
     }
-  }
-
-  getLocales() {
-    this.locales = this.locales || JSON.parse(this.querySelector(this.selectors.locales).textContent)
-    return this.locales
   }
 
   getInventories() {
