@@ -266,5 +266,10 @@
     "countdown": {
       "section_name": "countdown"
     }
+  },
+  "shopify": {
+    "links": {
+      "powered_by_shopify": " "
+    }
   }
 }
