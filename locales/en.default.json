@@ -113,7 +113,7 @@
     "save_amount": "Save {{ saved_amount }}",
     "placeholder_product_description": "This area is used to describe your product’s details. Tell customers about the look, feel, and style of your product. Add details on color,  materials used, sizing, and where it was made.",
     "tax_included": "Tax included.",
-    "shipping_policy_html": "<a href='{{ link }}'>Free Shipping</a> on all orders.",
+    "shipping_policy_html": "<a href='{{ link }}'>Free Shipping</a> on orders over $199.",
     "sold_out": "Sold Out",
     "view_in_space_explanation": "View in your space, loads item in augmented reality window",
     "low_stock_count": {
