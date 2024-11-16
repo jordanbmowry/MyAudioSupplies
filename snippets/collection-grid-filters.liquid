@@ -31,6 +31,10 @@
   endif
 -%}
 
+{% comment %}CloudSearch: always show sidebar{% endcomment %}
+{% assign show_sidebar = true %}
+{% assign enable_sidebar = true %}
+
 {%- if enable_sidebar or enable_sort -%}
   {%- assign location = 'CollectionSidebar' -%}
   <div id="CollectionSidebar">
