@@ -30,8 +30,7 @@
         },
         "price": {
           "type": "price",
-          "settings": {
-          }
+          "settings": {}
         },
         "sales_point": {
           "type": "sales_point",
@@ -70,8 +69,7 @@
         },
         "quantity_selector_kHtJXn": {
           "type": "quantity_selector",
-          "settings": {
-          }
+          "settings": {}
         },
         "buy_buttons": {
           "type": "buy_buttons",
@@ -89,8 +87,7 @@
         },
         "judge_me_reviews_preview_badge_j7KVXN": {
           "type": "shopify://apps/judge-me-reviews/blocks/preview_badge/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
-          "settings": {
-          }
+          "settings": {}
         }
       },
       "block_order": [
@@ -134,7 +131,7 @@
           "type": "tab",
           "settings": {
             "title": "Free Shipping",
-            "content": "<p>Enjoy Free Shipping on All Products.</p>",
+            "content": "<p>Enjoy free shipping on all orders over $199.</p>",
             "page": ""
           }
         },
@@ -190,8 +187,7 @@
     "recently-viewed": {
       "type": "recently-viewed",
       "disabled": true,
-      "settings": {
-      }
+      "settings": {}
     },
     "collection-return": {
       "type": "collection-return",
@@ -204,8 +200,7 @@
       "blocks": {
         "judge_me_reviews_review_widget_ydWnA8": {
           "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
-          "settings": {
-          }
+          "settings": {}
         }
       },
       "block_order": [
