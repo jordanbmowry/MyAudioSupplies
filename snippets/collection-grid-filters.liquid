@@ -38,6 +38,12 @@
 {%- if enable_sidebar or enable_sort -%}
   {%- assign location = 'CollectionSidebar' -%}
   <div id="CollectionSidebar">
+    <div id="cloud_search_filters_sidebar"></div>
+    
+    {% assign total_tags = 1 %}
+    {% assign show_sidebar = true %}
+    
+    {% comment %}
     <div class="collection-sidebar small--hide" id="CollectionSidebarFilterWrap">
       <div class="filter-wrapper">
         <ul class="no-bullets tag-list tag-list--active-tags">
@@ -130,6 +136,7 @@
         {%- endif -%}
       </div>
     </div>
+    {% endcomment %}
   </div>
 
   {%- style -%}
