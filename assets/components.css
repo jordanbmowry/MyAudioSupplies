@@ -16340,3 +16340,33 @@ video-media:not([loaded]) > video, video-media:not([loaded]) > iframe, video-med
 .cloud-search-filter__collapse, .cloud-search-filter__expand {
   border-color: #000;
 }
+
+.cloud-search-filters-sidebar__heading,
+#cloud_search_filters_sidebar:empty::before {
+  font-size: 18px;
+}
+
+.cloud-search-filter__name {
+  font-size: 15px;
+}
+
+.cloud-search-filters-sidebar .cloud-search-filter .cloud-search-filter-value {
+  font-size: 13px;
+  font-weight: normal;
+}
+
+.cloud-search-filters-sidebar__applied-filters {
+  font-size: 14px;
+}
+
+.cloud-search-filter__more, .cloud-search-filter__less {
+  font-size: 14px;
+}
+    
+.collection-filter__item--drawer {
+  display: none;
+}
+
+#cloud_search_filters_sidebar {
+  margin-top: 10px;
+}
