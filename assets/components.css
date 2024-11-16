@@ -16260,3 +16260,79 @@ video-media:not([loaded]) > video, video-media:not([loaded]) > iframe, video-med
   visibility: hidden;
   opacity: 0;
 }
+
+/* CloudSearch filters in sidebar */
+
+.cloud-search-filters-sidebar-container {
+  display: flex;
+  clear: both;
+  /* width: 100%; */
+}
+
+.cloud-search-filters-sidebar-container #cloud_search_filters_sidebar {
+  display: block;
+  width: 250px;
+  min-width: 250px;
+  margin-right: 20px;
+}
+
+.cloud-search-filters-sidebar-container .cloud-search-filters-products {
+  flex-grow: 1;
+}
+
+@media screen and (max-width: 767px) {
+  .cloud-search-filters-sidebar-container #cloud_search_filters_sidebar, #cloud_search_filters_sidebar {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  #cloud_search_filters_root .cloud-search-page-controls.cloud-search-page-controls--collection-page {
+    display: none;
+  }
+
+  /* Uncomment the following if adding sidebar-mode filters on the search page too */
+  /*
+  #cloud_search_filters_root .cloud-search-page-controls.cloud-search-page-controls--search-page {
+    display: none;
+  }
+  */
+}
+
+#cloud_search_filters_sidebar:empty::before {
+  content: "Filters";
+  display: block;
+  margin: 0 0 16px;
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+#cloud_search_filters_sidebar:empty::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 650px;
+  margin-left: -24px;
+  background-image: linear-gradient(#dfe3e8, transparent 0), linear-gradient(#dfe3e8 28px, transparent 0), linear-gradient(#dfe3e8 18px, transparent 0), linear-gradient(#dfe3e8 18px, transparent 0), linear-gradient(#dfe3e8 18px, transparent 0), linear-gradient(#dfe3e8 18px, transparent 0), linear-gradient(#dfe3e8 28px, transparent 0), linear-gradient(#dfe3e8 18px, transparent 0), linear-gradient(#dfe3e8 18px, transparent 0), linear-gradient(#dfe3e8 18px, transparent 0), linear-gradient(#dfe3e8 18px, transparent 0), linear-gradient(#dfe3e8 28px, transparent 0), linear-gradient(#dfe3e8 18px, transparent 0), linear-gradient(#dfe3e8 18px, transparent 0), linear-gradient(#dfe3e8 18px, transparent 0), linear-gradient(#dfe3e8 18px, transparent 0), linear-gradient(transparent 100%, transparent 0);
+  background-size: 100% 100%, 40% 28px, calc(100% - 48px) 18px, calc(100% - 48px) 18px, calc(100% - 48px) 18px, calc(100% - 48px) 18px, 40% 28px, calc(100% - 48px) 18px, calc(100% - 48px) 18px, calc(100% - 48px) 18px, calc(100% - 48px) 18px, 40% 28px, calc(100% - 48px) 18px, calc(100% - 48px) 18px, calc(100% - 48px) 18px, calc(100% - 48px) 18px, 100% 100%;
+  background-position: -150% 0, 24px 16px, 24px 56px, 24px 86px, 24px 116px, 24px 146px, 24px 196px, 24px 236px, 24px 266px, 24px 296px, 24px 326px, 24px 376px, 24px 416px, 24px 446px, 24px 476px, 24px 506px;
+  background-repeat: no-repeat;
+  animation-duration: 0.8s;
+  animation-timing-function: linear;
+  animation-delay: 0s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  animation-fill-mode: none;
+  animation-play-state: running;
+  animation-name: cs-loading;
+}
+
+@keyframes cs-loading {
+  0% {
+    opacity: 0.45;
+  }
+  100% {
+    opacity: 0.9;
+  }
+}
