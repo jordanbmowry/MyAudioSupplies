@@ -16336,3 +16336,7 @@ video-media:not([loaded]) > video, video-media:not([loaded]) > iframe, video-med
     opacity: 0.9;
   }
 }
+
+.cloud-search-filter__collapse, .cloud-search-filter__expand {
+  border-color: #000;
+}
