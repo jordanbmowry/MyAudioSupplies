@@ -50,7 +50,7 @@
           "type": "text_block",
           "settings": {
             "icon": "truck",
-            "title": "Free Shipping & No Sales Tax*",
+            "title": "Free Shipping On Orders Over $199 & No Sales Tax*",
             "text": "<p>All Orders Come w/ Free Shipping and No Sales Tax (excluding IN residents)</p>"
           }
         },
