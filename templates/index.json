@@ -192,13 +192,13 @@
           "type": "text_block",
           "settings": {
             "enable_image": true,
-            "image": "shopify://shop_images/pexels-pain-svoice-418919207-15082829.jpg",
+            "image": "shopify://shop_images/kyle-johnston-NaG0G9Wi7nI-unsplash_4a96754c-abf9-41dd-8c9c-f281c72a3601.jpg",
             "image_mask": "square",
             "image_width": 400,
-            "title": "Capture Every Detail",
-            "text": "<p>Record studio-quality audio with precision, whether you're creating music or podcasts.</p>",
+            "title": "Deliver Every Sound",
+            "text": "<p>Record studio-quality audio with precision, whether you're creating music or podcasts.</p><h6></h6>",
             "button_label": "Shop Now",
-            "button_link": "shopify://collections/dj-media-players"
+            "button_link": "shopify://collections/speakers"
           }
         }
       },
@@ -207,7 +207,6 @@
         "text_block_k7dhLC",
         "text_block_3WW6iG"
       ],
-      "disabled": true,
       "settings": {
         "title": "",
         "align_text": "center",
@@ -305,6 +304,7 @@
         "variant_picker_VEgQ6z",
         "buy_buttons_imTdcQ"
       ],
+      "disabled": true,
       "settings": {
         "product": "marantz-av7706-11-2-channel-8k-ultra-hd-av-surround-pre-amplifier",
         "divider": false,
